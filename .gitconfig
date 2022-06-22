@@ -5,7 +5,7 @@
   alias-common = "!#----------------------------------------------------------;\n\
   git alias | head -7"
   dev = "!# git switch develop;\n\
-  !f() { git switch develop; }; f"
+  f() { git switch develop; }; f"
   sw = switch
   s = status -s
   ci = commit
@@ -15,39 +15,39 @@
   alias-commit-message = "!#----------------------------------------------------------;\n\
   git alias | egrep 'commit-msg'"
 	feat = "!# commit-msg: Introduce new features.;\n\
-  !f() { git commit -m \"✨ Feat: $@\"; }; f"
+  f() { git commit -m \"✨ Feat: $@\"; }; f"
 	fix = "!# commit-msg: Fix a bug.;\n\
-  !f() { git commit -m \"🐛 Fix: $@\"; }; f"
+  f() { git commit -m \"🐛 Fix: $@\"; }; f"
 	pp = "!# commit-msg: pull and merge ;\n\
-  !f() { git pull --no-commit --ff && $PWD/merge.sh && git push; }; f"
+  f() { git pull --no-commit --ff && $PWD/merge.sh && git push; }; f"
 	design = "!# commit-msg: Add or update the UI and style files.;\n\
-  !f() { git commit -m \"💄 Design: $@\"; }; f"
+  f() { git commit -m \"💄 Design: $@\"; }; f"
 	refactor = "!# commit-msg: Refactor code.;\n\
-  !f() { git commit -m \"♻️  Refactor: $@\"; }; f"
+  f() { git commit -m \"♻️  Refactor: $@\"; }; f"
 	chore = "!# commit-msg: Add or update packages.;\n\
-  !f() { git commit -m \"📦 Chore: $@\"; }; f"
+  f() { git commit -m \"📦 Chore: $@\"; }; f"
 	rename = "!# commit-msg: Move or rename resources.;\n\
-  !f() { git commit -m \"🚚 Rename: $@\"; }; f"
+  f() { git commit -m \"🚚 Rename: $@\"; }; f"
 	remove = "!# commit-msg: Remove code or files.;\n\
-  !f() { git commit -m \"🔥 Remove: $@\"; }; f"
+  f() { git commit -m \"🔥 Remove: $@\"; }; f"
 	docs = "!# commit-msg: Add or update documentation.;\n\
-  !f() { git commit -m \"📝 Docs: $@\"; }; f"
+  f() { git commit -m \"📝 Docs: $@\"; }; f"
 	setting = "!# commit-msg: Add or update assets.;\n\
-  !f() { git commit -m \"👷 Setting: $@\"; }; f"
+  f() { git commit -m \"👷 Setting: $@\"; }; f"
 	mer = "!# commit-msg: Merge.;\n\
-  !f() { git commit -m \"🔀 Merge: $@\"; }; f"
+  f() { git commit -m \"🔀 Merge: $@\"; }; f"
 	update = "!# commit-msg: update config files ;\n\
-  !f() { git commit -m \"🌱 Update: $@\"; }; f"
+  f() { git commit -m \"🌱 Update: $@\"; }; f"
 	lint = "!# commit-msg: update lint setting ;\n\
-  !f() { git commit -m \"🩹 Lint: $@\"; }; f"
+  f() { git commit -m \"🩹 Lint: $@\"; }; f"
 	ignore = "!# commit-msg: Add or update a .gitignore file.;\n\
-  !f() { git commit -m \"🙈 Ignore: $@\"; }; f"
+  f() { git commit -m \"🙈 Ignore: $@\"; }; f"
   test = "!# commit-msg: Add, update, or pass tests.;\n\
-  !f() { git commit -m \"🧪 Test: $@\"; }; f"
+  f() { git commit -m \"🧪 Test: $@\"; }; f"
 	resource = "!# commit-msg: Add or update assets.;\n\
-  !f() { git commit -m \"🖼  Resource: $@\"; }; f"
+  f() { git commit -m \"🖼  Resource: $@\"; }; f"
 	post = "!# commit-msg: commit post file on today;\n\
-  !f() { git add -A && git commit -m \"🗒  Post `date +%Y-%m-%d` $@\" && git push origin master; }; f"
+  f() { git add -A && git commit -m \"🗒  Post `date +%Y-%m-%d` $@\" && git push origin master; }; f"
   alias-branch = "!#----------------------------------------------------------;\n\
   git alias | egrep 'branch|diff'"
   b0 = "!# Print current branch.;\n\
