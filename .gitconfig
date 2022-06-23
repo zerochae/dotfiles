@@ -1,6 +1,6 @@
 [user]	
-	name = zerochae
-	email = zerochae@kakao.com
+  name = zerochae
+  email = zerochae@kakao.com
 [alias]
   alias-common = "!#----------------------------------------------------------;\n\
   git alias | head -7"
@@ -142,12 +142,12 @@
         fi; \
     }; f"
 [core]
-	precomposeunicode = true
-	quotepath = false
+  precomposeunicode = true
+  quotepath = false
   # editor = /opt/homebrew/bin/nvim
 [i18n]
-	commitEncoding = utf-8
-	logOutputEncoding = utf-8
+  commitEncoding = utf-8
+  logOutputEncoding = utf-8
 [pull]
   ff = yes
   commit = no
