@@ -12,23 +12,24 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " airline
 Plug 'nvim-lualine/lualine.nvim'
-  Plug 'kyazdani42/nvim-web-devicons'
+    Plug 'kyazdani42/nvim-web-devicons'
 
 " tree
 Plug 'preservim/nerdtree'
-  Plug 'ryanoasis/vim-devicons'
+    Plug 'ryanoasis/vim-devicons'
 
 " search / edit
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+    Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
 " neovim set
 set number
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
+set expandtab
 
 inoremap " ""<left>
 inoremap ' ''<left>
@@ -37,6 +38,12 @@ inoremap [ []<left>
 inoremap { {}<left>
 inoremap {<CR> {<CR>}<ESC>O
 inoremap {;<CR> {<CR>};<ESC>O
+
+
+au BufReadPost *
+\ if line("'\"") > 0 && line("'\"") <= line("$") |
+\ exe "norm g`\"" |
+\ endif
 
 " Load the colorscheme
 colorscheme tokyonight
@@ -49,5 +56,5 @@ nnoremap <C-F4> :bp <BAR> bd #<Enter>
 
 " include set file
 for include_file in uniq(sort(globpath(&rtp, 'vim-include/*.vim', 0, 1)))
-  execute "source " . include_file
+    execute "source " . include_file
 endfor
