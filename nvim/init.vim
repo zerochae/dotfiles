@@ -25,36 +25,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 call plug#end()
 
-" neovim set
-set nocompatible
-set nu
-set tabstop=2
-set shiftwidth=2
-set expandtab
-
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
-
-
-au BufReadPost *
-\ if line("'\"") > 0 && line("'\"") <= line("$") |
-\ exe "norm g`\"" |
-\ endif
-
-" Load the colorscheme
-colorscheme tokyonight
-
-" buffer
-nnoremap <C-Tab> :new<Enter>
-nnoremap <C-F5> :bprevious!<Enter>    
-nnoremap <C-F6> :bnext!<Enter>        
-nnoremap <C-F4> :bp <BAR> bd #<Enter> 
-
 " include set file
 for include_file in uniq(sort(globpath(&rtp, 'vim-include/*.vim', 0, 1)))
     execute "source " . include_file
