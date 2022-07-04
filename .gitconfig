@@ -1,6 +1,6 @@
 [user]	
-	name = zerochae
-	email = zerochae@kakao.com
+  name = zerochae
+  email = zerochae@kakao.com
 [alias]
   alias-common = "!#----------------------------------------------------------;\n\
   git alias | head -7"
