@@ -4,13 +4,13 @@
 [alias]
   alias-common = "!#----------------------------------------------------------;\n\
   git alias | head -7"
-  dev = "!# git switch develop;\n\
+  dev = "!# Switch branch develop;\n\
   f() { git switch develop; }; f"
   sw = switch
   s = status -s
   ci = commit
   co = checkout
-  re = "!# restore;\n\
+  re = "!# restore all;\n\
   git restore -- ."
   alias-commit-message = "!#----------------------------------------------------------;\n\
   git alias | egrep 'commit-msg'"
@@ -55,7 +55,7 @@
   back = "!# Back up current branch.;\n\
   echo created new branch: backup-`git b0`;\
   git branch backup-`git b0`"
-  ch = "!# Select a branch.\n\
+  br = "!# Select a branch.\n\
   git checkout $(git bselect)"
   bselect = "!# Select branch with preview; \n\
       f() { \
@@ -66,12 +66,12 @@
   git branch -d $(git branch --merged | grep -v '^\\*\\|\\<develop$')"
   alias-log = "!#----------------------------------------------------------;\n\
   git alias | egrep 'log'"
-  l = "!# logt --color --graph --pretty;\n\
+  l = "!# log --color --graph --pretty;\n\
         git log --color --graph --decorate \
                 --date=format:'%Y-%m-%d' \
                 --abbrev-commit \
                 --pretty=format:'%C(yellow)%h%C(auto)%d %s %C(green)(%cr)%C(bold blue) %an'"
-  lh = "!# Show log graph | head \n\
+  g = "!# Show log graph | head \n\
         f() { \
             if [ $# = 0 ]; then \
                 git l | head -25; \
@@ -81,7 +81,7 @@
             echo ''; \
         }; f"
   rank = "!# List commit log counts of contributors;\n\
-      git shortlog -sn"
+      git shortlog -s -n --all -e --no-merges"
   alias-stage = "!#----------------------------------------------------------;\n\
   git alias | egrep '(add|diff|stage)' -i"
   a = "!# Select files and Add them.;\n\
@@ -142,12 +142,12 @@
         fi; \
     }; f"
 [core]
-	precomposeunicode = true
-	quotepath = false
+  precomposeunicode = true
+  quotepath = false
   # editor = /opt/homebrew/bin/nvim
 [i18n]
-	commitEncoding = utf-8
-	logOutputEncoding = utf-8
+  commitEncoding = utf-8
+  logOutputEncoding = utf-8
 [pull]
   ff = yes
   commit = no
