@@ -10,6 +10,7 @@ brew "thefuck"
 brew "tldr"
 brew "yank"
 brew "jq"
+
 cask "docker"
 cask "google-chrome"
 cask "iterm2"
