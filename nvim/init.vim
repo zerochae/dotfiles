@@ -26,7 +26,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 call plug#end()
 
 " neovim set
-set number
+set nocompatible
+set nu
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -49,7 +50,7 @@ au BufReadPost *
 colorscheme tokyonight
 
 " buffer
-nnoremap <C-S-t> :new<Enter>
+nnoremap <C-Tab> :new<Enter>
 nnoremap <C-F5> :bprevious!<Enter>    
 nnoremap <C-F6> :bnext!<Enter>        
 nnoremap <C-F4> :bp <BAR> bd #<Enter> 
