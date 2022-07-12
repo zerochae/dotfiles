@@ -2,21 +2,22 @@ call plug#begin()
 
 " theme
 Plug 'folke/tokyonight.nvim', {'branch': 'main'}
-Plug 'tribela/vim-transparent'
 
-" autocomplate
+" code hightlight
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-" code highlight
+" conquer of completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " airline
 Plug 'nvim-lualine/lualine.nvim'
     Plug 'kyazdani42/nvim-web-devicons'
 
+" bufferline
+Plug 'akinsho/bufferline.nvim',{'tag': 'v2.*'}
+
 " tree
-Plug 'preservim/nerdtree'
-    Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
 
 " search / edit
 Plug 'easymotion/vim-easymotion'
@@ -29,3 +30,6 @@ call plug#end()
 for include_file in uniq(sort(globpath(&rtp, 'vim-include/*.vim', 0, 1)))
     execute "source " . include_file
 endfor
+
+" mapleader
+let mapleader = " "
