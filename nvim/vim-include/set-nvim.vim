@@ -4,6 +4,12 @@ set nu
 set tabstop=2
 set shiftwidth=2
 set expandtab
+set smarttab
+set ai
+set si
+set clipboard=unnamedplus
+set fillchars=fold:\ ,vert:\│,eob:\ ,msgsep:‾  
+set nowrap
 
 " bracket auto closing
 inoremap " ""<left>
@@ -20,10 +26,17 @@ au BufReadPost *
 \ exe "norm g`\"" |
 \ endif
 
+let g:tokyonight_italic_functions = 1
+let g:tokyonight_transparent = 1
+let g:tokyonight_transparent_sidebar = 1
+let g:tokyonight_italic_functions = 1
+let g:tokyonight_italic_variables = 1
+let g:tokyonight_sidebars = [ "qf", "vista_kind", "terminal", "packer" ]
+let g:tokyonight_style="storm"
 " Load the colorscheme
 colorscheme tokyonight
 
 " buffer
-nnoremap <C-Tab> :new<Enter>
-nnoremap <C-F5> :bprevious!<Enter>    
-nnoremap <C-F4> :bp <BAR> bd #<Enter> 
+nnoremap <silent> <leader><tab> :bp<bar>sp<bar>bn<bar>bd<CR>
+" nnoremap <silent>   <tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
+" nnoremap <silent> <s-tab> :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
