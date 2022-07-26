@@ -1,3 +1,5 @@
+# brew
+
 brew "git"
 brew "node"
 brew "ruby"
@@ -10,6 +12,10 @@ brew "thefuck"
 brew "tldr"
 brew "yank"
 brew "jq"
+brew "ripgrep"
+brew "git-delta"
+
+# cask
 
 cask "docker"
 cask "google-chrome"
@@ -19,3 +25,7 @@ cask "vimr"
 cask "hammerspoon"
 cask "akrabiner-elements"
 cask "font-hack-nerd-font"
+
+# node-modules
+
+clipboard-cli
