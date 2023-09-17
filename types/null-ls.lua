@@ -1,0 +1,21 @@
+---@meta
+
+---@class NullLsConfigs
+---@field prettier_config? NullLsSource
+---@field eslint_config? NullLsSource
+---@field prettier_config_yarn_pnp? NullLsSource
+---@field eslint_config_yarn_pnp? NullLsSource
+---@field selene_config? NullLsSource
+---@field jq_config? NullLsSource
+---@field refactoring_config? NullLsSource
+---@field misspell_config? NullLsSource
+---@field markdownlint_config? NullLsSource
+
+---@class NullLsSource
+---@field filetypes? string[]
+---@field condition? function(): boolean
+---@field diagnostics_format? string
+---@field filter? string[]
+---@field extra_args? string[]
+---@field dynamic_command? any
+---@field cwd? string
