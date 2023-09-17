@@ -1,0 +1,427 @@
+# ┌─┐┌┬┐┌─┐┬─┐┌─┐┬ ┬┬┌─┐
+# └─┐ │ ├─┤├┬┘└─┐├─┤│├─┘
+# └─┘ ┴ ┴ ┴┴└ └─┘┴ ┴┴┴  
+
+command_timeout = 1000
+
+scan_timeout = 10
+
+add_newline = true
+
+# palette = "catppuccin_mocha"
+
+format = """
+$localip\
+$shlvl\
+$singularity\
+$kubernetes\
+$directory\
+$vcsh\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$hg_branch\
+$docker_context\
+$package\
+$c\
+$cmake\
+$cobol\
+$daml\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$golang\
+$guix_shell\
+$haskell\
+$haxe\
+$helm\
+$julia\
+$kotlin\
+$lua\
+$nim\
+$nodejs\
+$ocaml\
+$opa\
+$perl\
+$php\
+$pulumi\
+$purescript\
+$python\
+$raku\
+$rlang\
+$red\
+$ruby\
+$rust\
+$scala\
+$swift\
+$terraform\
+$vlang\
+$vagrant\
+$zig\
+$java\
+$buf\
+$nix_shell\
+$conda\
+$meson\
+$spack\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$azure\
+$env_var\
+$crystal\
+$custom\
+$sudo\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$time\
+$status\
+$os\
+$container\
+$shell\
+$character"""
+
+[hostname]
+disabled = false
+style = "bold fg:green"
+ssh_only = true
+format = "[$hostname]($style) in"
+# Linux
+# 
+# Windows
+# 
+# mac/apple
+# 
+
+[line_break]
+disabled = true
+
+[time]
+disabled = true
+format = '🕙[\[ $time \]]($style)'
+time_format = '%T'
+utc_time_offset = 'local'
+
+#   λ ❯ ✗
+
+[character]
+# success_symbol = "[ ](bold green)"
+success_symbol = "[λ](bold green)"
+# success_symbol = "[❯](bold green)"
+error_symbol = "[λ](bold red)"
+# error_symbol = "[✗](bold red)"
+
+[cmd_duration]
+disabled = true
+
+[memory_usage]
+symbol = " "
+
+[package]
+disabled = true
+
+# [directory]
+# truncation_length = 1
+# format = "[](blue) [$path]($style)[$read_only]($read_only_style) "
+# read_only = " "
+# truncation_symbol = ""
+# fish_style_pwd_dir_length = 0
+# style= "blue"
+
+[directory]
+truncation_length = 1
+home_symbol = ' '
+truncation_symbol = '  '
+read_only = ' '
+style = 'blue'
+read_only_style = 'blue'
+format = '[$read_only]($read_only_style)[$path]($style) '
+
+[directory.substitutions]
+'/' = '  '
+"   Dev" = ' '
+"   dev" = ' '
+# "   Dev" = ' '
+'   Downloads' = ' '
+'   downloads' = ' '
+"   OneDrive" = ' '
+# "   Documents" = ' '
+# "   documents" = ' '
+"   Pictures" = " "
+"   pictures" = " "
+"   Documents" = ' '
+"   documents" = ' '
+"   .config" = ' '
+# "   .config" = ' '
+
+[git_commit]
+# 
+# 
+# 
+# 
+format = ' [ $hash]($style)'
+commit_hash_length = 8
+style = '#c882e7'
+
+[git_branch]
+format = " [$symbol$branch]($style)"
+# format = "[](fg:bright-black)[$symbol$branch(:$remote_branch)]($style)[](fg:bright-black) "
+symbol = " "
+style = '#c882e7'
+# style = "bg:bright-black fg:#c882e7"
+
+[git_state]
+format = '\(:[$state( $progress_current/$progress_total)]($style)\)'
+
+[git_status]
+# with bracket
+# format = '( [$all_status$ahead_behind]($style)) '
+# conflicted = '\[ [$count](bright-black bold)\]'
+# ahead = '\[[﯁ ](bright-blue)[$count](white bold)\]'
+# behind = '\[[﮾ ](white)[$count](white bold)\]'
+# diverged = '\[[ ](purple)|[ ﯁ ](bright-blue)[$ahead_count](bright-white bold)[ ﮾ ](white)[$behind_count](bright-white)\]'
+# untracked = '\[ [$count](white bold)\]'
+# stashed = '\[[](yellow) [$count](white bold)\]'
+# modified = '\[[ ](bright-yellow)[$count](white bold)\]'
+# staged = '\[[ ](bright-green)[$count](white bold)\]'
+# renamed = '\[[✎](bright-cyan) [$count](white bold)\]'
+# deleted = '\[ [$count](white bold)\]'
+# style = "yellow"
+
+# without bracket
+format = '( [$all_status$ahead_behind]($style)) '
+conflicted = ' '
+ahead = '﯁ '
+behind = '﮾ '
+diverged = ' '
+untracked = ' '
+stashed = ' '
+modified = ' '
+staged = ' '
+renamed = ' '
+deleted = ' '
+style = "bright-yellow"
+
+[nodejs]
+format = '[$symbol]($style)'
+symbol = " "
+# symbol = " "
+# symbol = " "
+detect_files = ["package.json", ".node-version"]
+detect_folders = ["node_modules", "!.config"]
+style = "#8BC34A"
+# style = "#F0DB4F"
+
+[java]
+# symbol = " "
+symbol = " "
+# symbol = " "
+style = "#F4443e"
+# style = "#5382A1"
+format = '[$symbol]($style)'
+
+[lua]
+symbol = " "
+format = '[$symbol]($style)'
+style = "#42A5F5"
+
+[python]
+# symbol = " "
+symbol = " "
+format = '[$symbol]($style)'
+style = "#3776AB"
+#
+[ruby]
+symbol = " "
+# symbol = " "
+format = '[$symbol]($style)'
+style = "#CC342D"
+
+[golang]
+symbol = "ﳑ "
+format = '[$symbol]($style)'
+style = "#20ADC2"
+
+[c]
+symbol = "ﭰ "
+format = '[$symbol]($style)'
+style = '#0277BD'
+
+[docker_context]
+disabled = true
+symbol = " "
+format = '[$symbol]($style)'
+style = "#0F9AD5"
+detect_files = ["Dockerfile"]
+
+[elixir]
+symbol = " "
+format = '[$symbol]($style)'
+# style = "#4B275F"
+style = "#9575CD"
+detect_extensions = ["ex", "exs"]
+
+[rust]
+symbol = " "
+# symbol = ""
+style = "#FA6F42"
+format = '[$symbol]($style)'
+
+[swift]
+symbol = "ﯣ "
+style = "#F05138"
+format = '[$symbol]($style)'
+
+[custom.cpp]
+detect_extensions = ["cpp"]
+format = '[$symbol]($style)'
+symbol = 'ﭱ '
+# symbol = ' '
+style = '#0277BD'
+
+[custom.cs]
+detect_extensions = ["cs", "csx"]
+format = '[$symbol]($style)'
+symbol = ' '
+style = '#0277BD'
+
+[custom.vue]
+detect_files = [
+  "nuxt.config.js",
+  "vue.config.js",
+  "nuxt.config.ts",
+  "vue.config.ts",
+]
+detect_extensions = ["vue", "nuxt"]
+format = "[$symbol]($style)"
+symbol = "﵂ "
+style = "#41B883"
+
+[custom.react]
+detect_files = [
+  "tsconfig.base.json",
+  "next.config.js",
+  "next.config.ts",
+  "gatsby-config.ts",
+]
+detect_extensions = ["jsx", "tsx"]
+format = "[$symbol]($style)"
+symbol = " "
+style = "#248ED3"
+
+[custom.yarn]
+detect_files = ["yarn.lock"]
+detect_folders = [".yarn", "!.config"]
+format = "[$symbol]($style)"
+symbol = " "
+style = "#2D8EBB"
+
+[custom.npm]
+detect_files = ["package-lock.json"]
+format = "[$symbol]($style)"
+symbol = " "
+style = "#C14444"
+
+[custom.gradle]
+detect_folders = [".gradle", "!.config"]
+format = "[$symbol]($style)"
+symbol = "ﳄ "
+style = "#4CAF51"
+
+[custom.docker]
+detect_files = ["Dockerfile", ".dockerignore"]
+format = '[$symbol]($style)'
+symbol = " "
+style = "#2496ED"
+
+# [custom.nodejs]
+# detect_files = ["package.json"]
+# format = '$output'
+# command = """
+# PACKAGE=$(cat ./package.json)
+# REACT=$(echo $PACKAGE | grep -w react)
+# NUXT=$(echo $PACKAGE | grep -w nuxt)
+# if [[ ${#REACT} -ne 0 ]]; then
+#   SYMBOL=" "
+#   COLOR="#248ed3"
+# elif [[ ${#NUXT} -ne 0 ]]; then
+#   SYMBOL=""
+#   COLOR="#41b883"
+# else 
+#   SYMBOL=""
+#   COLOR="#8bc34a"
+# fi
+# print "[$SYMBOL]($COLOR)"
+# """
+
+
+# [custom.git_host]
+# command = """
+# URL=$(command git ls-remote --get-url 2> /dev/null)
+# if [[ "$URL" =~ "github" ]]; then
+#     ICON=" "
+# elif [[ "$URL" =~ "gitlab" ]]; then
+#     ICON=" "
+# elif [[ "$URL" =~ "bitbucket" ]];then
+#     ICON=" "
+# elif [[ "$URL" =~ "kernel" ]];then
+#     ICON=" "
+# elif [[ "$URL" =~ "archlinux" ]];then
+#     ICON=" "
+# elif [[ "$URL" =~ "gnu" ]];then
+#     ICON=" "
+# elif [[ "$URL" =~ "git" ]];then
+#     ICON=" "
+# else
+#     ICON=" "
+#     URL="localhost"
+# fi
+# for PATTERN in "https" "http" "git" "://" "@"; do
+#     [[ "$URL" == "$PATTERN"* ]] && URL="${URL##$PATTERN}"
+# done
+# for PATTERN in "/" ".git"; do
+#     [[ "$URL" == *"$PATTERN" ]] && URL="${URL%%$PATTERN}"
+# done
+# printf "%s%s" "$ICON" "$URL"
+# """
+# directories = [".git"]
+# when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
+# shell = ["bash","--norc","--noprofile"]
+# style = "bright-yellow bold"
+# format = "at [$output]($style)"
+
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
