@@ -1,18 +1,12 @@
-local present, zenmode = pcall(require, "zenmode")
-
-if not present then
-  return
-end
-
-zenmode.setup {
+return {
   window = {
-    backdrop = 0.95, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
+    backdrop = 0.5, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
     -- height and width can be:
     -- * an absolute number of cells when > 1
     -- * a percentage of the width / height of the editor when <= 1
     -- * a function that returns the width or the height
-    width = 120, -- width of the Zen window
-    height = 1, -- height of the Zen window
+    width = 0.5, -- width of the Zen window
+    height = 0.7, -- height of the Zen window
     -- by default, no options are changed for the Zen window
     -- uncomment any of the options below, or add other vim.wo options you want to apply
     options = {
@@ -37,8 +31,8 @@ zenmode.setup {
     gitsigns = { enabled = false }, -- disables git signs
     tmux = { enabled = true }, -- disables the tmux statusline
     kitty = {
-      enabled = true,
-      font = "+4", -- font size increment
+      enabled = false,
+      font = "+12", -- font size increment
     },
   },
 }

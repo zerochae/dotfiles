@@ -6,6 +6,13 @@ end
 
 vim.opt.shortmess:append "IWs"
 
+local rows = vim.opt.lines:get() - vim.opt.cmdheight:get()
+local cols = vim.opt.columns:get()
+local height = math.floor(rows)
+local width = math.floor(cols)
+local center_x = math.floor((cols - width) / 2)
+local center_y = math.floor(((vim.opt.lines:get() - height) / 2) - vim.opt.cmdheight:get())
+
 noice.setup {
   cmdline = {
     enabled = true,
