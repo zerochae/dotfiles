@@ -47,7 +47,6 @@ local M = {
     [[          'MMMMMMMMWXXWMMMMMMMk.                                              ]],
     [[            .coooc,.   .,cooo:.                                       ]],
     [[                                                                              ]],
-    [[                                                                              ]],
   },
 }
 
