@@ -15,18 +15,21 @@ NullLsConfigs.prettier_config = {
   condition = condition.prettier,
   cwd = cwd.prettier,
   extra_args = extra_args.prettier,
+  dynamic_command = dynamic_command.prettier,
 }
 
 NullLsConfigs.eslint_config = {
   diagnostics_format = format.eslint,
   condition = condition.eslint,
+  cwd = cwd.eslint,
   filter = filter.eslint,
+  dynamic_command = dynamic_command.eslint,
 }
 
 NullLsConfigs.prettier_config_yarn_pnp = {
   filetypes = file_type.prettier,
   condition = condition.prettier_yarn_pnp,
-  dynamic_command = dynamic_command.prettier,
+  dynamic_command = dynamic_command.prettier_yarn_pnp,
   cwd = cwd.prettier,
   extra_args = extra_args.prettier,
 }
@@ -34,7 +37,8 @@ NullLsConfigs.prettier_config_yarn_pnp = {
 NullLsConfigs.eslint_config_yarn_pnp = {
   diagnostics_format = format.eslint,
   condition = condition.eslint_yarn_pnp,
-  dynamic_command = dynamic_command.eslint,
+  dynamic_command = dynamic_command.eslint_yarn_pnp,
+  cwd = cwd.eslint,
   filter = filter.eslint,
 }
 

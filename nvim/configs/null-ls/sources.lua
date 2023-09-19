@@ -9,7 +9,6 @@ local hover = builtins.hover
 local NullLsSources = {
   -- commoon
   diagnostics.misspell.with(Configs.misspell_config),
-  -- code_actions.refactoring.with(Configs.refactoring_config),
 
   -- lua
   formatting.stylua.with(Configs.stylua_config),
@@ -17,9 +16,10 @@ local NullLsSources = {
 
   -- typescript
   formatting.prettier.with(Configs.prettier_config),
-  formatting.prettier.with(Configs.prettier_config_yarn_pnp),
   diagnostics.eslint.with(Configs.eslint_config),
+  formatting.prettier.with(Configs.prettier_config_yarn_pnp),
   diagnostics.eslint.with(Configs.eslint_config_yarn_pnp),
+  code_actions.eslint,
 
   -- rust
   formatting.rustfmt,
@@ -47,10 +47,6 @@ local NullLsSources = {
 
   --sql
   formatting.sql_formatter,
-
-  -- json
-  -- formatting.jq.with(Configs.jq_config),
-  -- diagnostics.jsonlint,
 
   -- toml
   formatting.taplo,

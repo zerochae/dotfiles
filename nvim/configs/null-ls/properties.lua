@@ -117,8 +117,10 @@ NullLsProperties.filter = {
 }
 
 NullLsProperties.dynamic_command = {
-  prettier = require("null-ls.helpers.command_resolver").from_yarn_pnp(),
-  eslint = require("null-ls.helpers.command_resolver").from_yarn_pnp(),
+  prettier = require("null-ls.helpers.command_resolver").from_node_modules(),
+  eslint = require("null-ls.helpers.command_resolver").from_node_modules(),
+  prettier_yarn_pnp = require("null-ls.helpers.command_resolver").from_yarn_pnp(),
+  eslint_yarn_pnp = require("null-ls.helpers.command_resolver").from_yarn_pnp(),
 }
 
 return NullLsProperties
