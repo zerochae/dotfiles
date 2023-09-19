@@ -52,10 +52,7 @@ local plugins = {
 
   {
     "folke/zen-mode.nvim",
-    opts = {},
-    config = function()
-      require "custom.configs.editing.zenmode"
-    end,
+    opts = require "custom.configs.editing.zenmode",
   },
 
   {
@@ -134,6 +131,7 @@ local plugins = {
 
   {
     "nvim-neorg/neorg",
+    ft = "norg",
     build = ":Neorg sync-parsers",
     dependencies = { "nvim-lua/plenary.nvim", "nvim-neorg/neorg-telescope" },
     config = function()
@@ -263,14 +261,6 @@ local plugins = {
   },
 
   {
-    "numToStr/Comment.nvim",
-    opts = overrides.comment,
-    dependencies = {
-      "JoosepAlviste/nvim-ts-context-commentstring",
-    },
-  },
-
-  {
     "lewis6991/gitsigns.nvim",
     opts = overrides.gitsigns,
   },
@@ -278,6 +268,16 @@ local plugins = {
   {
     "williamboman/mason.nvim",
     opts = overrides.mason,
+  },
+
+  {
+    "numToStr/Comment.nvim",
+    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
+    config = function()
+      require("Comment").setup {
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      }
+    end,
   },
 
   {
@@ -308,6 +308,16 @@ local plugins = {
         version = "^1.0.0",
       },
     },
+  },
+
+  {
+    "NvChad/nvim-colorizer.lua",
+    opts = overrides.colorizer,
+  },
+
+  {
+    "NvChad/nvterm",
+    opts = overrides.nvterm,
   },
 
   {

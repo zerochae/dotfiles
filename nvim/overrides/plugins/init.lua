@@ -1,9 +1,28 @@
 local M = {}
 
 local Helper = require "custom.overrides.plugins.helper"
+local devicons = require "custom.overrides.plugins.devicons"
 
-M.comment = {
-  -- pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+M.colorizer = {
+  user_default_options = {
+    tailwind = true,
+    always_update = true,
+  },
+}
+
+M.nvterm = {
+  terminals = {
+    type_opts = {
+      float = {
+        relative = "editor",
+        border = "rounded",
+        width = 0.8,
+        height = 0.8,
+        row = 0.1,
+        col = 0.1,
+      },
+    },
+  },
 }
 
 M.treesitter = {
@@ -35,16 +54,6 @@ M.treesitter = {
   },
   context_commentstring = {
     enable = true,
-    config = {
-      javascript = {
-        __default = "// %s",
-        jsx_element = "{/* %s */}",
-        jsx_fragment = "{/* %s */}",
-        jsx_attribute = "// %s",
-        comment = "// %s",
-      },
-      typescript = { __default = "// %s", __multiline = "/* %s */" },
-    },
   },
   playground = {
     enable = true,
@@ -91,10 +100,21 @@ M.nvimtree = {
   view = Helper.nvim_tree_view(),
   renderer = {
     highlight_git = true,
+    indent_markers = {
+      enable = true,
+      inline_arrows = true,
+      icons = {
+        corner = "└",
+        edge = "│",
+        item = "│",
+        bottom = "─",
+        none = " ",
+      },
+    },
     icons = {
       web_devicons = {
         folder = {
-          enable = true,
+          enable = false,
           color = true,
         },
       },
@@ -150,158 +170,7 @@ M.telescope = {
   extensions_list = { "themes", "terms", "live_grep_args", "noice" },
 }
 
-M.devicons = {
-  ts = {
-    icon = "󰛦",
-    name = "Typescript",
-    color = "#0088d1",
-  },
-  js = {
-    icon = "",
-    name = "Javascript",
-    color = "#ffca27",
-  },
-  cjs = {
-    icon = "",
-    name = "Javascript",
-    color = "#ffca27",
-  },
-  mjs = {
-    icon = "",
-    name = "Javascript",
-    color = "#ffca27",
-  },
-  sh = {
-    icon = "",
-    name = "Sh",
-    color = "#ff7043",
-  },
-  zsh = {
-    icon = "",
-    name = "Zsh",
-    color = "#89e051",
-  },
-  bash = {
-    icon = "",
-    name = "Bash",
-    color = "#768495",
-  },
-  fish = {
-    icon = "",
-    name = "Fish",
-    color = "#40a0d5",
-  },
-  rs = {
-    icon = "",
-    name = "Rust",
-    color = "#FA6F42",
-  },
-  e2e = {
-    icon = "󱥾",
-    name = "EndToEndTestFolder",
-    color = "#27a69a",
-  },
-  [".gitignore"] = {
-    icon = "",
-    name = "Gitignore",
-    color = "#f1502f",
-  },
-  git = {
-    icon = "",
-    name = "gitFolder",
-    color = "#546e7a",
-  },
-  [".git"] = {
-    icon = "",
-    name = "DotgitFolder",
-    color = "#546e7a",
-  },
-  [".github"] = {
-    icon = "",
-    name = "DotgithubFolder",
-    color = "#546e7a",
-  },
-  yarn = {
-    icon = "",
-    name = "YarnFolder",
-    color = "#2c8ebb",
-  },
-  [".yarn"] = {
-    icon = "",
-    name = "YarnFolder",
-    color = "#2c8ebb",
-  },
-  [".yarnrc.yml"] = {
-    icon = "",
-    name = "DotYarnrc",
-    color = "#0088d1",
-  },
-  [".vscode"] = {
-    icon = "",
-    name = "DotvscodeFolder",
-    color = "#42a5f5",
-  },
-  [".dockerignore"] = {
-    icon = "",
-    name = "Dockerignore",
-    color = "#2496ed",
-  },
-  [".husky"] = {
-    icon = "󰩃",
-    name = "DotHuskyFolder",
-    color = "#607d8b",
-  },
-  [".eslintcache"] = {
-    icon = "󰱺",
-    name = "Eslintcache",
-    color = "#4050b5",
-  },
-  [".eslintrc.json"] = {
-    icon = "󰱺",
-    name = "Eslintcache",
-    color = "#4050b5",
-  },
-  [".prettierrc"] = {
-    icon = "",
-    name = "Prettierrc",
-    color = "#56b3b4",
-  },
-  [".prettierignore"] = {
-    icon = "",
-    name = "Prettierignore",
-    color = "#56b3b4",
-  },
-  ["node_modules"] = {
-    icon = "",
-    name = "NodeModules",
-    color = "#8bc34b",
-  },
-  ["package.json"] = {
-    icon = "",
-    name = "NodeModules",
-    color = "#8bc34b",
-  },
-  [".luarc.json"] = {
-    icon = "",
-    name = "Luarc",
-    color = "#4e4eeb",
-  },
-  ["lazy-lock.json"] = {
-    icon = "󰒲",
-    name = "Lazylock",
-    color = "#82aaff",
-  },
-  license = {
-    icon = "󰿃",
-    name = "License",
-    color = "#ff5722",
-  },
-  db = {
-    icon = "",
-    name = "Db",
-    color = "#61afee",
-  },
-}
+M.devicons = devicons
 
 M.gitsigns = {
   current_line_blame = true,
