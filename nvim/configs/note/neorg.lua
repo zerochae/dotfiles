@@ -6,15 +6,30 @@ end
 
 neorg.setup {
   load = {
+    ["core.integrations.nvim-cmp"] = {},
+    ["core.integrations.treesitter"] = {},
+    ["core.completion"] = {
+      config = { engine = "nvim-cmp" },
+    },
+    ["core.highlights"] = {},
     ["core.defaults"] = {},
-    ["core.concealer"] = {},
+
+    ["core.concealer"] = {
+      config = {
+        folds = false,
+      },
+    },
     ["core.dirman"] = {
       config = {
-        default_workspace = "work",
+        default_workspace = "note",
         workspaces = {
-          work = "~/Dev/note/work",
-          home = "~/Dev/note/home",
+          note = "~/Dev/note",
+          projects = "~/Dev/note/projects/",
+          areas = "~/Dev/note/areas",
+          resources = "~/Dev/note/resources/",
+          archives = "~/Dev/note/archives",
         },
+        use_popup = true,
       },
     },
   },
