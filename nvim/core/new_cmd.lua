@@ -1,14 +1,6 @@
 local new_cmd = vim.api.nvim_create_user_command
 local misspell_config_path = "$DEV_CONFIG/config/misspell/.misspellignore"
 
-new_cmd("NvChadUpdate", function()
-  require("custom.overrides.ui.updater").nv_updater()
-end, {})
-
-new_cmd("NvMasonUpdate", function()
-  require("custom.overrides.ui.updater").mason_updater()
-end, {})
-
 new_cmd("MisspellAdd", function(opts)
   local word = opts.args
   require("custom.configs.null-ls.utils").add_ignore_word(misspell_config_path, word)
