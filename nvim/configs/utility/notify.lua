@@ -1,5 +1,6 @@
 local present, notify = pcall(require, "notify")
 local lsp_loader = require "custom.overrides.ui.lsp_lodaer"
+local plugin_updater = require "custom.overrides.ui.plugin_updater"
 -- local cava = require "custom.overrides.ui.cava"
 
 if not present then
@@ -25,10 +26,14 @@ end
 
 notify.setup {
   background_colour = "#000000",
+  on_open = function(win)
+    vim.api.nvim_win_set_config(win, { zindex = 2000 })
+  end,
 }
 
 local ui_extension = {
   lsp_loader = lsp_loader(notify),
+  plugin_updater = plugin_updater(notify),
 }
 
 for _, extension in pairs(ui_extension) do
