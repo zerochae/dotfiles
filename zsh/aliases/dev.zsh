@@ -1,0 +1,8 @@
+alias yai='yarn all install'
+alias yld='yarn landing dev'
+alias ysd='yarn send dev'
+alias ylb='yarn landing build'
+alias ysb='yarn send build'
+alias yab='yarn landing build && yarn send build'
+alias cdev='sudo /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debuggin-port=9222'
+alias before-deploy-send='bid | vup --send'
