@@ -1,32 +1,68 @@
 local M = {}
 
-M.twilight = {
+M.spectre = {
   n = {
-    ["<leader>tw"] = { "<ESC><CMD>Twilight<CR>", "toggle twilight", opts = { nowait = true } },
+    -- ["<leader>sp"] = {
+    --   function()
+    --     require("custom.configs.spectre").toggle()
+    --   end,
+    --   "open spectre",
+    -- },
+    ["<leader>sp"] = { "<CMD>Spectre<CR>", "open spectre" },
   },
 }
 
-M.sad = {
-  v = {
-    ["<leader>sa"] = {
-      "<ESC><CMD>Sad <CR>",
-      "search all replace",
-      opts = { nowait = true },
+M.persistence = {
+  n = {
+    ["<leader>qs"] = {
+      function()
+        require("persistence").load()
+      end,
+      "load persistence",
+    },
+    ["<leader>ql"] = {
+      function()
+        require("persistence").load { last = true }
+      end,
+      "load last persistence",
+    },
+    ["<leader>qd"] = {
+      function()
+        require("persistence").stop()
+      end,
+      "stop persistence",
     },
   },
 }
 
-M.mini = {
+M.noice = {
   n = {
-    ["<leader>fe"] = {
-      "<ESC><CMD>lua MiniFiles.open()<CR>",
-      "MiniFiles open",
-      opts = { nowait = true },
-    },
+    ["<leader>dn"] = { "<CMD>NoiceDismiss<CR>", "close all notify", opts = { nowait = true } },
+  },
+}
 
+M.lazygit = {
+  n = {
+    ["<leader>gg"] = { "<CMD>LazyGit<CR>", "open lazygit", opts = { nowait = true } },
+  },
+}
+
+M.diffview = {
+  n = {
     ["<C-s>"] = {
-      "<ESC><CMD>lua MiniFiles.synchronize()<CR>",
-      "MiniFiles synchronize",
+      function()
+        require("diffview.actions").toggle_files()
+      end,
+      "toggle diff files",
+      opts = { nowait = true },
+    },
+    ["<leader>do"] = { "<ESC><CMD>DiffviewOpen<CR>", "diff view open", opts = { nowait = true } },
+    ["<leader>dc"] = { "<ESC><CMD>DiffviewClose<CR>", "diff view close", opts = { nowait = true } },
+    ["<CR>"] = {
+      function()
+        require("diffview.actions").select_entry()
+      end,
+      "select diff entry",
       opts = { nowait = true },
     },
   },
@@ -42,105 +78,190 @@ M.hop = {
   },
 }
 
-M.git_conflict = {
+M.gitsigns = {
   n = {
     ["<leader>gcb"] = {
-      "<ESC><CMD>GitConflictChooseBase<CR>",
-      "git conflict choose base",
+      "<ESC><CMD>Gitsigns toggle_current_line_blame<CR>",
+      "toggle git blame line",
       opts = { nowait = true },
-    },
-    ["<leader>gca"] = {
-      "<ESC><CMD>GitConflictChooseBoth<CR>",
-      "git conflict choose both",
-      opts = { nowait = true },
-    },
-    ["<leader>gco"] = {
-      "<ESC><CMD>GitConflictChooseOurs<CR>",
-      "git conflict choose ours",
-      opts = { nowait = true },
-    },
-    ["<leader>gct"] = {
-      "<ESC><CMD>GitConflictChooseTheirs<CR>",
-      "git conflict choose theirs",
-      opts = { nowait = true },
-    },
-  },
-}
-
-M.neogit = {
-  n = {
-    ["<leader>gi"] = {
-      "<ESC><CMD>Neogit<CR>",
-      "open neogit",
-      opts = { nowait = true },
-    },
-  },
-}
-
-M.neorg = {
-  n = {
-    ["<leader>rg"] = {
-      "<ESC><CMD>Neorg index<CR>",
-      "neorg index",
-      opts = { nowait = true },
-    },
-    ["<leader>rs"] = {
-      "<CMD>Telescope neorg find_linkable<CR>",
-      "find linkable",
-      opts = { silent = true },
-    },
-    ["<leader>ll"] = {
-      "<CMD>Telescope neorg insert_file_link<CR>",
-      "insert link",
-      opts = { silent = true },
     },
   },
 }
 
 M.db_ui = {
   n = {
-    ["<leader>db"] = { "<ESC><CMD>DBUI<CR>", "open database", opts = { nowait = true } },
+    ["<leader>db"] = { "<ESC><CMD>bd|DBUI<CR>", "open database", opts = { nowait = true } },
     ["<leader>qe"] = { "<Plug>(DBUI_ExecuteQuery)", "execute Query", opts = { nowait = true } },
-  },
-}
-
-M.zen_mode = {
-  n = {},
-}
-
-M.octo = {
-  n = {
-    ["<leader>gg"] = {
-      "<cmd>Octo<CR>",
-      "run octo",
-    },
-  },
-}
-
-M.vimwiki = {
-  n = {
-    ["<leader>wt"] = { "<ESC><CMD>VimwikiTable<CR>", "make table in vimwiki", opts = { nowait = true } },
-    ["<leader>wd"] = { "<ESC><CMD>VimwikiMakeDiaryNote<CR>", "make vimwiki today diary", opts = { nowait = true } },
   },
 }
 
 M.telescope = {
   n = {
-    ["<leader>fs"] = { "<cmd> Telescope grep_string <CR>", "Telescope grep string" },
-    ["<leader>fW"] = {
-      '<esc><cmd> lua require("telescope").extensions.live_grep_args.live_grep_args { vimgrep_arguments = { "rg", "--hidden", "-L", "--color=never", "--no-heading", "--with-filename", "--line-number", "--column", "--smart-case" }}<cr>',
-      "Telescope live grep args",
+    -- find
+    ["<leader>ff"] = {
+      function()
+        require("telescope.builtin").find_files {
+          preview_title = "  Preview",
+          prompt_title = "  Search Files",
+          debounce = "300",
+          file_ignore_patterns = {
+            "node_modules",
+            "%.png",
+            "%.svg",
+            "%.mp4",
+            "%.jpg",
+            "%.jpeg",
+            "custom/assets",
+            "assets/ascii",
+            "static/js",
+            "%.bundle.js",
+            "%.mjs",
+            "%.cjs",
+            ".git",
+            ".DS_Store",
+          },
+        }
+      end,
+      "Find files",
+    },
+    ["<leader>fo"] = {
+      function()
+        require("telescope.builtin").oldfiles {
+          preview_title = "  Preview",
+          prompt_title = "  Search Recent",
+          debounce = "300",
+        }
+      end,
+      "Find oldfiles",
+    },
+    ["<leader>fa"] = {
+      function()
+        require("telescope.builtin").find_files {
+          preview_title = "  Preview",
+          prompt_title = "  Search All Files",
+          follow = true,
+          no_ignore = true,
+          hidden = true,
+          debounce = "1000",
+        }
+      end,
+      "Find all",
+    },
+    ["<leader>fs"] = {
+      function()
+        local conf = require("telescope.config").values
+        require("telescope.builtin").live_grep {
+          preview_title = "  Preview",
+          prompt_title = "  Live Grep All Files",
+          follow = true,
+          no_ignore = true,
+          hidden = true,
+          debounce = "500",
+          vimgrep_arguments = table.insert(conf.vimgrep_arguments, "--fixed-strings"),
+          file_ignore_patterns = {
+            "node_modules",
+            "%.png",
+            "%.svg",
+            "%.mp4",
+            "%.jpg",
+            "%.jpeg",
+            "custom/assets",
+            "assets/ascii",
+            "static/js",
+            "%.bundle.js",
+            "%.mjs",
+            "%.cjs",
+            ".git",
+            ".DS_Store",
+          },
+        }
+      end,
+      "Telescope grep string",
+    },
+    ["<leader>fw"] = {
+      function()
+        local conf = require("telescope.config").values
+        require("telescope.builtin").live_grep {
+          preview_title = "  Preview",
+          prompt_title = "  Live Grep",
+          debounce = "500",
+          vimgrep_arguments = table.insert(conf.vimgrep_arguments, "--fixed-strings"),
+          file_ignore_patterns = {
+            "node_modules",
+            "%.png",
+            "%.svg",
+            "%.mp4",
+            "%.jpg",
+            "%.jpeg",
+            "custom/assets",
+            "assets/ascii",
+            "static/js",
+            "%.bundle.js",
+            "%.mjs",
+            "%.cjs",
+            ".git",
+            ".DS_Store",
+          },
+        }
+      end,
+      "Live grep",
+    },
+    -- ["<leader>fb"] = {
+    --   function()
+    --     require("telescope.builtin").buffers {
+    --       preview_title = "  Preview",
+    --       prompt_title = "  Search Buffers",
+    --     }
+    --   end,
+    --   "Find buffers",
+    -- },
+    ["<leader>fh"] = {
+      function()
+        require("telescope.builtin").help_tags {
+          preview_title = "  Preview",
+          prompt_title = "  Search Help",
+        }
+      end,
+      "Help page",
+    },
+    ["<leader>fz"] = {
+      function()
+        require("telescope.builtin").current_buffer_fuzzy_find {
+          preview_title = "  Preview",
+          prompt_title = "  Search Fzf",
+        }
+      end,
+      "Find in current buffer",
+    },
+    ["<leader>ws"] = {
+      "<CMD>Telescope workspaces<CR>",
+      "open projects",
+    },
+    ["<leader>gs"] = {
+      "<CMD>Telescope git_status<CR>",
+      "open git status",
+    },
+    ["<leader>fb"] = {
+      "<CMD>Telescope file_browser<CR>",
+      "open file browser",
+    },
+    ["<leader>fn"] = {
+      "<CMD>Telescope neorg find_linkable<CR>",
+      "find neorg files",
+      {
+        noremap = true,
+      },
     },
   },
-  i = {
-    ["<C-k>"] = {
-      '<esc><cmd>lua require("telescope-live-grep-args.actions").quote_prompt()<cr>',
-      "live_grep_args actions quote prompt",
-    },
-    ["<C-i>"] = {
-      '<esc><cmd>lua require("telescope-live-grep-args.actions").quote_prompt { postfix = " --iglob "<cr>',
-      "live_grep_args actions quote prompt postfix --iglob",
-    },
+}
+
+M.whip = {
+  n = {
+    ["<leader>wo"] = { "<CMD>WhipOpen<CR>", "[W]hip [O]pen", opts = { nowait = true } },
+    ["<leader>wm"] = { "<CMD>WhipMake<CR>", "[W]hip [M]ake", opts = { nowait = true } },
+    ["<leader>wd"] = { "<CMD>WhipDrop<CR>", "[W]hip [D]rop", opts = { nowait = true } },
+    ["<leader>wf"] = { "<CMD>WhipFindFile<CR>", "[W]hip [F]ile Search", opts = { nowait = true } },
+    ["<leader>wg"] = { "<CMD>WhipFinGrep<CR>", "[W]hip [G]rep Search", opts = { nowait = true } },
   },
 }
 
@@ -154,28 +275,52 @@ M.search_replace = {
   },
 }
 
-M.none = {
+M.disabled = {
   n = {
-    ["q:"] = { "", "Mapping none", opts = { noremap = true } },
-    ["'"] = { "", "Mapping none", opts = { noremap = true } },
-    ['"'] = { "", "Mapping none", opts = { noremap = true } },
+    ["q:"] = { "" },
+    ["'"] = { "" },
+    ['"'] = { "" },
+  },
+}
+
+M.lspsaga = {
+  n = {
+    ["<leader>ca"] = { "<ESC><CMD>Lspsaga code_action<CR>", "LSP code action", opts = { nowait = true } },
+    ["<leader>gn"] = { "<ESC><CMD>Lspsaga diagnostic_jump_next<CR>", "LSP code action", opts = { nowait = true } },
+    ["<leader>rr"] = { "<CMD>Lspsaga rename<CR>", "LSP rename", opts = { nowait = true } },
+    ["F"] = { "<ESC><CMD>Lspsaga finder<CR>", "LSP code Finder", opts = { nowait = true } },
+    ["K"] = { "<ESC><CMD>Lspsaga hover_doc<CR>", "hover doc", opts = { nowait = true } },
+    ["<leader>lo"] = { "<ESC><CMD>Lspsaga outline<CR>", "hover doc", opts = { nowait = true } },
+    ["gd"] = { "<ESC><CMD>Lspsaga goto_definition<CR>", "Lspsaga goto definition", opts = { nowait = true } },
   },
 }
 
 M.general = {
+  v = {
+    ["<leader>fm"] = {
+      "",
+    },
+  },
   n = {
     [":"] = { "<ESC>:", "command", opts = { noremap = true, nowait = true } },
     ["<Esc>"] = { "<CMD>noh<CR>", "Clear highlights", opts = { noremap = true, nowait = true } },
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
     ["<leader><tab>"] = { "<ESC><CMD>tabn<CR>", "move next tab", opts = { nowait = true } },
-    ["<leader>rr"] = { "<CMD>lua require('nvchad.renamer').open()<CR>", "LSP rename", opts = { nowait = true } },
-    ["<leader>ca"] = { "<ESC><CMD>Lspsaga code_action<CR>", "LSP code action", opts = { nowait = true } },
-    ["<leader>gn"] = { "<ESC><CMD>Lspsaga diagnostic_jump_next<CR>", "LSP code action", opts = { nowait = true } },
-    ["gd"] = { "<ESC><CMD>Lspsaga goto_definition<CR>", "Lspsaga goto definition", opts = { nowait = true } },
-    ["<leader>zm"] = {
-      "<ESC><CMD>lua require('zen-mode').toggle({window={width=.85}})<CR>",
-      "toggle zen-mode",
-      opts = { nowait = true },
+    -- ["<leader>rr"] = { "<CMD>lua require('nvchad.renamer').open()<CR>", "LSP rename", opts = { nowait = true } },
+    -- ["K"] = { "<ESC><CMD>lua vim.lsp.buf.hover()<CR>", "hover doc", opts = { nowait = true } },
+    ["<leader>fm"] = {
+      function()
+        vim.lsp.buf.format { async = true }
+      end,
+      "LSP formatting",
+    },
+    ["<leader>tc"] = {
+      "<CMD>tabclose<CR>",
+      "tap close",
+    },
+    ["<leader>tabnew"] = {
+      "<CMD>tabnew<CR>",
+      "tab new",
     },
   },
 }

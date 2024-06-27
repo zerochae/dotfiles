@@ -1,5 +1,17 @@
 local M = {}
 
+M.telescope_dynamic_layout_strategies = function()
+  local layout_strategies = require "telescope.pickers.layout_strategies"
+
+  layout_strategies.dynamic = function(self, max_columns, max_lines, layout_config)
+    if vim.o.columns > 160 then
+      return layout_strategies.horizontal(self, max_columns, max_lines, layout_config)
+    else
+      return layout_strategies.vertical(self, max_columns, max_lines, layout_config)
+    end
+  end
+end
+
 M.nvim_tree_view = function()
   return {
     float = {
@@ -15,7 +27,7 @@ M.nvim_tree_view = function()
 
         return {
           relative = "editor",
-          border = "rounded",
+          border = "single",
           width = width,
           height = height,
           row = center_y,

@@ -3,10 +3,34 @@ local M = {}
 local Helper = require "custom.overrides.plugins.helper"
 local devicons = require "custom.overrides.plugins.devicons"
 
+M.blankline = {
+  buftype_exclude = { "terminal", "dbui" },
+  char = " ",
+  -- char = "│",
+  context_char = "┃",
+  show_trailing_blankline_indent = true,
+  show_first_indent_level = true,
+  show_current_context = true,
+  show_current_context_start = true,
+}
+
 M.colorizer = {
+  filetypes = {
+    "*",
+    cmp_docs = {
+      always_update = true,
+    },
+  },
   user_default_options = {
+    RGB = true,
+    RRGGBBAA = true,
+    AARRGGBB = true,
+    css = true,
     tailwind = true,
     always_update = true,
+    names = false,
+    mode = "background",
+    virtualtext = "■",
   },
 }
 
@@ -43,23 +67,26 @@ M.treesitter = {
   },
   autotag = {
     enable = true,
+    enable_rename = true,
+    enable_close = true,
   },
   highlight = {
     enable = true,
+    use_languagetree = true,
     additional_vim_regex_highlighting = false,
   },
   rainbow = {
     enable = true,
     query = "rainbow-parens",
   },
-  context_commentstring = {
-    enable = true,
-  },
+  -- context_commentstring = {
+  --   enable = true,
+  -- },
   playground = {
     enable = true,
     disable = {},
-    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-    persist_queries = false, -- Whether the query persists across vim sessions
+    updatetime = 25,
+    persist_queries = false,
     keybindings = {
       toggle_query_editor = "o",
       toggle_hl_groups = "i",
@@ -75,17 +102,19 @@ M.treesitter = {
   },
 }
 
+vim.treesitter.language.register("bash", "dotenv")
+
 M.mason = {
+  ui = {
+    border = "single",
+  },
   ensure_installed = {
     "lua-language-server",
     "stylua",
     "css-lsp",
     "html-lsp",
     "typescript-language-server",
-    "deno",
     "prettier",
-    "clangd",
-    "clang-format",
   },
 }
 
@@ -96,13 +125,41 @@ M.nvimtree = {
   filters = {
     dotfiles = false,
     git_ignored = false,
+    custom = {
+      "^.null-ls_",
+    },
   },
-  view = Helper.nvim_tree_view(),
+  view = {
+    side = "left",
+    width = function()
+      local ratio = 0.25
+      local cols = vim.opt.columns:get()
+      local width = math.floor(cols * ratio)
+
+      local max_width = 35
+
+      if cols < 153 then
+        max_width = 30
+      end
+
+      return math.max(width, max_width)
+    end,
+  },
+  sort = {
+    sorter = "case_sensitive",
+  },
   renderer = {
+    highlight_opened_files = "name",
+    group_empty = true,
+    special_files = {},
+    root_folder_label = false,
+    -- root_folder_label = function(path)
+    --   return " " .. vim.fn.fnamemodify(path, ":t")
+    -- end,
     highlight_git = true,
     indent_markers = {
       enable = true,
-      inline_arrows = true,
+      inline_arrows = false,
       icons = {
         corner = "└",
         edge = "│",
@@ -113,27 +170,31 @@ M.nvimtree = {
     },
     icons = {
       web_devicons = {
+        file = {
+          enable = true,
+          color = true,
+        },
         folder = {
-          enable = false,
+          enable = true,
           color = true,
         },
       },
       show = {
-        git = true,
+        git = false,
       },
-      padding = "  ",
+      padding = " ",
       glyphs = {
         default = "󰈚",
         symlink = "",
         folder = {
-          default = "",
-          empty = "",
-          empty_open = "",
-          open = "",
-          symlink = "",
-          symlink_open = "",
-          arrow_open = "",
-          arrow_closed = "",
+          default = "",
+          empty = "",
+          empty_open = "",
+          open = "",
+          symlink = "",
+          symlink_open = "",
+          arrow_open = " ",
+          arrow_closed = " ",
         },
         git = {
           unstaged = "",
@@ -147,40 +208,63 @@ M.nvimtree = {
       },
     },
   },
+  hijack_directories = {
+    enable = true,
+    auto_open = true,
+  },
 }
+
+Helper.telescope_dynamic_layout_strategies()
 
 M.telescope = {
   defaults = {
-    file_ignore_patterns = {
-      "node_modules",
-      "%.png",
-      "%.svg",
-      "%.mp4",
-      "%.jpg",
-      "%.jpeg",
-      "custom/assets",
-      "assets/ascii",
+    results_title = " Finder",
+    borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    layout_strategy = "dynamic",
+    sorting_strategy = "descending",
+    height = 0.8,
+    width = 0.8,
+    layout_config = {
+      preview_cutoff = 10,
+      vertical = {
+        prompt_position = "bottom",
+        preview_cutoff = 30,
+      },
+      horizontal = {
+        prompt_position = "bottom",
+        preview_width = 0.6,
+        preview_cutoff = 110,
+      },
     },
+    file_sorter = require("telescope.sorters").get_fzy_sorter,
   },
+  extensions_list = { "themes", "terms", "workspaces", "lazygit", "spring", "file_browser", "neorg" },
   extensions = {
-    live_grep_args = {
-      auto_quoting = true,
+    file_browser = {
+      dir_icon_hl = "DiagnosticWarn",
     },
   },
-  extensions_list = { "themes", "terms", "live_grep_args", "noice" },
 }
 
 M.devicons = devicons
 
 M.gitsigns = {
+  signs = {
+    add = { text = "┃" },
+    change = { text = "┃" },
+    delete = { text = "┃" },
+    topdelete = { text = "┃" },
+    changedelete = { text = "┃" },
+    untracked = { text = "┃" },
+  },
   current_line_blame = true,
+  current_line_blame_formatter = " <author>  <author_time:%Y-%m-%d> 󰏪 <summary>",
   current_line_blame_opts = {
     virt_text = true,
-    virt_text_pos = "right_align", -- 'eol' | 'overlay' | 'right_align'
-    delay = 1000,
-    ignore_whitespace = false,
+    virt_text_pos = "eol",
+    delay = 500,
+    ignore_whitespace = true,
   },
-  current_line_blame_formatter = " <author> - <summary>  [<author_time:%Y-%m-%d>]",
 }
 
 return M

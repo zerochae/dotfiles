@@ -1,0 +1,22 @@
+{
+  "diagnostics": {
+    "enable": true,
+    "globals": ["vim", "require"],
+    "disable": [
+      "different-requires",
+      "missing-fields",
+      "duplicate-set-field",
+      "close-non-object",
+      "incomplete-signature-doc",
+      "missing-global-doc",
+      "missing-local-export-doc"
+    ]
+  },
+  "workspace.library": [
+    "/Users/kwon-gray/.local/share/nvim/lazy/neodev.nvim/types/stable",
+    "/opt/homebrew/Cellar/neovim/0.9.2/share/nvim/runtime/lua",
+    "/Users/kwon-gray/.local/share/nvim/lazy/lazy.nvim/lua",
+    "/Users/kwon-gray/.local/share/nvim/lazy/ui/nvchad_types"
+  ],
+  "workspace.checkThirdParty": false
+}

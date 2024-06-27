@@ -1,20 +1,47 @@
 local M = {}
 
 local ui = require "custom.overrides.ui.core"
-local ascii = require "custom.assets.ascii"
 
-M.statusline = function(modules)
-  modules[4] = ui.add_space(modules[4], 1)
-  modules[5] = ui.statusline_location()
-  modules[7] = ui.add_space(modules[7], 1)
-  modules[8] = ui.statusline_lsp_status()
-end
+M.statusline = {
+  separator_style = "block",
+  overriden_modules = function(modules)
+    modules[1] = ui.mode()
+    modules[2] = ui.fileInfo()
+    modules[3] = ui.git()
+    modules[4] = ui.lsp_loader()
+    modules[5] = ui.add_space_back(ui.LSP_Diagnostics(), 1)
+    modules[6] = ui.empty_string()
+    modules[7] = ui.empty_string()
+    modules[8] = ui.lsp()
+    modules[9] = ui.empty_string()
+  end,
+}
 
-M.tabufline = function(modules)
-  modules[1] = ui.empty_string()
-  modules[4] = ui.empty_string()
-end
+M.tabufline = {
+  overriden_modules = function(modules)
+    modules[1] = ui.nvim_tree_padding()
+    modules[2] = ui.bufferlist(modules[2])
+    modules[4] = ui.empty_string()
+  end,
+}
 
-M.nvdash = ascii.logo.neofetch
+M.dashboard = {
+  load_on_startup = true,
+  header = ui.dashboard_header(),
+  buttons = {
+    { "  Find File", "ff", "Telescope find_files" },
+    { "󰈚  Recent Files", "fo", "Telescope oldfiles" },
+    { "  Note", "rg", "Neorg index" },
+    { "  Database", "db", "bd|DBUI" },
+    { "  WorkSpace", "ws", "Telescope workspaces" },
+  },
+}
+
+M.cmp = {
+  lspkind_text = false,
+  style = "atom_colored",
+  selected_item_bg = "colored",
+  border_color = "statusline_bg",
+}
 
 return M

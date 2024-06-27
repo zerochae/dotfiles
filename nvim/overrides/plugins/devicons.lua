@@ -1,4 +1,24 @@
 local file = {
+  md = {
+    icon = "",
+    name = "MarkDown",
+    color = "#53B1EB",
+  },
+  html = {
+    icon = "",
+    name = "HtmlFile",
+    color = "#E06C75",
+  },
+  json = {
+    icon = "",
+    name = "Json",
+    color = "#e5c07b",
+  },
+  xib = {
+    icon = "󰗀",
+    name = "XibXml",
+    color = "#e37933",
+  },
   ts = {
     icon = "󰛦",
     name = "Typescript",
@@ -8,6 +28,11 @@ local file = {
     icon = "",
     name = "Javascript",
     color = "#ffca27",
+  },
+  jsx = {
+    icon = "",
+    name = "JavascriptReact",
+    color = "#44B0CC",
   },
   cjs = {
     icon = "",
@@ -40,7 +65,7 @@ local file = {
     color = "#40a0d5",
   },
   rs = {
-    icon = "",
+    icon = " ",
     name = "Rust",
     color = "#FA6F42",
   },
@@ -51,8 +76,80 @@ local file = {
   },
   yml = {
     icon = "󰈚",
-    name = "yaml",
+    name = "Yaml",
     color = "#FA6F42",
+  },
+  zip = {
+    icon = "",
+    name = "Zip",
+    color = "#FA6F42",
+  },
+  mp3 = {
+    icon = "󰎆",
+    name = "Mp3",
+  },
+  mp4 = {
+    icon = "",
+    name = "Mp4",
+  },
+  out = {
+    icon = "",
+    name = "Out",
+  },
+  rpm = {
+    icon = "",
+    name = "Rpm",
+  },
+  ttf = {
+    icon = "",
+    name = "TrueTypeFont",
+  },
+  woff = {
+    icon = "",
+    name = "WebOpenFontFormat",
+  },
+  woff2 = {
+    icon = "",
+    name = "WebOpenFontFormat2",
+  },
+  py = {
+    icon = "",
+    name = "Python",
+    color = "#3776AB",
+  },
+  norg = {
+    icon = "",
+    name = "Neorg",
+    color = "#5380C2",
+  },
+  env = {
+    icon = "",
+    name = "DotEnv",
+    color = "#D19A66",
+  },
+  [".env"] = {
+    icon = "",
+    name = "DotEnv",
+    color = "#D19A66",
+  },
+  [".env.development"] = {
+    icon = "",
+    name = "DotEnv",
+    color = "#D19A66",
+  },
+  [".env.production"] = {
+    icon = "",
+    name = "DotEnv",
+    color = "#D19A66",
+  },
+  [".env.local"] = {
+    icon = "",
+    name = "DotEnv",
+    color = "#D19A66",
+  },
+  ["robots.txt"] = {
+    icon = "󰚩",
+    name = "Robots",
   },
   [".gitignore"] = {
     icon = "",
@@ -124,23 +221,104 @@ local file = {
     name = "License",
     color = "#ff5722",
   },
-  ["README.md"] = {
-    icon = "",
-    name = "Readmedotmd",
+  ["readme.md"] = {
+    icon = "",
+    name = "Readme",
     color = "#42a5f5",
   },
   ["nuxt.config.js"] = {
-    icon = "",
+    icon = "󱄆",
     name = "NuxtConfig",
     color = "#41b883",
   },
-  Gemfile = {
+  ["next.config.js"] = {
+    icon = "▲",
+    name = "NextConfig",
+    color = "#FFFFFF",
+  },
+  ["tailwind.config.ts"] = {
+    icon = "󱏿",
+    name = "TailwindConfig",
+    color = "#6AB4AC",
+  },
+  ["tailwind.config.js"] = {
+    icon = "󱏿",
+    name = "TailwindConfig",
+    color = "#6AB4AC",
+  },
+  ["postcss.config.js"] = {
+    icon = "",
+    name = "PostcssConfig",
+    color = "#D3483E",
+  },
+  ["stories.tsx"] = {
+    icon = "",
+    name = "Story",
+    color = "#e06c75",
+  },
+  ["stories.ts"] = {
+    icon = "",
+    name = "Story",
+    color = "#e06c75",
+  },
+  ["*.spec.tsx"] = {
+    icon = "",
+    name = "TypescriptReactSpec",
+    color = "#44B0CC",
+  },
+  ["*.spec.ts"] = {
+    icon = "",
+    name = "TypescriptSpec",
+    color = "#44B0CC",
+  },
+  ["*.test.tsx"] = {
+    icon = "",
+    name = "TypescriptReactTest",
+    color = "#44B0CC",
+  },
+  ["*.test.ts"] = {
+    icon = "",
+    name = "TypescriptTest",
+    color = "#44B0CC",
+  },
+  [".gitattributes"] = {
+    icon = "",
+    name = "Gitattributes",
+    color = "#41535b",
+  },
+  ["Gemfile.lock"] = {
+    icon = "",
+    name = "Gemfile.lock",
+    color = "#CC342D",
+  },
+  ["Podfile.lock"] = {
+    icon = "",
+    name = "Podfile.lock",
+    color = "#CC342D",
+  },
+  ["Gemfile"] = {
     icon = "",
     name = "Gemfile",
     color = "#CC342D",
   },
+  ["Podfile"] = {
+    icon = "",
+    name = "Podfile",
+    color = "#CC342D",
+  },
+  ["tsconfig.base.json"] = {
+    icon = "󰛦",
+    name = "TsConfigBaseJson",
+    color = "#52AEB0",
+  },
 }
+
 local folder = {
+  [".next"] = {
+    icon = "▲",
+    name = "DotNextFolder",
+    color = "#eeeeee",
+  },
   e2e = {
     icon = "󱥾",
     name = "EndToEndTestFolder",
@@ -185,6 +363,11 @@ local folder = {
     icon = "",
     name = "Db",
     color = "#61afee",
+  },
+  ["d.ts"] = {
+    icon = "󰛦",
+    name = "DDotTs",
+    color = "#D99648",
   },
 }
 

@@ -2,22 +2,43 @@ local M = {}
 
 -- 문자열이 포함된 경우 제거
 M.remove_quoted_strings = function(input)
+  if input:find "vue" then
+    return input:gsub('"', ""):gsub(".vue", "")
+  end
+
   return input:gsub('"(.-)"', ""):gsub("'(.-)'", "")
 end
 
 -- 'callback' 스트링 제거
 M.remove_callback_string = function(input)
-  return input:gsub("callback", "")
+  return input:gsub("%(%) callback%%[*]%%#NavicSeparator# >", "%%#NavicSeparator# >"):gsub("%(%) callback%%[*]", "")
+end
+
+M.remove_html_selector = function(input)
+  local newParts = {}
+
+  for part in string.gmatch(input, "[^>]+") do
+    local _, _, foundText = string.find(part, "#NavicText#(.-)%%[*]")
+    if foundText then
+      local remove_parts = {}
+      for remove_part in input:gmatch "[^#%.]+" do
+        table.insert(remove_parts, remove_part)
+      end
+
+      table.insert(newParts, remove_parts[1])
+    end
+  end
+
+  return table.concat(newParts, ">")
 end
 
 -- text 길이가 긴 경우 줄이기
 M.concat_string = function(input)
   local max_length = 12
   local newParts = {}
-  local current_win = vim.api.nvim_get_current_win()
-  local win_width = vim.fn.winwidth(current_win)
+  local colmns = vim.o.columns
 
-  if win_width > 153 then
+  if colmns > 153 and #input < 700 then
     return input
   end
 
@@ -29,7 +50,7 @@ M.concat_string = function(input)
         table.insert(newParts, part)
       else
         local shortenedText = string.sub(foundText, 1, max_length - 2) .. ".."
-        part = string.gsub(part, foundText, shortenedText):gsub("[()]", "")
+        part = string.gsub(part, string.gsub(foundText, "-", "%%-"), shortenedText)
         table.insert(newParts, part)
       end
     else
@@ -48,23 +69,25 @@ end
 
 -- window width에 따라 indicator
 M.reduce_by_window_width = function(input)
-  local current_win = vim.api.nvim_get_current_win()
-  local window_width = vim.api.nvim_win_get_width(current_win)
+  local colmns = vim.o.columns
   local depth_limit_indicator = "%#NavicDepthLimitIndicator# "
   local depth_limit = 4
   local input_length = #input
 
-  if window_width < 200 or input_length > 250 then
+  if colmns < 200 or input_length > 250 then
     depth_limit = 3
   end
 
-  if window_width < 153 or input_length > 230 then
+  if colmns < 153 or input_length > 230 then
     depth_limit = 2
   end
 
-  if window_width < 120 then
+  if colmns < 130 then
+    -- tabufline_location()
+    vim.o.winbar = "   %{%v:lua.require'nvim-navic'.get_location()%}"
     return "" -- 빈 문자열 리턴
   end
+  vim.o.winbar = ""
 
   local parts = {}
 
