@@ -1,7 +1,7 @@
 {
   "diagnostics": {
     "enable": true,
-    "globals": ["vim", "require"],
+    "globals": ["vim", "require", "put"],
     "disable": [
       "different-requires",
       "missing-fields",
@@ -9,7 +9,8 @@
       "close-non-object",
       "incomplete-signature-doc",
       "missing-global-doc",
-      "missing-local-export-doc"
+      "missing-local-export-doc",
+      "inject-field"
     ]
   },
   "workspace.library": [
@@ -18,5 +19,5 @@
     "/Users/kwon-gray/.local/share/nvim/lazy/lazy.nvim/lua",
     "/Users/kwon-gray/.local/share/nvim/lazy/ui/nvchad_types"
   ],
-  "workspace.checkThirdParty": false
+    "workspace.checkThirdParty": false
 }
