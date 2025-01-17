@@ -72,6 +72,13 @@ local win_get_buf = vim.api.nvim_win_get_buf
 local buf_get_option = vim.api.nvim_buf_get_option
 
 autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    vim.wo.statusline = "%!v:lua.require('nvchad.stl.default')()"
+  end,
+})
+
+autocmd("FileType", {
   pattern = "tfpl",
   callback = function()
     vim.cmd "set filetype=yaml"

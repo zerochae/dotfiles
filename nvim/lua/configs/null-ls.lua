@@ -236,14 +236,14 @@ Properties.condition = {
   end,
   eslint = function(utils)
     return not utils.root_has_file ".pnp.cjs"
-        and (utils.root_has_file ".eslintrc.json" or utils.root_has_file ".eslintrc.js")
+      and (utils.root_has_file ".eslintrc.json" or utils.root_has_file ".eslintrc.js")
   end,
   prettier_yarn_pnp = function(utils)
     return utils.root_has_file ".pnp.cjs"
   end,
   eslint_yarn_pnp = function(utils)
     return utils.root_has_file ".pnp.cjs"
-        and (utils.root_has_file ".eslintrc.json" or utils.root_has_file ".eslintrc.js")
+      and (utils.root_has_file ".eslintrc.json" or utils.root_has_file ".eslintrc.js")
   end,
   jq = function(utils)
     return not utils.root_has_file ".pnp.cjs"
@@ -397,7 +397,23 @@ local diagnostics = builtins.diagnostics
 local code_actions = builtins.code_actions
 local hover = builtins.hover
 
+local lsp_formatting = function(bufnr)
+  vim.lsp.buf.format {
+    filter = function(client)
+      return client.name == "null-ls"
+    end,
+    bufnr = bufnr,
+  }
+end
+
 null_ls.setup {
+  on_attach = function(client, bufnr)
+    if client.supports_method "textDocument/formatting" then
+      vim.api.nvim_buf_create_user_command(bufnr, "LspFormat", function()
+        lsp_formatting(bufnr)
+      end, { desc = "Format using LSP" })
+    end
+  end,
   sources = {
     -- common
     diagnostics.misspell.with(Configs.misspell_config),

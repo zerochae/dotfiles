@@ -10,12 +10,14 @@ M.mode = function()
     return ""
   end
 
-  local specialMode = utils.specialModes[filetype]
+  local specialMode = utils.get_special_mode(filetype)
+
   if specialMode then
     return utils.set_mode_info(specialMode[1], specialMode[2])
   end
 
-  local mode = utils.modes[m]
+  local mode = utils.get_mode(m)
+
   if mode then
     return utils.set_mode_info(mode[1], mode[2])
   end
@@ -271,6 +273,22 @@ M.get_location = function()
     return icon .. " %#NavicText#" .. current_file .. "%#NavicText#"
     -- return folder_format .. icon .. " %#NavicText#" .. current_file
   end
+end
+
+M.qf = function()
+  local query = vim.g.qf_query
+
+  if not query then
+    return ""
+  end
+
+  -- 아이콘 설정 (Nerd Font 사용)
+  local icon = "󰓇" -- 원하는 Nerd Font 아이콘 코드로 변경
+  local icon_hl = "%#St_qf_icons#" -- 아이콘 하이라이트
+  local text_hl = "%#St_qf_text#" -- 텍스트 하이라이트
+
+  -- 아이콘과 텍스트 조합
+  return icon_hl .. icon .. " " .. text_hl .. query
 end
 
 return M

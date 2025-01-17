@@ -1,9 +1,3 @@
-local status, nvimtree = pcall(require, "nvim-tree")
-
-if not status then
-  return
-end
-
 local function float_nvim_tree_view()
   return {
     float = {
@@ -30,7 +24,7 @@ local function float_nvim_tree_view()
   }
 end
 
-nvimtree.setup {
+return {
   git = {
     enable = true,
   },

@@ -1,6 +1,6 @@
 local M = {}
 
-M.modes = {
+local modes = {
   ["n"] = { "NORMAL", "St_NormalMode" },
   ["no"] = { "NORMAL (no)", "St_NormalMode" },
   ["nov"] = { "NORMAL (nov)", "St_NormalMode" },
@@ -44,7 +44,7 @@ M.modes = {
   ["!"] = { "SHELL", "St_TerminalMode" },
 }
 
-M.specialModes = {
+local special_modes = {
   ["TelescopePrompt"] = { "TELESCOPE", "St_TelescopeMode" },
   ["NvimTree"] = { "NVIM_TREE", "St_NvimTreeMode" },
   ["lazygit"] = { "LAZY_GIT", "St_LazyGitMode" },
@@ -52,16 +52,22 @@ M.specialModes = {
   ["qf"] = { "QUICK_FIX", "St_LazyNvimMode" },
 }
 
+M.get_special_mode = function(filetype)
+  return special_modes[filetype]
+end
+
+M.get_mode = function(filetype)
+  return modes[filetype]
+end
+
 M.set_mode_info = function(mode, hl)
   local hl_prefix = "%#"
   local hl_suffix = "#"
-  -- local hl_mode_sep = hl .. "Sep#"
   local hl_empty = "%#ST_EmptySpace#"
   local sep = "█"
   local icon = "  "
 
   local current_mode = hl_prefix .. hl .. hl_suffix .. icon .. mode .. " "
-  -- local mode_sep = hl_prefix .. hl_mode_sep .. sep
 
   return current_mode .. hl_empty .. sep
 end

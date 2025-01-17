@@ -9,11 +9,9 @@ local mason_bin_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/bin/")
 local servers = {
   "lua_ls",
   "vuels",
-  -- "rust_analyzer",
   "html",
   "cssls",
   "ts_ls",
-  -- "clangd",
   "tailwindcss",
   "sqlls",
   "jsonls",
@@ -33,60 +31,11 @@ local servers = {
   "terraformls",
   "vimls",
   "lemminx",
+  -- "rust_analyzer",
+  -- "clangd",
   -- "emmet_ls",
   -- "emmet_language_server",
 }
-
-local lsp_formatting = function(bufnr)
-  vim.lsp.buf.format {
-    filter = function(client)
-      -- apply whatever logic you want (in this example, we'll only use null-ls)
-      return client.name == "null-ls"
-    end,
-    bufnr = bufnr,
-  }
-end
-
-local function on_language_status(_, result)
-  if result.message == nil then
-    return
-  end
-  -- local command = vim.api.nvim_command
-  -- command "echohl ModeMsg"
-  -- command(string.format('echo "%s"', result.message))
-  -- command "echohl None"
-end
-
--- local utils = require "core.utils"
-
--- export on_attach & capabilities for custom lspconfigs
-
-local on_attach = function(client, bufnr)
-  utils.load_mappings("lspconfig", { buffer = bufnr })
-
-  client.server_capabilities.documentFormattingProvider = false
-  client.server_capabilities.documentRangeFormattingProvider = false
-
-  if client.server_capabilities.signatureHelpProvider then
-    require("nvchad.signature").setup(client)
-  end
-
-  if not utils.load_config().ui.lsp_semantic_tokens and client.supports_method "textDocument/semanticTokens" then
-    client.server_capabilities.semanticTokensProvider = nil
-  end
-
-  if client.supports_method "textDocument/formatting" then
-    local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-    vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      group = augroup,
-      buffer = bufnr,
-      callback = function()
-        lsp_formatting(bufnr)
-      end,
-    })
-  end
-end
 
 local configs = {
   ts_ls = {
@@ -193,12 +142,6 @@ local configs = {
     },
   },
 
-  -- M.on_init = function(client, _)
-  --   if not utils.load_config().ui.lsp_semantic_tokens and client.supports_method "textDocument/semanticTokens" then
-  --     client.server_capabilities.semanticTokensProvider = nil
-  --   end
-  -- end
-
   jdtls = {
     filetypes = { "java" },
     cmd = {
@@ -275,7 +218,6 @@ local nvlsp = require "nvchad.configs.lspconfig"
 
 for _, lsp in ipairs(servers) do
   local config = vim.deepcopy(configs[lsp] or {})
-  -- config.on_attach = configs[lsp].on_attach or nvlsp.on_attach
   config.on_attach = nvlsp.on_attach
   config.on_init = nvlsp.on_init
   config.capabilities = nvlsp.capabilities

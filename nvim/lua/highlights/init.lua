@@ -19,7 +19,7 @@ local integrations = {
   nui = require "highlights.integrations.nui",
 }
 
-local colors = require "assets.colors"
+local colors = require "ui.assets.colors"
 
 local override = {
   -- default
@@ -141,6 +141,8 @@ M.add = {
   St_file_icon = { fg = colors.white, bg = "#2d3139" },
   St_git_icons = { fg = colors.magenta, bg = colors.none },
   St_git_text = { fg = colors.gray, bg = colors.none },
+  St_qf_icons = { fg = colors.magenta, bg = colors.none },
+  St_qf_text = { fg = colors.gray, bg = colors.none },
   St_TelescopeMode = { bg = colors.yellow, fg = colors.mode_fg, bold = true },
   St_TelescopeModeSep = { fg = colors.yellow, bold = true },
   St_LazyNvimMode = { bg = colors.magenta, fg = colors.mode_fg, bold = true },

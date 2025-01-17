@@ -15,7 +15,7 @@ local config = {
 
   ui = {
     cmp = {
-      icons_left = true,      -- only for non-atom styles!
+      icons_left = true, -- only for non-atom styles!
       style = "atom_colored", -- default/flat_light/flat_dark/atom/atom_colored
       abbr_maxwidth = 60,
       format_colors = {
@@ -30,7 +30,7 @@ local config = {
       enabled = true,
       theme = "default", -- default/vscode/vscode_colored/minimal
       separator_style = "block",
-      order = { "mode", "filetype", "git", "%=", "navic", "%=", "diagnostics", "lsp", "cwd", "cursor" },
+      order = { "mode", "filetype", "git", "%=", "navic", "qf", "%=", "diagnostics", "lsp", "cwd", "cursor" },
       modules = {
         mode = statusline.mode,
         filetype = statusline.filetype,
@@ -40,6 +40,7 @@ local config = {
         lsp = statusline.lsp,
         cursor = statusline.cursor,
         navic = statusline.get_location,
+        qf = statusline.qf,
       },
     },
 
@@ -56,7 +57,7 @@ local config = {
 
   nvdash = {
     load_on_startup = true,
-    header = require("assets.ascii").neovim.n,
+    header = require("ui.assets.ascii.neovim").n,
     buttons = {
       { txt = "  Find File", keys = "ff", cmd = "Telescope find_files" },
       { txt = "  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
@@ -94,7 +95,7 @@ local config = {
   lsp = { signature = true },
 
   cheatsheet = {
-    theme = "grid",                                                     -- simple/grid
+    theme = "grid", -- simple/grid
     excluded_groups = { "terminal (t)", "autopairs", "Nvim", "Opens" }, -- can add group name or with mode
   },
 

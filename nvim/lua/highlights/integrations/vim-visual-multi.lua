@@ -1,4 +1,4 @@
-local colors = require "assets.colors"
+local colors = require "ui.assets.colors"
 
 return {
   -- vim-visual-multi

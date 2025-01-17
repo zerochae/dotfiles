@@ -1,4 +1,4 @@
-local colors = require "assets.colors"
+local colors = require "ui.assets.colors"
 
 return {
   Fugit2FloatTitle = { fg = colors.orange },

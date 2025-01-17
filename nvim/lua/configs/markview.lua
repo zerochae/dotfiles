@@ -4,7 +4,7 @@ if not present then
   return
 end
 
-local colors = require "assets.colors"
+local colors = require "ui.assets.colors"
 
 markview.setup {
   modes = { "n", "v" },
