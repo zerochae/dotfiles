@@ -1,5 +1,3 @@
-local colors = require "ui.assets.colors"
-
 return {
   -- vim-visual-multi
   VM_Mono = { link = "DiffText" },
