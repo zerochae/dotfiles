@@ -6,7 +6,7 @@ local M = {
 }
 
 local function merge(integration, orign_table)
-  return vim.tbl_extend("force", integration, orign_table)
+  return vim.tbl_deep_extend("force", integration, orign_table)
 end
 
 local ui = require "highlights.ui"

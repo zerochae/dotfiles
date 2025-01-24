@@ -36,4 +36,7 @@ navic.setup {
   },
   highlight = true,
   lsp = { auto_attach = true },
+  separator = " > ",
+  depth_limit = 1,
+  depth_limit_indicator = "..",
 }

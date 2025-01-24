@@ -1,30 +1,7 @@
-local function float_nvim_tree_view()
-  return {
-    float = {
-      enable = true,
-      open_win_config = function()
-        local ratio = 0.8
-        local rows = vim.opt.lines:get() - vim.opt.cmdheight:get()
-        local cols = vim.opt.columns:get()
-        local height = math.floor(rows * ratio)
-        local width = math.floor(cols * ratio)
-        local center_x = math.floor((cols - width) / 2)
-        local center_y = math.floor(((vim.opt.lines:get() - height) / 2) - vim.opt.cmdheight:get())
-
-        return {
-          relative = "editor",
-          border = "single",
-          width = width,
-          height = height,
-          row = center_y,
-          col = center_x,
-        }
-      end,
-    },
-  }
-end
+local utils = require "ui.nvim-tree.utils"
 
 return {
+  -- on_attach = on_attach,
   git = {
     enable = true,
   },
@@ -37,19 +14,7 @@ return {
   },
   view = {
     side = "left",
-    width = function()
-      local ratio = 0.25
-      local cols = vim.opt.columns:get()
-      local width = math.floor(cols * ratio)
-
-      local max_width = 35
-
-      if cols < 153 then
-        max_width = 30
-      end
-
-      return math.max(width, max_width)
-    end,
+    width = utils.dynamic_nvim_tree_width(),
   },
   sort = {
     sorter = "case_sensitive",

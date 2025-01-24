@@ -29,6 +29,10 @@ return {
 
     -- showkeys
     SkActive = { bg = colors.red, fg = colors.mode_fg },
+
+    -- nvimtree
+    NvimTreeWinSeparator = { fg = "#2d3139", bg = colors.none, link = "" },
+    NvimTreeOpenedHL = { fg = colors.blue },
   },
 
   add = {
@@ -74,10 +78,6 @@ return {
     DiffviewStatusAdded = { fg = colors.green },
     DiffviewFilePanelSelected = { fg = colors.white },
     DiffviewFilePanelFileName = { fg = colors.comment },
-
-    -- nvimtree
-    WinSeparator = { fg = colors.bg, bg = colors.none, link = "" },
-    NvimTreeOpenedHL = { fg = colors.blue },
 
     --noice
     NoiceCmdlinePopupBorder = { fg = colors.lime },

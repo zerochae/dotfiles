@@ -1,5 +1,6 @@
 local highlights = require "highlights"
 local statusline = require "ui.statusline.modules"
+local tabufline = require "ui.tabufline.modules"
 
 ---@type ChadrcConfig
 local config = {
@@ -19,7 +20,7 @@ local config = {
       style = "atom_colored", -- default/flat_light/flat_dark/atom/atom_colored
       abbr_maxwidth = 60,
       format_colors = {
-        tailwind = false, -- will work for css lsp too
+        tailwind = true, -- will work for css lsp too
         icon = "󱓻",
       },
     },
@@ -30,8 +31,22 @@ local config = {
       enabled = true,
       theme = "default", -- default/vscode/vscode_colored/minimal
       separator_style = "block",
-      order = { "mode", "filetype", "git", "%=", "navic", "qf", "%=", "diagnostics", "lsp", "cwd", "cursor" },
+      order = {
+        "tree_off_set",
+        "mode",
+        "filetype",
+        "git",
+        "%=",
+        "navic",
+        "qf",
+        "%=",
+        "diagnostics",
+        "lsp",
+        "cwd",
+        "cursor",
+      },
       modules = {
+        tree_off_set = statusline.tree_off_set,
         mode = statusline.mode,
         filetype = statusline.filetype,
         git = statusline.git,
@@ -39,7 +54,7 @@ local config = {
         diagnostics = statusline.diagnostics,
         lsp = statusline.lsp,
         cursor = statusline.cursor,
-        navic = statusline.get_location,
+        navic = statusline.get_location_v2,
         qf = statusline.qf,
       },
     },
@@ -47,9 +62,9 @@ local config = {
     tabufline = {
       enabled = true,
       lazyload = true,
-      order = { "buffers", "tabs" },
+      order = { "treeOffset", "buffers", "tabs" },
       modules = {
-        -- buffers = tabufline.buffers,
+        buffers = tabufline.buffers,
       },
       bufwidth = 21,
     },

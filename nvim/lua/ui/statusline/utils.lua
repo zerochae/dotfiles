@@ -95,7 +95,7 @@ end
 M.reduce_by_window_width = function(input)
   local colmns = vim.o.columns
   local depth_limit_indicator = "%#NavicDepthLimitIndicator#.."
-  local depth_limit = 4
+  local depth_limit = 3
   local input_length = #input
 
   if colmns > 180 then
@@ -103,11 +103,11 @@ M.reduce_by_window_width = function(input)
   end
 
   if colmns < 200 or input_length > 250 then
-    depth_limit = 3
+    depth_limit = 2
   end
 
   if colmns < 153 or input_length > 230 then
-    depth_limit = 2
+    depth_limit = 1
   end
 
   local parts = {}
@@ -128,7 +128,7 @@ M.reduce_by_window_width = function(input)
     table.insert(parts, 1, separator)
   end
   local result = table.concat(parts, ">")
-  return (separator .. "%#NavicSeparator#" .. ">" .. "%*" .. result) or input
+  return (separator .. "%#NavicSeparator#" .. ">" .. "%* " .. result) or input
 end
 
 M.remove_module_segment_in_vue = function(input)

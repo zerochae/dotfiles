@@ -1,5 +1,12 @@
 local M = {}
+local strep = string.rep
 local utils = require "ui.statusline.utils"
+local nvimtree_utils = require "ui.nvim-tree.utils"
+
+M.tree_off_set = function()
+  local w = nvimtree_utils.get_nvimtree_width()
+  return w == 0 and "" or "%#NvimTreeNormal#" .. strep(" ", w) .. "%#NvimTreeWinSeparator#" .. "│"
+end
 
 M.mode = function()
   local buf = vim.api.nvim_get_current_buf()
@@ -7,7 +14,7 @@ M.mode = function()
   local m = vim.api.nvim_get_mode().mode
 
   if not utils.is_activewin() then
-    return ""
+    return "%="
   end
 
   local specialMode = utils.get_special_mode(filetype)
@@ -74,7 +81,7 @@ end
 
 M.git = function()
   if not vim.b[utils.stbufnr()].gitsigns_head or vim.b[utils.stbufnr()].gitsigns_git_status then
-    return ""
+    return "%="
   end
 
   local git_status = vim.b[utils.stbufnr()].gitsigns_status_dict
@@ -84,7 +91,7 @@ M.git = function()
   local branch_name = git_status.head
 
   if branch_name == nil or branch_name == "" then
-    return ""
+    return "%="
   end
 
   return "  " .. icon_hl .. branch_icon .. " " .. text_hl .. branch_name .. " "
@@ -199,11 +206,67 @@ M.directory = function()
   return (separator .. folder_icon .. folder_text .. " ") or " "
 end
 
+M.get_location_v2 = function()
+  local function get_file_icon(ft_hi, ft_icon)
+    return "%#" .. ft_hi .. "# " .. ft_icon
+  end
+
+  local current_file = vim.fn.expand "%:t"
+
+  if not current_file then
+    return " "
+  end
+
+  local devicons_present, devicons = pcall(require, "nvim-web-devicons")
+
+  if not devicons_present then
+    return " "
+  end
+
+  local ft_icon, ft_hi = devicons.get_icon(current_file)
+
+  if not ft_icon or not ft_hi then
+    return " "
+  end
+
+  local file_icon = get_file_icon(ft_hi, ft_icon)
+
+  local navic_present, navic = pcall(require, "nvim-navic")
+
+  if not navic_present then
+    return " "
+  end
+
+  local location = navic.get_location()
+
+  if not location then
+    return " "
+  end
+
+  local nvimtree_width = nvimtree_utils.get_nvimtree_width()
+
+  location = utils.remove_module_segment_in_vue(location)
+  location = utils.remove_class_name(location)
+  location = utils.reduce_by_window_width(location)
+  location = utils.remove_quoted_strings(location)
+  location = utils.remove_callback_string(location)
+
+  if nvimtree_width ~= 0 then
+    return file_icon .. " %#NavicText#" .. current_file .. "%#NavicText#"
+  end
+
+  if #location ~= 0 then
+    return file_icon .. " %#NavicText#" .. current_file .. "%#NavicSeparator# > " .. location .. "%#NavicText#"
+  end
+
+  return file_icon .. " %#NavicText#" .. current_file .. "%#NavicText#"
+end
+
 M.get_location = function()
   local root = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
   local current_path = vim.fn.expand "%:.:h"
   local current_file = vim.fn.expand "%:t"
-  -- local folder_icon = "󰉋 "
+  local folder_icon = "󰉋 "
 
   if not current_file then
     return " "
@@ -252,13 +315,13 @@ M.get_location = function()
 
   -- local folder_format = "%#NavicFolderBlock# " .. folder_icon .. current_path .. " "
   -- if cols < 153 then
-  --   folder_format = "%#NavicFolderBlock# " .. folder_icon .. path_segments[#path_segments] .. " "
+  -- folder_format = "%#NavicFolderBlock# " .. folder_icon .. path_segments[#path_segments] .. " "
   -- end
 
-  -- local hi_separator = "%#St_LineAndColumn_Sep#" .. "█"
-  -- local hi_icon = "%#St_LineAndColumn_Icon#" .. folder_icon
-  -- local hi_text = "%#St_LineAndColumn_Text#" .. " " .. current_path
-  -- local folder_format = hi_separator .. hi_icon .. hi_text .. " "
+  local hi_separator = "%#St_LineAndColumn_Sep#" .. "█"
+  local hi_icon = "%#St_LineAndColumn_Icon#" .. folder_icon
+  local hi_text = "%#St_LineAndColumn_Text#" .. " " .. current_path
+  local folder_format = hi_separator .. hi_icon .. hi_text .. " "
 
   location = utils.remove_module_segment_in_vue(location)
   location = utils.remove_class_name(location)
@@ -267,11 +330,17 @@ M.get_location = function()
   location = utils.remove_callback_string(location)
 
   if string.len(location) ~= 0 then
-    -- return folder_format .. icon .. " %#NavicText#" .. current_file .. "%#NavicSeparator# > " .. location
+    -- return folder_format
+    --   .. icon
+    --   .. " %#NavicText#"
+    --   .. current_file
+    --   .. "%#NavicSeparator# > "
+    --   .. location
+    --   .. "%#NavicText#"
     return icon .. " %#NavicText#" .. current_file .. "%#NavicSeparator# > " .. location .. "%#NavicText#"
   else
     return icon .. " %#NavicText#" .. current_file .. "%#NavicText#"
-    -- return folder_format .. icon .. " %#NavicText#" .. current_file
+    -- return folder_format .. icon .. " %#NavicText#" .. current_file .. "%#NavicText#"
   end
 end
 

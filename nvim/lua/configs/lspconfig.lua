@@ -39,8 +39,23 @@ local servers = {
 
 local configs = {
   ts_ls = {
-    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-    cmd = { vim.fn.expand(mason_bin_path) .. "typescript-language-server", "--stdio" },
+    settings = {
+      cmd = { vim.fn.expand(mason_bin_path) .. "typescript-language-server", "--stdio" },
+    },
+    handlers = {
+      ["textDocument/definition"] = function(_, result)
+        local filtered_result = vim.tbl_filter(function(location)
+          local uri = location.uri or location.targetUri
+          return not string.match(uri, "%.yarn/") and not string.match(uri, "@types/")
+        end, result)
+
+        if vim.tbl_isempty(filtered_result) then
+          return
+        end
+
+        vim.lsp.util.jump_to_location(filtered_result[1])
+      end,
+    },
   },
   clangd = {
     cmd = {
@@ -65,9 +80,9 @@ local configs = {
       },
     },
   },
-  tailwindcss = {
-    filetypes = { "javascript", "typescrit", "javascriptreact", "typescriptreact" },
-  },
+  -- tailwindcss = {
+  --   filetypes = { "javascript", "typescrit", "javascriptreact", "typescriptreact" },
+  -- },
   bashls = {
     default_config = {
       filetypes = { "sh", "zsh", "bash" },
@@ -218,7 +233,7 @@ local nvlsp = require "nvchad.configs.lspconfig"
 
 for _, lsp in ipairs(servers) do
   local config = vim.deepcopy(configs[lsp] or {})
-  config.on_attach = nvlsp.on_attach
+  -- config.on_attach = nvlsp.on_attach
   config.on_init = nvlsp.on_init
   config.capabilities = nvlsp.capabilities
   config.root_dir = util.root_pattern ".git"

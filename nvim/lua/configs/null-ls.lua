@@ -300,6 +300,16 @@ Properties.dynamic_command = {
   eslint_yarn_pnp = require("null-ls.helpers.command_resolver").from_yarn_pnp(),
 }
 
+local function eslint_config_path()
+  local root_has_config = vim.fn.filereadable(vim.fn.getcwd() .. "/eslint.config.mjs") == 1
+
+  if root_has_config then
+    return {}
+  else
+    return { "--config", vim.fn.expand "$HOME/.config/yarn/global/eslint.config.mjs" }
+  end
+end
+
 local condition = Properties.condition
 local filter = Properties.filter
 local file_type = Properties.file_type
@@ -323,6 +333,7 @@ Configs.eslint_config = {
   filter = filter.eslint,
   cwd = cwd.eslint,
   dynamic_command = dynamic_command.eslint,
+  extra_args = eslint_config_path(),
 }
 
 Configs.prettier_config_yarn_pnp = {
@@ -339,6 +350,7 @@ Configs.eslint_config_yarn_pnp = {
   dynamic_command = dynamic_command.eslint_yarn_pnp,
   cwd = cwd.eslint,
   filter = filter.eslint,
+  extra_args = eslint_config_path(),
 }
 
 Configs.selene_config = {
@@ -505,5 +517,5 @@ null_ls.setup {
     -- xml
     formatting.xmlformat,
   },
-  debug = false,
+  debug = true,
 }

@@ -15,6 +15,11 @@ return {
   --   },
   -- },
   {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = require "configs.indent-blankline",
+  },
+  {
     "stevearc/quicker.nvim",
     ft = "qf",
     ---@module "quicker"

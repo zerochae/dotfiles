@@ -48,18 +48,6 @@ filetype.add {
   },
 }
 
--- lsp
-local lsp = vim.lsp
-
-local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-
-function lsp.util.open_floating_preview(contents, syntax, opts, ...)
-  opts = opts or {}
-  opts.border = opts.border or "single"
-  opts.max_width = opts.max_width or 80
-  return orig_util_open_floating_preview(contents, syntax, opts, ...)
-end
-
 -- navic
 vim.g.navic_silence = true
 vim.b.navic_lazy_update_context = true
@@ -67,9 +55,6 @@ vim.b.navic_lazy_update_context = true
 -- auto_cmd
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
-local call_function = vim.api.nvim_call_function
-local win_get_buf = vim.api.nvim_win_get_buf
-local buf_get_option = vim.api.nvim_buf_get_option
 
 autocmd("FileType", {
   pattern = "qf",
@@ -95,42 +80,32 @@ autocmd("FileType", {
 autocmd({ "VimResized" }, {
   group = augroup("NvimTreeResize", { clear = true }),
   callback = function()
-    local api_present, tree_api = pcall(require, "nvim-tree.api")
     local view_present, tree_view = pcall(require, "nvim-tree.view")
 
-    if not api_present then
+    if not view_present or not (view_present and tree_view.is_visible()) then
       return
     end
 
-    if not view_present then
-      return
-    end
+    local width = require("ui.nvim-tree.utils").dynamic_nvim_tree_width()
 
-    local is_visible = tree_view.is_visible()
-
-    if not is_visible then
-      return
-    end
-
-    tree_view.close()
-    tree_api.tree.toggle { focus = false }
+    vim.cmd("tabdo NvimTreeResize " .. width)
   end,
 })
 
-autocmd("BufEnter", {
-  group = augroup("NvimTreeClose", { clear = true }),
-  pattern = "NvimTree_*",
-  callback = function()
-    local layout = call_function("winlayout", {})
-    if
-      layout[1] == "leaf"
-      and buf_get_option(win_get_buf(layout[2]), "filetype") == "NvimTree"
-      and layout[3] == nil
-    then
-      vim.cmd "confirm quit"
-    end
-  end,
-})
+-- autocmd("BufEnter", {
+--   group = augroup("NvimTreeClose", { clear = true }),
+--   pattern = "NvimTree_*",
+--   callback = function()
+--     local layout = call_function("winlayout", {})
+--     if
+--       layout[1] == "leaf"
+--       and buf_get_option(win_get_buf(layout[2]), "filetype") == "NvimTree"
+--       and layout[3] == nil
+--     then
+--       vim.cmd "confirm quit"
+--     end
+--   end,
+-- })
 
 autocmd({ "FileType" }, {
   pattern = "xhtml",

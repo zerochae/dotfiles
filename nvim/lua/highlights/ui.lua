@@ -37,6 +37,9 @@ return {
     TbLineBufOffModified = { fg = colors.comment, bg = colors.bg_tab_off },
     TbLineBufOffClose = { fg = colors.comment, bg = colors.bg_tab_off },
     TblineFill = { bg = colors.bg_tab_off },
+    TbBufOn = { bg = "#2d3139" },
+    TbBufOnClose = { bg = "#2d3139" },
+    TbBufOnModified = { bg = "#2d3139" },
 
     -- cmp
     CmpItemAbbr = { fg = colors.white, italic = true },
