@@ -9,7 +9,7 @@ return {
     IncSearch = { bg = colors.green, fg = colors.black, bold = true, italic = true },
     Substitute = { bg = colors.blue, fg = colors.black, bold = true },
     MatchParen = { bg = colors.none, fg = colors.grape, link = "", bold = true },
-    FloatBorder = { fg = colors.border },
+    FloatBorder = { fg = colors.float_border },
     LazyGitBorder = { fg = colors.border },
 
     -- statusline
@@ -45,7 +45,7 @@ return {
     CmpItemAbbr = { fg = colors.white, italic = true },
     CmpItemAbbrMatch = { fg = colors.blue, bold = true, italic = true },
     CmpDoc = { bg = colors.none },
-    CmpDocBorder = { fg = colors.darker_black, bg = colors.none },
+    CmpDocBorder = { fg = colors.float_border, bg = colors.none },
     CmpPmenu = { bg = colors.none },
     CmpSel = { link = "PmenuSel", bg = colors.blue, fg = colors.blue, bold = true, italic = true },
 

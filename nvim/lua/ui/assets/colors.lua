@@ -7,6 +7,7 @@ return {
   mode_fg = "#1e222a",
 
   border = "#282c34",
+  float_border = "#a0add0",
   code_block_bg = "#252931",
 
   -- default colors

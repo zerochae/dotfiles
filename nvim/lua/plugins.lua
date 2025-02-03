@@ -1,3 +1,4 @@
+---@type LazySpec
 return {
   -- {
   --   "zerochae/i18n.nvim",
@@ -119,8 +120,26 @@ return {
     end,
   },
   {
+    "zerochae/branch.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+    cmd = "Branch",
+
+    config = function()
+      require("branch").setup {}
+    end,
+  },
+
+  {
     "zerochae/telescope-spring.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
+    cmd = {
+      "SpringGetMapping",
+      "SpringPostMapping",
+      "SpringPutMapping",
+      "SpringDeleteMapping",
+    },
     config = function()
       require("spring").setup()
     end,
@@ -216,7 +235,7 @@ return {
     },
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     event = "LspAttach",
     config = function()
       require "configs.null-ls"
@@ -325,5 +344,9 @@ return {
     config = function()
       require "configs.lspconfig"
     end,
+  },
+  {
+    "stevearc/conform.nvim",
+    enabled = false,
   },
 }

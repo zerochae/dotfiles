@@ -2,6 +2,20 @@ local M = {}
 local strep = string.rep
 local utils = require "ui.statusline.utils"
 local nvimtree_utils = require "ui.nvim-tree.utils"
+---@class NvTabLineConfig
+local opts = nil
+
+local function set_opts()
+  if opts then
+    return opts
+  end
+
+  vim.defer_fn(function()
+    opts = require("nvconfig").ui.statusline
+  end, 0)
+end
+
+set_opts()
 
 M.tree_off_set = function()
   local w = nvimtree_utils.get_nvimtree_width()

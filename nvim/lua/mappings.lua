@@ -205,10 +205,7 @@ map("n", "<leader>ca", "<ESC><CMD>Lspsaga code_action<CR>", { desc = "LSP code a
 map("n", "<leader>gn", "<ESC><CMD>Lspsaga diagnostic_jump_next<CR>", { desc = "LSP code action", nowait = true })
 map("n", "<leader>rr", "<CMD>Lspsaga rename<CR>", { desc = "LSP rename", nowait = true })
 map("n", "F", "<ESC><CMD>Lspsaga finder<CR>", { desc = "LSP code Finder", nowait = true })
-map("n", "K", function()
-  vim.lsp.buf.hover()
-end, { desc = "hover doc", nowait = true })
--- map("n", "K", "<ESC><CMD>Lspsaga hover_doc<CR>", { desc = "hover doc", nowait = true })
+map("n", "K", "<ESC><CMD>Lspsaga hover_doc<CR>", { desc = "hover doc", nowait = true })
 map("n", "<leader>lo", "<ESC><CMD>Lspsaga outline<CR>", { desc = "LSP outline", nowait = true })
 map("n", "gd", "<ESC><CMD>Lspsaga goto_definition<CR>", { desc = "LSP goto definition", nowait = true, noremap = true })
 

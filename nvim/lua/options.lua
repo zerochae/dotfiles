@@ -56,10 +56,32 @@ vim.b.navic_lazy_update_context = true
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 
+autocmd({ "VimResized" }, {
+  group = augroup("NvimTreeResize", { clear = true }),
+  callback = function()
+    local view_present, tree_view = pcall(require, "nvim-tree.view")
+
+    if not view_present or not (view_present and tree_view.is_visible()) then
+      return
+    end
+
+    local width = require("ui.nvim-tree.utils").dynamic_nvim_tree_width()
+
+    vim.cmd("tabdo NvimTreeResize " .. width)
+  end,
+})
+
 autocmd("FileType", {
   pattern = "qf",
   callback = function()
     vim.wo.statusline = "%!v:lua.require('nvchad.stl.default')()"
+  end,
+})
+
+autocmd("FileType", {
+  pattern = "zsh",
+  callback = function()
+    vim.cmd "set filetype=sh"
   end,
 })
 
@@ -77,79 +99,67 @@ autocmd("FileType", {
   end,
 })
 
-autocmd({ "VimResized" }, {
-  group = augroup("NvimTreeResize", { clear = true }),
-  callback = function()
-    local view_present, tree_view = pcall(require, "nvim-tree.view")
-
-    if not view_present or not (view_present and tree_view.is_visible()) then
-      return
-    end
-
-    local width = require("ui.nvim-tree.utils").dynamic_nvim_tree_width()
-
-    vim.cmd("tabdo NvimTreeResize " .. width)
-  end,
-})
-
--- autocmd("BufEnter", {
---   group = augroup("NvimTreeClose", { clear = true }),
---   pattern = "NvimTree_*",
---   callback = function()
---     local layout = call_function("winlayout", {})
---     if
---       layout[1] == "leaf"
---       and buf_get_option(win_get_buf(layout[2]), "filetype") == "NvimTree"
---       and layout[3] == nil
---     then
---       vim.cmd "confirm quit"
---     end
---   end,
--- })
-
 autocmd({ "FileType" }, {
   pattern = "xhtml",
-  command = "set filetype=html",
+  callback = function()
+    vim.cmd "set filetype=html"
+  end,
 })
 
 autocmd("VimResized", {
   pattern = "*",
-  command = "tabdo wincmd =",
+  callback = function()
+    vim.cmd "tabdo wincmd ="
+  end,
 })
 
 autocmd("FileType", {
   pattern = "mysql",
-  command = "set filetype=sql",
+  callback = function()
+    vim.cmd "set filetype=sql"
+  end,
 })
 
 autocmd("FileType", {
   pattern = "sql",
-  command = "set encoding=utf-8",
+  callback = function()
+    vim.cmd "set encoding=utf-8"
+  end,
 })
 
 autocmd("FileType", {
   pattern = "sql",
-  command = "set fileencodings=utf-8,cp949",
+  callback = function()
+    vim.cmd "set fileencodings=utf-8,cp949"
+  end,
 })
 
 autocmd("FileType", {
   pattern = "sql",
-  command = "setlocal omnifunc=vim_dadbod_completion#omni",
+  callback = function()
+    vim.cmd "setlocal omnifunc=vim_dadbod_completion#omni"
+  end,
 })
 
 autocmd("FileType", {
   pattern = "sql",
-  command = "lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })",
+  callback = function()
+    require("cmp").setup.buffer { sources = { { name = "vim-dadbod-completion" } } }
+  end,
 })
 
 autocmd("FileType", {
   pattern = "rust",
-  command = "lua require('rust-tools').inlay_hints.set()",
+  callback = function()
+    require("rust-tools").inlay_hints.set()
+  end,
 })
 
 autocmd("fileType", {
   pattern = { "*.env", "*.env.*", "md" },
-  command = "lua vim.diagnostic.disable(0)",
+  callback = function()
+    vim.diagnostic.disable(0)
+  end,
 })
 
 -- new_cmd

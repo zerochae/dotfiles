@@ -428,29 +428,32 @@ null_ls.setup {
   end,
   sources = {
     -- common
-    diagnostics.misspell.with(Configs.misspell_config),
+    -- diagnostics.misspell.with(Configs.misspell_config),
 
     -- lua
     formatting.stylua.with(Configs.stylua_config),
     diagnostics.selene.with(Configs.selene_config),
 
     -- typescript
-    formatting.prettier.with(Configs.prettier_config),
-    diagnostics.eslint.with(Configs.eslint_config),
-    formatting.prettier.with(Configs.prettier_config_yarn_pnp),
-    diagnostics.eslint.with(Configs.eslint_config_yarn_pnp),
+    -- formatting.prettier.with(Configs.prettier_config),
+    -- diagnostics.eslint.with(Configs.eslint_config),
+    -- formatting.prettier.with(Configs.prettier_config_yarn_pnp),
+    -- diagnostics.eslint.with(Configs.eslint_config_yarn_pnp),
+    formatting.biome.with {
+      extra_args = { "--config-path", vim.fn.expand "$HOME/Dev/config/biome/biome.json" },
+    },
 
     -- css
     diagnostics.stylelint.with(Configs.stylelint_config),
 
     -- rust
-    formatting.rustfmt.with(Configs.rustfmt_config),
+    -- formatting.rustfmt.with(Configs.rustfmt_config),
 
     -- sh
-    formatting.beautysh,
+    formatting.shfmt,
     hover.printenv,
     -- diagnostics.shellcheck,
-    code_actions.shellcheck,
+    -- code_actions.shellcheck,
 
     -- markdown
     -- diagnostics.markdownlint,
@@ -473,7 +476,7 @@ null_ls.setup {
     formatting.sql_formatter.with(Configs.sql_formatter_config),
 
     -- toml
-    formatting.taplo.with(Configs.taplo_config),
+    -- formatting.taplo.with(Configs.taplo_config),
 
     -- java
     formatting.clang_format.with(Configs.clang_format_config),
@@ -494,7 +497,7 @@ null_ls.setup {
     },
 
     -- python
-    diagnostics.ruff,
+    -- diagnostics.ruff,
     formatting.black,
 
     --swift
@@ -515,7 +518,7 @@ null_ls.setup {
     diagnostics.vint,
 
     -- xml
-    formatting.xmlformat,
+    -- formatting.xmlformat,
   },
   debug = true,
 }

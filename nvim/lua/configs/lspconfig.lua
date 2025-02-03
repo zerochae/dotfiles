@@ -30,6 +30,7 @@ local servers = {
   "perlnavigator",
   "terraformls",
   "vimls",
+  "biome",
   "lemminx",
   -- "rust_analyzer",
   -- "clangd",
@@ -84,9 +85,7 @@ local configs = {
   --   filetypes = { "javascript", "typescrit", "javascriptreact", "typescriptreact" },
   -- },
   bashls = {
-    default_config = {
-      filetypes = { "sh", "zsh", "bash" },
-    },
+    filetypes = { "sh", "zsh", "bash" },
   },
   vuels = {
     init_options = {
