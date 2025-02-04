@@ -142,6 +142,10 @@ map("n", "<leader>fw", function()
   }
 end, { desc = "Live grep" })
 
+map("n", "<leader>br", function()
+  vim.cmd "Branch"
+end, { desc = "Help page" })
+
 map("n", "<leader>fh", function()
   require("telescope.builtin").help_tags {
     preview_title = " Preview",

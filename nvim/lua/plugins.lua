@@ -82,7 +82,7 @@ return {
   },
   {
     "OXY2DEV/markview.nvim",
-    ft = "markdown",
+    lazy = false,
     config = function()
       require "configs.markview"
     end,
@@ -235,7 +235,7 @@ return {
     },
   },
   {
-    "nvimtools/none-ls.nvim",
+    "jose-elias-alvarez/null-ls.nvim",
     event = "LspAttach",
     config = function()
       require "configs.null-ls"

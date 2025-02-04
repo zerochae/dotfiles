@@ -79,13 +79,6 @@ autocmd("FileType", {
 })
 
 autocmd("FileType", {
-  pattern = "zsh",
-  callback = function()
-    vim.cmd "set filetype=sh"
-  end,
-})
-
-autocmd("FileType", {
   pattern = "tfpl",
   callback = function()
     vim.cmd "set filetype=yaml"

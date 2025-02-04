@@ -435,13 +435,13 @@ null_ls.setup {
     diagnostics.selene.with(Configs.selene_config),
 
     -- typescript
-    -- formatting.prettier.with(Configs.prettier_config),
+    formatting.prettier.with(Configs.prettier_config),
     -- diagnostics.eslint.with(Configs.eslint_config),
-    -- formatting.prettier.with(Configs.prettier_config_yarn_pnp),
+    formatting.prettier.with(Configs.prettier_config_yarn_pnp),
     -- diagnostics.eslint.with(Configs.eslint_config_yarn_pnp),
-    formatting.biome.with {
-      extra_args = { "--config-path", vim.fn.expand "$HOME/Dev/config/biome/biome.json" },
-    },
+    -- formatting.biome.with {
+    --   extra_args = { "--config-path", vim.fn.expand "$HOME/Dev/config/biome/biome.json" },
+    -- },
 
     -- css
     diagnostics.stylelint.with(Configs.stylelint_config),
@@ -480,6 +480,7 @@ null_ls.setup {
 
     -- java
     formatting.clang_format.with(Configs.clang_format_config),
+    -- formatting.google_java_format,
 
     -- docker
     diagnostics.hadolint,
