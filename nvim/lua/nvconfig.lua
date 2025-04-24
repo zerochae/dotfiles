@@ -32,10 +32,11 @@ local config = {
       theme = "default", -- default/vscode/vscode_colored/minimal
       separator_style = "block",
       order = {
-        "tree_off_set",
+        -- "tree_off_set",
         "mode",
         "filetype",
-        "git",
+        "git_branch",
+        "git_diff",
         "%=",
         "navic",
         "qf",
@@ -49,7 +50,8 @@ local config = {
         tree_off_set = statusline.tree_off_set,
         mode = statusline.mode,
         filetype = statusline.filetype,
-        git = statusline.git,
+        git_branch = statusline.git_branch,
+        git_diff = statusline.git_diff,
         lsp_loader = statusline.lsp_loader,
         diagnostics = statusline.diagnostics,
         lsp = statusline.lsp,
@@ -72,7 +74,7 @@ local config = {
 
   nvdash = {
     load_on_startup = true,
-    header = require("ui.assets.ascii.neovim").n,
+    header = require("ui.assets.ascii.neovim").minial,
     buttons = {
       { txt = "  Find File", keys = "ff", cmd = "Telescope find_files" },
       { txt = "  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },

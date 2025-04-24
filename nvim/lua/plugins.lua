@@ -15,6 +15,23 @@ return {
   --     auto_enable = true,
   --   },
   -- },
+  -- {
+  --   "chrisgrieser/nvim-lsp-endhints",
+  --   event = "LspAttach",
+  --   opts = {}, -- required, even if empty
+  -- },
+  -- {
+  --   "gorbit99/codewindow.nvim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require("codewindow").setup {
+  --       auto_enable = true,
+  --       window_border = "none",
+  --       minimap_width = 14,
+  --       screen_bounds = "background",
+  --     }
+  --   end,
+  -- },
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
@@ -78,13 +95,6 @@ return {
     },
     config = function()
       require "configs.helpview"
-    end,
-  },
-  {
-    "OXY2DEV/markview.nvim",
-    lazy = false,
-    config = function()
-      require "configs.markview"
     end,
   },
   {
@@ -237,6 +247,7 @@ return {
   {
     "jose-elias-alvarez/null-ls.nvim",
     event = "LspAttach",
+    branch = "gray",
     config = function()
       require "configs.null-ls"
     end,
@@ -296,6 +307,12 @@ return {
     opts = require "configs.treesitter",
     dependencies = {
       "nvim-treesitter/playground",
+      {
+        "OXY2DEV/markview.nvim",
+        config = function()
+          require "configs.markview"
+        end,
+      },
     },
   },
   {

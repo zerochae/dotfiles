@@ -93,7 +93,7 @@ M.filetype = function()
   return empty
 end
 
-M.git = function()
+M.git_branch = function()
   if not vim.b[utils.stbufnr()].gitsigns_head or vim.b[utils.stbufnr()].gitsigns_git_status then
     return "%="
   end
@@ -109,6 +109,36 @@ M.git = function()
   end
 
   return "  " .. icon_hl .. branch_icon .. " " .. text_hl .. branch_name .. " "
+end
+
+M.git_diff = function()
+  local git_status = vim.b[utils.stbufnr()].gitsigns_status_dict
+  if not git_status then
+    return ""
+  end
+
+  local git_icon = {
+    add = "",
+    change = "",
+    delete = "",
+  }
+
+  local parts = {}
+  if git_status.added and git_status.added > 0 then
+    table.insert(parts, string.format("%%#GitSignsAdd#%s %d", git_icon.add, git_status.added))
+  end
+  if git_status.changed and git_status.changed > 0 then
+    table.insert(parts, string.format("%%#GitSignsChange#%s %d", git_icon.change, git_status.changed))
+  end
+  if git_status.removed and git_status.removed > 0 then
+    table.insert(parts, string.format("%%#GitSignsDelete#%s %d", git_icon.delete, git_status.removed))
+  end
+
+  if #parts == 0 then
+    return ""
+  end
+
+  return "%*[" .. table.concat(parts, " ") .. "%*]"
 end
 
 M.diagnostics = function()
@@ -148,7 +178,7 @@ M.lsp = function()
     return ""
   end
 
-  local clients = vim.lsp.get_active_clients()
+  local clients = vim.lsp.get_clients()
 
   for _, client in ipairs(clients) do
     local current_buf = vim.api.nvim_get_current_buf()

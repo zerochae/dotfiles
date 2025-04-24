@@ -8,7 +8,7 @@ local mason_bin_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/bin/")
 
 local servers = {
   "lua_ls",
-  "vuels",
+  -- "vuels",
   "html",
   "cssls",
   "ts_ls",
@@ -30,7 +30,9 @@ local servers = {
   "perlnavigator",
   "terraformls",
   "vimls",
-  "biome",
+  -- "marksman",
+  -- "mdx_analyzer",
+  -- "biome",
   "lemminx",
   -- "rust_analyzer",
   -- "clangd",
@@ -40,8 +42,45 @@ local servers = {
 
 local configs = {
   ts_ls = {
+    init_options = {
+      plugins = {
+        {
+          name = "@vue/typescript-plugin",
+          location = vim.fn.expand "$CONFIG/yarn/global/node_modules/@vue/typescript-plugin",
+          languages = { "javascript", "typescript", "vue" },
+        },
+      },
+    },
+    -- filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact" },
+    filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+    completions = {
+      completeFunctionCalls = false,
+    },
     settings = {
       cmd = { vim.fn.expand(mason_bin_path) .. "typescript-language-server", "--stdio" },
+      javascript = {
+        inlayHints = {
+          includeInlayEnumMemberValueHints = true,
+          -- includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayVariableTypeHints = true,
+        },
+      },
+
+      typescript = {
+        inlayHints = {
+          includeInlayEnumMemberValueHints = true,
+          -- includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayVariableTypeHints = true,
+        },
+      },
     },
     handlers = {
       ["textDocument/definition"] = function(_, result)
@@ -54,7 +93,7 @@ local configs = {
           return
         end
 
-        vim.lsp.util.jump_to_location(filtered_result[1])
+        vim.lsp.util.show_document(filtered_result[1])
       end,
     },
   },
@@ -71,6 +110,9 @@ local configs = {
   lua_ls = {
     settings = {
       Lua = {
+        hint = {
+          enable = true,
+        },
         workspace = {
           checkThirdParty = false,
           library = vim.api.nvim_get_runtime_file("", true),
@@ -81,13 +123,35 @@ local configs = {
       },
     },
   },
-  -- tailwindcss = {
-  --   filetypes = { "javascript", "typescrit", "javascriptreact", "typescriptreact" },
-  -- },
+  tailwindcss = {
+    filetypes = { "javascript", "typescrit", "javascriptreact", "typescriptreact" },
+  },
   bashls = {
     filetypes = { "sh", "zsh", "bash" },
   },
   vuels = {
+    settings = {
+      -- javascript = {
+      --   inlayHints = {
+      --     enumMemberValues = {
+      --       enabled = true,
+      --     },
+      --     functionLikeReturnTypes = {
+      --       enabled = true,
+      --     },
+      --     propertyDeclarationTypes = {
+      --       enabled = true,
+      --     },
+      --     parameterTypes = {
+      --       enabled = true,
+      --       suppressWhenArgumentMatchesName = true,
+      --     },
+      --     variableTypes = {
+      --       enabled = true,
+      --     },
+      --   },
+      -- },
+    },
     init_options = {
       config = {
         css = {},
@@ -151,6 +215,15 @@ local configs = {
   gopls = {
     settings = {
       gopls = {
+        hints = {
+          rangeVariableTypes = true,
+          parameterNames = true,
+          constantValues = true,
+          assignVariableTypes = true,
+          compositeLiteralFields = true,
+          compositeLiteralTypes = true,
+          functionTypeParameters = true,
+        },
         gofumpt = true,
       },
     },
@@ -236,6 +309,11 @@ for _, lsp in ipairs(servers) do
   config.on_init = nvlsp.on_init
   config.capabilities = nvlsp.capabilities
   config.root_dir = util.root_pattern ".git"
-
+  config.on_attach = function(client)
+    client.server_capabilities.semanticTokensProvider = nil
+    if client.server_capabilities.inlayHintProvider and not vim.lsp.inlay_hint.is_enabled() then
+      vim.lsp.inlay_hint.enable(true)
+    end
+  end
   lspconfig[lsp].setup(config)
 end

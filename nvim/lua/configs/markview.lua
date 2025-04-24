@@ -3,6 +3,7 @@ local present, markview = pcall(require, "markview")
 if not present then
   return
 end
+
 ---@param group string New highlight group.
 ---@return { [string]: { hl: string } } New configuration.
 local function generic_hl(group)

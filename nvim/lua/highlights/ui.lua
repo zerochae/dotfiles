@@ -50,8 +50,8 @@ return {
     CmpSel = { link = "PmenuSel", bg = colors.blue, fg = colors.blue, bold = true, italic = true },
 
     -- statusline
-    StatusLine = { bg = colors.bg, fg = colors.none },
-    StatusLineNC = { bg = colors.bg, fg = colors.none },
+    StatusLine = { bg = colors.none, fg = colors.none },
+    StatusLineNC = { bg = colors.none, fg = colors.none },
   },
   add = {
     -- default
@@ -100,9 +100,5 @@ return {
 
     --tabline
     TbLinePadding = { bg = colors.bg, fg = colors.red },
-
-    -- statusline
-    StatusLine = { bg = colors.bg, fg = colors.none },
-    StatusLineNC = { bg = colors.bg, fg = colors.none },
   },
 }

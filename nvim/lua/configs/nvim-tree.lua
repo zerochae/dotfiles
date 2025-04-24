@@ -89,4 +89,15 @@ return {
     enable = true,
     auto_open = true,
   },
+  actions = {
+    file_popup = {
+      open_win_config = {
+        col = 1,
+        row = 1,
+        relative = "cursor",
+        border = "rounded",
+        style = "minimal",
+      },
+    },
+  },
 }

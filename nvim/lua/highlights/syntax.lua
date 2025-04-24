@@ -13,6 +13,7 @@ return {
     ["@punctuation.delimiter"] = { fg = colors.cyan },
     Conditional = { fg = colors.plum },
     Repeat = { fg = colors.tangerine },
+    -- LspInlayHint = { link = "Comment" },
   },
 
   add = {
@@ -55,6 +56,7 @@ return {
     ["@tag.html"] = { fg = colors.red },
 
     ["@tag.builtin.tsx"] = { fg = colors.red },
+    ["@tag.builtin.javascript"] = { fg = colors.red },
 
     ["@constructor.tsx"] = { fg = colors.red, link = "" },
     ["@constructor.vue"] = { fg = colors.red, link = "" },

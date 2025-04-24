@@ -199,8 +199,8 @@ format = '\(:[$state( $progress_current/$progress_total)]($style)\)'
 # without bracket
 format = '( [$all_status$ahead_behind]($style)) '
 conflicted = ' '
-ahead = '﯁ '
-behind = '﮾ '
+ahead = '󰛃 '
+behind = '󰛀 '
 diverged = ' '
 untracked = ' '
 stashed = ' '
@@ -234,8 +234,7 @@ format = '[$symbol]($style)'
 style = "#42A5F5"
 
 [python]
-# symbol = " "
-symbol = " "
+symbol = " "
 format = '[$symbol]($style)'
 style = "#3776AB"
 #

@@ -81,6 +81,9 @@ return {
     NvimTreeIndentMarker = { fg = colors.border },
     NvimTreeWinSeparator = { fg = "#2d3139", bg = colors.none, link = "" },
     NvimTreeOpenedHL = { fg = colors.blue },
+
+    -- helpview
+    HelpviewCode = { bg = colors.bg2 },
   },
 
   add = {
@@ -293,5 +296,29 @@ return {
     -- BqfPreviewBufLabel = {},
     -- BqfSign = {},
     qfLineNr = { fg = colors.yellow },
+
+    -- helpview
+    HelpviewPalette0 = { bg = colors.cyan, fg = colors.black },
+    HelpviewPalette1 = { bg = colors.red, fg = colors.black },
+    HelpviewPalette2 = { bg = colors.orange, fg = colors.black },
+    HelpviewPalette3 = { bg = colors.yellow, fg = colors.black },
+    HelpviewPalette4 = { bg = colors.green, fg = colors.black },
+    -- HelpviewPalette5 = { bg = colors.blue, fg = colors.black },
+    HelpviewPalette6 = { bg = colors.magenta, fg = colors.black },
+    HelpviewPalette0Sign = { fg = colors.cyan },
+    HelpviewPalette1Sign = { fg = colors.red },
+    HelpviewPalette2Sign = { fg = colors.orange },
+    HelpviewPalette3Sign = { fg = colors.yellow },
+    HelpviewPalette4Sign = { fg = colors.green },
+    HelpviewPalette5Sign = { fg = colors.blue },
+    HelpviewPalette6Sign = { fg = colors.magenta },
+    HelpviewPalette7Sign = { fg = colors.tangerine },
+    HelpviewIcon0 = { fg = colors.cyan },
+    HelpviewIcon1 = { fg = colors.red },
+    HelpviewIcon2 = { fg = colors.orange },
+    HelpviewIcon3 = { fg = colors.yellow },
+    HelpviewIcon4 = { fg = colors.green },
+    HelpviewIcon5 = { fg = colors.blue },
+    HelpviewIcon6 = { fg = colors.magenta },
   },
 }

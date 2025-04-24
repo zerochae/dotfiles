@@ -198,6 +198,7 @@ noice.setup {
           { find = "No matching notification found to replace" },
           { find = "Already at oldest change" },
           { find = "Already at newest change" },
+          { find = "is deprecated" },
         },
       },
       opts = { skip = true },

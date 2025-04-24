@@ -258,6 +258,16 @@ local file = {
     name = "PostcssConfigMjs",
     color = "#D3483E",
   },
+  ["panda.config.ts"] = {
+    icon = "🐼",
+    name = "PandaConfigTs",
+    color = "#fde047",
+  },
+  ["panda.config.mjs"] = {
+    icon = "🐼",
+    name = "PandaConfigMjs",
+    color = "#fde047",
+  },
   ["*.stroy.tsx"] = {
     icon = "",
     name = "Story",
@@ -351,6 +361,11 @@ local file = {
 }
 
 local folder = {
+  panda = {
+    icon = "🐼",
+    name = "PandaFolder",
+    color = "#fde047",
+  },
   config = {
     icon = "",
     name = "ConfigFolder",

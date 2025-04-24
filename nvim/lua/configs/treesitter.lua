@@ -1,11 +1,18 @@
 vim.treesitter.language.register("bash", "dotenv")
-vim.treesitter.language.register("mdx", "markdown")
+vim.treesitter.language.register("markdown", "mdx")
 
 local ft_to_lang = require("nvim-treesitter.parsers").ft_to_lang
 
 require("nvim-treesitter.parsers").ft_to_lang = function(ft)
   if ft == "zsh" then
     return "bash"
+  end
+  return ft_to_lang(ft)
+end
+
+require("nvim-treesitter.parsers").ft_to_lang = function(ft)
+  if ft == "handlebars" then
+    return "tsx"
   end
   return ft_to_lang(ft)
 end

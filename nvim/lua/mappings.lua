@@ -34,9 +34,15 @@ map("n", "<leader>jj", "<ESC><CMD>HopPattern<CR>", { desc = "search word use pat
 -- Gitsigns
 map(
   "n",
-  "<leader>gcb",
+  "<leader>cb",
   "<ESC><CMD>Gitsigns toggle_current_line_blame<CR>",
-  { desc = "toggle git blame line", nowait = true }
+  { desc = "toggle git blame line (virtual text)", nowait = true, noremap = true }
+)
+map(
+  "n",
+  "<leader>bl",
+  "<ESC><CMD>Gitsigns blame_line<CR>",
+  { desc = "git blame line (popup)", nowait = true, noremap = true }
 )
 
 -- DB UI
@@ -218,7 +224,12 @@ map("n", ":", "<ESC>:", { desc = "command", noremap = true, nowait = true })
 map("n", "<Esc>", "<CMD>noh<CR>", { desc = "Clear highlights", noremap = true, nowait = true })
 map("n", ";", ":", { desc = "enter command mode", nowait = true })
 map("n", "<leader><tab>", "<ESC><CMD>tabn<CR>", { desc = "move next tab", nowait = true })
-map("n", "<leader>fm", "<CMD>LspFormat<CR>", { desc = "LSP formatting" })
+map("n", "<leader>fm", function()
+  vim.lsp.buf.format()
+end, { desc = "LSP formatting" })
 map("n", "<leader>tc", "<CMD>tabclose<CR>", { desc = "tab close" })
 map("n", "<leader>tabnew", "<CMD>tabnew<CR>", { desc = "tab new" })
 map("n", "W", "w", { desc = "save", noremap = true })
+map("n", "<leader>th", function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end, { desc = "Toggle inlay hints", noremap = true })
