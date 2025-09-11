@@ -1,0 +1,234 @@
+[user]
+name = 
+email = 
+
+[alias]
+alias-common = "!#----------------------------------------------------------;\n\
+  git alias | head -7"
+dev = "!# Switch branch develop;\n\
+  f() { git switch develop; }; f"
+base = "!# Switch branch base;\n\
+  f() { git switch base; }; f"
+sw = switch
+s = status -s
+ci = commit
+co = checkout
+re = "!# restore all;\n\
+  git restore -- ."
+clear = "!# restore all;\n\
+  f() { git checkout -- . && git clean -fd; }; f"
+alias-commit-message = "!#----------------------------------------------------------;\n\
+  git alias | egrep 'commit-msg'"
+feat = "!# commit-msg: Introduce new features.;\n\
+  f() { git commit -m \"✨ Feat: $@\"; }; f"
+deploy = "!# commit-msg: Deploy Project.;\n\
+  f() { git commit -m \"🚀 Deploy: $@\"; }; f"
+fix = "!# commit-msg: Fix a bug.;\n\
+  f() { git commit -m \"🐛 Fix: $@\"; }; f"
+pp = "!# commit-msg: pull and merge ;\n\
+  f() { git pull --no-commit --ff && $PWD/merge.sh && git push; }; f"
+design = "!# commit-msg: Add or update the UI and style files.;\n\
+  f() { git commit -m \"💄 Design: $@\"; }; f"
+refactor = "!# commit-msg: Refactor code.;\n\
+  f() { git commit -m \"♻️  Refactor: $@\"; }; f"
+chore = "!# commit-msg: Add or update packages.;\n\
+  f() { git commit -m \"📦 Chore: $@\"; }; f"
+rename = "!# commit-msg: Move or rename resources.;\n\
+  f() { git commit -m \"🚚 Rename: $@\"; }; f"
+remove = "!# commit-msg: Remove code or files.;\n\
+  f() { git commit -m \"🔥 Remove: $@\"; }; f"
+docs = "!# commit-msg: Add or update documentation.;\n\
+  f() { git commit -m \"📝 Docs: $@\"; }; f"
+setting = "!# commit-msg: Add or update assets.;\n\
+  f() { git commit -m \"👷 Setting: $@\"; }; f"
+mer = "!# commit-msg: Merge.;\n\
+  f() { git commit -m \"🔀 Merge: $@\"; }; f"
+update = "!# commit-msg: update config files ;\n\
+  f() { git commit -m \"🌱 Update: $@\"; }; f"
+lint = "!# commit-msg: update lint setting ;\n\
+  f() { git commit -m \"🩹 Lint: $@\"; }; f"
+ignore = "!# commit-msg: Add or update a .gitignore file.;\n\
+  f() { git commit -m \"🙈 Ignore: $@\"; }; f"
+test = "!# commit-msg: Add, update, or pass tests.;\n\
+  f() { git commit -m \"🧪 Test: $@\"; }; f"
+resource = "!# commit-msg: Add or update assets.;\n\
+  f() { git commit -m \"🖼  Resource: $@\"; }; f"
+post = "!# commit-msg: commit post file on today;\n\
+  f() { git add -A && git commit -m \"🗒  Post $(date +%Y-%m-%d) $@\" && git push origin master; }; f"
+alias-branch = "!#----------------------------------------------------------;\n\
+  git alias | egrep 'branch|diff'"
+b0 = "!# Print current branch.;\n\
+  git branch | awk '/^\\*/{print $2}'"
+back = "!# Back up current branch.;\n\
+  echo created new branch: backup-$(git b0);\
+  git branch backup-$(git b0)"
+br = "!# Select a branch.\n\
+  git checkout $(git bselect)"
+bselect = "!# Select branch with preview; \n\
+      f() { \
+          _height=$(stty size | awk '{print $1}');\
+          git branch | egrep -v '^\\*' | fzf --preview \"git l {1} | head -n $_height\"; \
+      }; f"
+dbr = "!# Select a branch.\n\
+  git branch -D $(git bselect)"
+cleanbranch = "!# Search and delete merged branches.\n\
+  git branch -d $(git branch --merged | grep -v '^\\*\\|\\<develop$')"
+alias-log = "!#----------------------------------------------------------;\n\
+  git alias | egrep 'log'"
+l = "!# log --color;\n\
+        git log --color --graph --decorate \
+                --date=format:'%Y-%m-%d' \
+                --abbrev-commit \
+                --pretty=format:'%C(yellow)%h%C(auto)%d %s %C(green)(%cr)%C(bold blue) %an'"
+g = "!# Show log graph | head \n\
+        f() { \
+            if [ $# = 0 ]; then \
+                git l | head -25; \
+            else \
+                git l | head -$1; \
+            fi; \
+            echo ''; \
+        }; f"
+rank = "!# List commit log counts of contributors;\n\
+      git shortlog -s -n --all -e --no-merges"
+dl = "!                                                                                                                                                                      \
+        function gfzf() {                                                                                                                                                                 \
+            local filter;                                                                                                                                                                 \
+            if [ -n $@ ] && [ -e $@ ]; then                                                                                                                                               \
+                filter=\"-- $@\";                                                                                                                                                         \
+            fi;                                                                                                                                                                           \
+            export LESS='-R'                                                                                                                                                              \
+            export BAT_PAGER='less -S -R -M -i';                                                                                                                                          \
+            git l $@ |                   \
+                    fzf --ansi --no-sort --layout=reverse --tiebreak=index                                                                                                                \
+                        --preview=\"f() { set -- \\$(echo -- \\$@ | rg -o '\\b[a-f0-9]{7,}\\b'); [ \\$# -eq 0 ] || git show --color=always \\$1 $filter | delta --line-numbers; }; f {}\" \
+                        --bind=\"ctrl-d:half-page-down,ctrl-u:half-page-up,ctrl-j:preview-down,ctrl-k:preview-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up\"                        \
+                        --bind=\"ctrl-m:execute:                                                                                                                                          \
+                                (rg -o '\\b[a-f0-9]{7,}\\b' | head -1 |                                                                                                                   \
+                                xargs -I % -- git show --color=always %) << FZFEOF\n                                                                                                      \
+                                {}                                                                                                                                                        \
+                                \nFZFEOF\"                                                                                                                                                \
+                        --bind=\"ctrl-y:execute-silent:                                                                                                                                   \
+                                (rg -o '\\b[a-f0-9]{7,}\\b' | head -1 | tr -d \\$'\\n' | clipboard) << FZFEOF\n                                                                           \
+                                {}                                                                                                                                                        \
+                                \nFZFEOF\"                                                                                                                                                \
+                        --preview-window=right:60%;                                                                                                                                       \
+        };                                                                                                                                                                                \
+        gfzf                                                                                                                                                                              \
+    "
+alias-stage = "!#----------------------------------------------------------;\n\
+  git alias | egrep '(add|diff|stage)' -i"
+a = "!# Select files and Add them.;\n\
+  git diff-select | xargs git add"
+diff-select = "!# Add files with fzf preview diffs; \n\
+      f() { \
+          _height=$(stty size | awk '{print $1}');\
+          git diff-info \
+          | fzf -m --header \"$(git diff --shortstat)\" --preview \
+              \"if [[ {1} == '??' ]]; then cat {3}; else git diff {3}; fi \
+              | head -n $_height \
+    | delta --line-numbers;\" \
+          | awk '{print $3}'; \
+      }; f"
+diff-info = "!# get diff info;\n\
+      fileA=/tmp/git-s-$(uuidgen); \
+      fileB=/tmp/git-diff-$(uuidgen); \
+      git s | awk '{print $2,$1}' > $fileA; \
+      git diff --numstat | awk '{print $3,$1,$2}' > $fileB; \
+      join -t' ' -a 1 $fileA $fileB | awk '{print $2, \"(+\"$3 \",-\"$4\")\", $1}' | sed 's/(+,-)/./' | column -t -s' ' ; \
+      rm -f $fileA $fileB; \
+  "
+diff-unselect = "!# Select staged files to unstage them.;\n\
+    f() { \
+        git diff-info \
+        | egrep '[^?] . ' \
+        | fzf -m --header \"$(git diff --shortstat)\" --preview \
+            \"if [[ {1} == '??' ]]; then pygmentize {3}; else git diff --color=always --cached {3}; fi\" \
+        | awk '{print $3}'; \
+    }; f"
+unstage = "!# Select staged files and Unstage them.;\n\
+  git diff-unselect | xargs git reset HEAD | delta"
+alias-alias = "!#----------------------------------------------------------;\n\
+  git alias | grep alias"
+alias = "!# Prints all aliases.;\n\
+    git config --list \
+    | egrep '^alias.+' \
+    | sed -e 's/^alias\\.//' \
+    | sed -e 's/^[^=]*=/\\'$'\\033[35m&\\033[(B\\033[m/' \
+    | column -t -s'=' \
+    | sed 's/!#* *//; s/;$//' \
+    | cut -c1-85"
+alias-doctor = "!# Check the dependency tools.;\n\
+    f() { \
+        if [ $(which pygmentize | wc -l) -lt 1 ]; then \
+            echo 'Not found : Pygments(pygmentize)'; \
+            echo '    see     : http://pygments.org/'; \
+            echo '    install : pip3 install Pygments'; \
+            echo '';\
+        fi; \
+        if [ $(which fzf | wc -l) -lt 1 ]; then \
+            echo 'Not found : fzf'; \
+            echo '    see          : https://github.com/junegunn/fzf#installation'; \
+            echo '    install(Mac) : brew install fzf'; \
+            echo '    install(git) : git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf'; \
+            echo '                   ~/.fzf/install'; \
+            echo '';\
+        fi; \
+    }; f"
+
+[core]
+  precomposeunicode = true
+  ignorecase = false
+  quotepath = false
+  editor = nvim
+  pager = delta
+
+[i18n]
+  commitEncoding = utf-8
+  logOutputEncoding = utf-8
+
+[pull]
+  ff = yes
+commit = no
+
+[interactive]
+  diffFilter = delta --color-only --line-numbers
+
+[delta]
+  navigate = true
+  features = zebra-dark
+  side-by-side = false
+
+[diff]
+  colorMoved = default
+  tool = nvimdiff
+  wsErrorHighlight = all
+
+[include]
+  path = "~/.config/delta/themes.gitconfig"
+
+[difftool "nvimdiff"]
+  cmd = "nvim -d $LOCAL $REMOTE"
+
+[difftool]
+  prompt = true
+
+[merge]
+  conflictstyle = diff3
+  tool = nvimdiff 
+  guitool = nvimdiff
+
+[mergetool "nvimdiff"]
+  keepBackup = false
+
+[mergetool "nvimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+
+[gui]
+  encoding = UTF-8
