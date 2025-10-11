@@ -1,7 +1,7 @@
 return {
   background = "#1F1F2B",
+  -- background = "#969696",
   -- background = "#1a1a26",
-  -- background = "#eeeeee",
   tab_bar = {
     background = "#0b0022",
     active_tab = {

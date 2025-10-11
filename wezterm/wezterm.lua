@@ -3,6 +3,7 @@ local wezterm = require "wezterm"
 local fonts = require "fonts"
 local colors = require "colors"
 local keys = require "keys"
+local background = require "background"
 
 local config = {}
 
@@ -15,9 +16,9 @@ config.cursor_blink_ease_out = "Linear"
 config.cursor_blink_rate = 1000
 config.force_reverse_video_cursor = true
 config.font = wezterm.font_with_fallback(fonts)
-config.font_size = 18
-config.line_height = 1.4
-config.cell_width = 1
+config.font_size = 16
+config.line_height = 1.35
+config.cell_width = 0.95
 config.front_end = "OpenGL"
 config.anti_alias_custom_block_glyphs = true
 config.freetype_load_flags = "NO_AUTOHINT"
@@ -35,8 +36,9 @@ config.window_frame = {
 }
 config.window_decorations = "RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
-config.macos_window_background_blur = 25
+config.macos_window_background_blur = 35
 config.window_background_opacity = 0.85
+-- config.window_background_opacity = 0.15
 config.window_padding = {
   left = 30,
   right = 30,
@@ -46,5 +48,7 @@ config.window_padding = {
 config.window_close_confirmation = "NeverPrompt"
 config.enable_scroll_bar = false
 config.keys = keys
+config.term = "wezterm"
+-- config.background = background
 
 return config
