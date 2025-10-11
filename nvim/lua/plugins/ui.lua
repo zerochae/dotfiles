@@ -1,9 +1,9 @@
 return {
-  {
-    "folke/snacks.nvim",
-    opts = require "configs.snacks",
-    lazy = false,
-  },
+  -- {
+  --   "folke/snacks.nvim",
+  --   opts = require "configs.snacks",
+  --   lazy = false,
+  -- },
   {
     "OXY2DEV/foldtext.nvim",
     lazy = false,
@@ -60,3 +60,4 @@ return {
     opts = require "configs.nvim-colorizer",
   },
 }
+

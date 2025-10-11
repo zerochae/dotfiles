@@ -299,3 +299,8 @@ map("n", "<leader>gh", function()
 end, {
   desc = "Toggle gh-dash popup",
 })
+
+map({ "n" }, "<leader>dc", "<cmd>DevConToggle<cr>", { desc = "Toggle DevCon Console" })
+map({ "n" }, "<leader>ds", "<cmd>DevConStart<cr>", { desc = "Start DevCon Session" })
+map({ "n" }, "<leader>dx", "<cmd>DevConStop<cr>", { desc = "Stop DevCon Session" })
+map({ "n" }, "<leader>dS", "<cmd>DevConStatus<cr>", { desc = "DevCon Status" })

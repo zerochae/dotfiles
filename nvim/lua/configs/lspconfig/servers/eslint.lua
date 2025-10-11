@@ -5,6 +5,7 @@ local config = {
     FORCE_COLOR = "0",
   },
   settings = {
+    nodePath = ".yarn/sdks",
     workingDirectory = { mode = "auto" },
   },
   on_attach = function(client, bufnr)
@@ -25,4 +26,4 @@ local config = {
 }
 
 -- Use legacy setup for eslint
-default.setup_server("eslint", config, true)
+default.setup_server("eslint", config)

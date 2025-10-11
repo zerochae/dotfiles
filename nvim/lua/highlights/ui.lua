@@ -73,6 +73,8 @@ return {
     TextBlue = { fg = colors.blue },
     TextMagenta = { fg = colors.magenta },
     TextYellow = { fg = colors.yellow },
+    TextOrange = { fg = colors.orange },
+    TextCyan = { fg = colors.cyan },
 
     -- statusline
     St_LspStatus_Sep = { fg = "#81a1c1" },

@@ -9,7 +9,7 @@ return {
     char = "┊",
   },
   exclude = {
-    buftypes = { "terminal", "dbui" },
+    buftypes = { "terminal", "dbui", "snacks_picker_preview", "snacks" },
   },
   whitespace = {
     remove_blankline_trail = true,

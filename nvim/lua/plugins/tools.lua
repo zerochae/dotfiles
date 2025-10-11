@@ -99,18 +99,6 @@ return {
     end,
   },
   {
-    -- "zerochae/endpoint.nvim",
-    dir = "~/Dev/nvim-project/endpoint.nvim",
-    cmd = {
-      "Endpoint",
-    },
-    dependencies = { "nvim-telescope/telescope.nvim", "folke/snacks.nvim" },
-    opts = require "configs.endpoint",
-    config = function(_, opts)
-      require("endpoint").setup(opts)
-    end,
-  },
-  {
     "folke/persistence.nvim",
     event = "BufReadPre",
     opts = {},

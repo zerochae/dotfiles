@@ -4,6 +4,8 @@
 return {
   image = {},
   layout = {},
+  indent = { enabled = false },
+  input = { enabled = false },
   picker = {
     layout = {},
   },

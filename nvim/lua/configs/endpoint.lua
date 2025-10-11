@@ -1,16 +1,23 @@
 return {
   cache = {
-    mode = "none",
+    mode = "session",
   },
   picker = {
-    type = "telescope",
+    type = "snacks",
     options = {
       telescope = {
         prompt_title = "Endpoints:: ",
       },
       snacks = {
         prompt = "EndPoints:: ",
+        preview_title_format = "absolute"
       },
+      vim_ui_select = {
+        prompt = "EndPoints:: ",
+      },
+    },
+    previewer = {
+      enable_highlighting = true,
     },
   },
   frameworks = {
@@ -33,12 +40,8 @@ return {
       DELETE = { icon = "✖", color = "TextRed" },
       PATCH = { icon = "◉", color = "TextMagenta" },
       ROUTE = { icon = "󰎚", color = "TextGreen" },
-      LIST = { icon = "▼", color = "TextGreen" },
-      CREATE = { icon = "▲", color = "TextBlue" },
-      RETRIEVE = { icon = "▼", color = "TextGreen" },
-      UPDATE = { icon = "◆", color = "TextYellow" },
-      PARTIAL_UPDATE = { icon = "◉", color = "TextMagenta" },
-      DESTROY = { icon = "✖", color = "TextRed" },
+      QUERY = { icon = "◉", color = "TextOrange" },
+      MUTATION = { icon = "✖", color = "TextCyan" },
     },
   },
 }
