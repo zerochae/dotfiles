@@ -5,7 +5,7 @@ M.theme = {
   transparent = true,
 }
 
-M.style = "block"
+M.style = "compact"
 
 M.statusline = {
   enabled = true,

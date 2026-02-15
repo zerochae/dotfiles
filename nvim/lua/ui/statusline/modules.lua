@@ -4,6 +4,10 @@ local config = require "grayrc"
 local is_block = config.style == "block"
 
 M.mode = function()
+  if not is_block then
+    return ""
+  end
+
   local buf = vim.api.nvim_get_current_buf()
   local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf })
   local m = vim.api.nvim_get_mode().mode

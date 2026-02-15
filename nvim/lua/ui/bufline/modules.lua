@@ -34,7 +34,7 @@ function M.render()
   local prefix = ""
   if not is_block then
     local hl = mode.hl(api.nvim_get_mode().mode)
-    prefix = "%#" .. hl .. "# "
+    prefix = "%#" .. hl .. "#  "
   end
 
   if align == "center" then
