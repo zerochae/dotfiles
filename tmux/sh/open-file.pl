@@ -1,0 +1,107 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use Cwd 'abs_path';
+use File::Basename 'basename', 'dirname';
+use URI ();
+
+my $editor = $ENV{REAL_EDITOR} || 'nvim';
+my $desktop = $editor eq 'hx' ? 'Helix' : $editor;
+# `.*?`: match anything, non-greedily
+# `(?::)`: match a `:` without capturing it
+my $line = qr/(.*?)(?::([0-9]+))?(?::([0-9]+))?$/;
+
+sub cmdexists {
+  `sh -c "command -v $_[0]"`
+}
+
+sub split_line {
+  # TODO: don't split if this file exists on disk
+  my @matches = $_[0] =~ $line;
+  my $url = URI->new($matches[0]);
+  if (defined $url->scheme && $url->scheme eq 'file' && $url->path ne $matches[0]) {
+    @matches[0] = $url-> path;
+  }
+  my $abs = abs_path $matches[0];
+  $matches[0] = $abs if defined $abs;
+  grep defined, @matches
+}
+
+sub join_line {
+  return $_[0] if @_ < 2;
+  my ($file, $line, $column) = @_;
+  return ("+normal!${line}G${column}|", $file) if $editor eq 'nvim';
+  $column = @_ > 2 ? ":$column" : '';
+  return ($file, "+$line$column") if $editor eq 'kak';
+  "$file:$line$column"
+}
+
+sub trim {
+  # https://stackoverflow.com/a/4597964/7669110
+  return if (! scalar @_);
+  $_[0] =~ s/^\s+|\s+$//rg
+}
+
+sub hxhax {
+  my @args = @_;
+  my $current_window= trim `tmux display-message -p "#{window_id}"`;
+  my $pane = trim `tmux list-panes -a \\
+      -f '#{&&:#{==:#{window_id},$current_window},#{==:#{pane_current_command},$editor}}' \\
+      -F '#{pane_id}'`;
+  unless (defined $pane) {
+	# don't use `` so that args can have embedded pipes
+	my @split = ('tmux', 'split-window', '-h', '-P', '-F', '"#{pane_id}"', $editor, @args);
+	open(my $fd, '-|', @split) || die "can't open pipeline: $!";
+	$pane = <$fd>;
+  } else {
+    # exit copy mode so we don't send these commands directly to tmux
+  	`tmux send-keys -t $pane -X cancel 2>/dev/null`;
+    	# Escape for some reason doesn't get sent as the escape key if it shows up next to any other keys???
+  	`tmux send-keys -t $pane Escape`;
+	my $args = join ' ', @args;
+	my $cmd = $editor eq 'nvim' ? 'drop' : 'open';
+  	`tmux send-keys -t $pane ":$cmd $args" Enter`;
+  	`tmux select-pane -t $pane -Z`;
+  }
+
+  # WINDOWID is always set to the window tmux was *originally* launched in, and updating it seems...hard.
+  # Instead of trying to do that, just don't switch away from this window if it's already running tmux.
+  if (defined $ENV{DISPLAY} && ! `pstree -p \$(xdotool getwindowpid \$(xdotool getactivewindow)) | grep tmux`) {
+    `tmux run-shell -t $pane xdotool windowactivate \${WINDOWID} 2>&1`;
+  }
+}
+
+sub xdgopen {
+  my $target = $_[0];
+  if ($target =~ /:/) {
+    my @split = split_line $target;
+    my $file = $split[0];
+    chomp(my $mime = `xdg-mime query filetype "$file"`);
+    my $default;
+    # apparently xdg-mime is just wrong sometimes??? https://tech.lgbt/@jyn/112897397900798209
+    if (cmdexists 'gio') {
+      $default = (split '\n', `gio mime "$mime"`)[0] =~ s/^Default .*: //r;
+    } else {
+      $default = `xdg-mime query default "$mime"`;
+    }
+    if ($default =~ /$desktop\.desktop/) {
+      hxhax join_line @split;
+    } else {
+      `xdg-open "$file"`;
+    }
+    return;
+  }
+  `xdg-open "$target"`;
+}
+
+my $name = basename $0;
+exec ($editor, join_line split_line $ARGV[0]) if 'editor-hax' eq basename $0;
+if ('hx-hax' eq basename $0) {
+  hxhax(@ARGV ? join_line split_line $ARGV[0] : '');
+  exit;
+}
+
+@ARGV or print 'usage: $0 <file>' && exit 1;
+xdgopen $ARGV[0];
