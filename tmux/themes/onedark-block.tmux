@@ -132,6 +132,20 @@ main() {
 	set @batt_color_status_primary_attached "$forest"
 	set @batt_color_status_primary_unknown "$forest"
 
+	set @batt_color_charge_secondary_tier1 "$bg"
+	set @batt_color_charge_secondary_tier2 "$bg"
+	set @batt_color_charge_secondary_tier3 "$bg"
+	set @batt_color_charge_secondary_tier4 "$bg"
+	set @batt_color_charge_secondary_tier5 "$bg"
+	set @batt_color_charge_secondary_tier6 "$bg"
+	set @batt_color_charge_secondary_tier7 "$bg"
+	set @batt_color_charge_secondary_tier8 "$bg"
+	set @batt_color_status_secondary_charged "$bg"
+	set @batt_color_status_secondary_charging "$bg"
+	set @batt_color_status_secondary_discharging "$bg"
+	set @batt_color_status_secondary_attached "$bg"
+	set @batt_color_status_secondary_unknown "$bg"
+
 	# prefix_highlight
 	set @prefix_highlight_empty_prompt "  TMUX "
 	set @prefix_highlight_prefix_prompt " WAIT"
