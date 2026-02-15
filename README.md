@@ -2,21 +2,29 @@
 
 ## [NVIM](https://github.com/zerochae/dotfiles/tree/master/nvim)
 
-- based on [nvchad](https://github.com/NvChad/NvChad)
-- custom color scheme ( onedark + catppuccin )
+### COMPACT STYLE (WITH TMUX)
 
+<img width="2294" height="1369" alt="스크린샷 2026-02-15 19 34 19" src="https://github.com/user-attachments/assets/4d3fb89c-8c42-483b-b053-4c26a452db5b" />
+
+### BLOCK STYLE (WITH TMUX)
 
 ![스크린샷 2025-01-17 12 01 50](https://github.com/user-attachments/assets/5a539be2-e2a2-436a-8259-abf85595f775)
-![스크린샷 2025-01-17 12 03 58](https://github.com/user-attachments/assets/0fc4e948-2459-458d-8f75-79ea3261c0e2)
-![스크린샷 2025-01-17 12 05 27](https://github.com/user-attachments/assets/f54c898e-d7aa-4182-b692-8b8504c6101e)
 
 ## [STARSHIP](https://github.com/zerochae/dotfiles/tree/master/starship)
 
-print languages or framework with icon
+<img width="1108" height="354" alt="SCR-20260215-qzos" src="https://github.com/user-attachments/assets/afa50aaf-e6b6-4764-85cd-ca7316dd2aa0" />
 
-
-![스크린샷 2023-09-18 01 08 07](https://github.com/zerochae/dotfiles/assets/84373490/551688ab-d772-4991-9d5a-c90a8f9cfcfa)
 ## [TMUX]((https://github.com/zerochae/dotfiles/tree/master/tmux))
+
+
+### COMPACT STYLE
+
+<img width="1145" height="74" alt="image" src="https://github.com/user-attachments/assets/4a4cf1d5-3b20-4c67-a4cf-108b44159953" />
+
+### BLOCK STYLE
+
 ![image](https://github.com/user-attachments/assets/ea7929d8-250d-4888-825b-97c52b77706f)
+
+
 ## [ZSH](https://github.com/zerochae/dotfiles/tree/master/zsh)
 ## [GIT](https://github.com/zerochae/dotfiles/tree/master/git)
