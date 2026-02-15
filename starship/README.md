@@ -1,5 +1,3 @@
-# STARSHIP
+## [STARSHIP](https://github.com/zerochae/dotfiles/tree/master/starship)
 
-print languages or framework with icon
-
-![스크린샷 2023-09-18 01 08 07](https://github.com/zerochae/dotfiles/assets/84373490/551688ab-d772-4991-9d5a-c90a8f9cfcfa)
+<img width="1108" height="354" alt="SCR-20260215-qzos" src="https://github.com/user-attachments/assets/afa50aaf-e6b6-4764-85cd-ca7316dd2aa0" />

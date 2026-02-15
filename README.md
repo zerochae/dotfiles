@@ -25,6 +25,4 @@
 
 ![image](https://github.com/user-attachments/assets/ea7929d8-250d-4888-825b-97c52b77706f)
 
-
-## [ZSH](https://github.com/zerochae/dotfiles/tree/master/zsh)
 ## [GIT](https://github.com/zerochae/dotfiles/tree/master/git)
