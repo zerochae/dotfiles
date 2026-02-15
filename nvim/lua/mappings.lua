@@ -1,11 +1,28 @@
-require "nvchad.mappings"
 local map = vim.keymap.set
+
+-- Insert mode navigation
+map("i", "<C-b>", "<ESC>^i", { desc = "move beginning of line" })
+map("i", "<C-e>", "<End>", { desc = "move end of line" })
+map("i", "<C-h>", "<Left>", { desc = "move left" })
+map("i", "<C-l>", "<Right>", { desc = "move right" })
+map("i", "<C-j>", "<Down>", { desc = "move down" })
+map("i", "<C-k>", "<Up>", { desc = "move up" })
+
+-- Window navigation
+map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
+map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })
+map("n", "<C-j>", "<C-w>j", { desc = "switch window down" })
+map("n", "<C-k>", "<C-w>k", { desc = "switch window up" })
+
+-- Comment
+map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })
+map("v", "<leader>/", "gc", { desc = "toggle comment", remap = true })
+
+-- LSP diagnostic
+map("n", "<leader>ds", vim.diagnostic.setloclist, { desc = "LSP diagnostic loclist" })
 
 -- Quickfix
 map("n", "<leader>ql", "<CMD>copen<CR>", { desc = "open quickfix list" })
-
--- Spectre
-map("n", "<leader>sp", "<CMD>Spectre<CR>", { desc = "open spectre" })
 
 -- Persistence
 map("n", "<leader>qs", function()
@@ -15,8 +32,10 @@ end, { desc = "load persistence" })
 -- Noice
 map("n", "<leader>dn", "<CMD>NoiceDismiss<CR>", { desc = "close all notify", nowait = true })
 
--- Lazygit
-map("n", "<leader>gg", "<CMD>LazyGit<CR>", { desc = "open lazygit", nowait = true })
+-- Lazygit (Snacks)
+map("n", "<leader>gg", function()
+  Snacks.lazygit()
+end, { desc = "open lazygit", nowait = true })
 
 -- Diffview
 map("n", "<C-s>", function()
@@ -27,9 +46,6 @@ map("n", "<leader>dc", "<ESC><CMD>DiffviewClose<CR>", { desc = "diff view close"
 map("n", "<CR>", function()
   require("diffview.actions").select_entry()
 end, { desc = "select diff entry", nowait = true })
-
--- Hop
-map("n", "<leader>jj", "<ESC><CMD>HopPattern<CR>", { desc = "search word use pattern in hop", nowait = true })
 
 -- Gitsigns
 map(
@@ -49,161 +65,56 @@ map(
 map("n", "<leader>db", "<ESC><CMD>bd|DBUI<CR>", { desc = "open database", nowait = true })
 map("n", "<leader>qe", "<Plug>(DBUI_ExecuteQuery)", { desc = "execute Query", nowait = true })
 
--- Telescope
--- map("n", "<leader>ff", function()
---   Snacks.picker.files()
--- end, { desc = "Find files" })
-
+-- Snacks Picker
 map("n", "<leader>ff", function()
-  require("telescope.builtin").find_files {
-    preview_title = " Preview",
-    prompt_title = " Search Files",
-    debounce = "300",
-    file_ignore_patterns = {
-      "node_modules",
-      "%.png",
-      "%.svg",
-      "%.mp4",
-      "%.jpg",
-      "%.jpeg",
-      "custom/assets",
-      "assets/ascii",
-      "static/js",
-      "%.bundle.js",
-      "%.mjs",
-      "%.cjs",
-      ".git",
-      ".DS_Store",
-    },
-  }
+  Snacks.picker.files()
 end, { desc = "Find files" })
-
 map("n", "<leader>fo", function()
-  require("telescope.builtin").oldfiles {
-    preview_title = " Preview",
-    prompt_title = " Search Recent",
-    debounce = "300",
-  }
-end, { desc = "Find oldfiles" })
-
+  Snacks.picker.recent()
+end, { desc = "Find recent files" })
 map("n", "<leader>fa", function()
-  require("telescope.builtin").find_files {
-    preview_title = " Preview",
-    prompt_title = " Search All Files",
-    follow = true,
-    no_ignore = true,
-    hidden = true,
-    debounce = "1000",
-  }
-end, { desc = "Find all" })
-
+  Snacks.picker.files { hidden = true, ignored = true }
+end, { desc = "Find all files" })
+map("n", "<leader>fw", function()
+  Snacks.picker.grep()
+end, { desc = "Live grep" })
 map("n", "<leader>fs", function()
-  local conf = require("telescope.config").values
-  require("telescope.builtin").live_grep {
-    preview_title = " Preview",
-    prompt_title = " Live Grep All Files",
-    follow = true,
-    no_ignore = true,
-    hidden = true,
-    debounce = "500",
-    vimgrep_arguments = table.insert(conf.vimgrep_arguments, "--fixed-strings"),
-    file_ignore_patterns = {
-      "node_modules",
-      "%.png",
-      "%.svg",
-      "%.mp4",
-      "%.jpg",
-      "%.jpeg",
-      "custom/assets",
-      "assets/ascii",
-      "static/js",
-      "%.bundle.js",
-      "%.mjs",
-      "%.cjs",
-      ".git",
-      ".DS_Store",
-    },
-  }
-end, { desc = "Telescope grep string" })
+  Snacks.picker.grep { hidden = true, ignored = true }
+end, { desc = "Live grep all" })
+map("n", "<leader>fz", function()
+  Snacks.picker.lines()
+end, { desc = "Find in current buffer" })
+map("n", "<leader>fb", function()
+  Snacks.picker.buffers()
+end, { desc = "Find buffers" })
+map("n", "<leader>fh", function()
+  Snacks.picker.help()
+end, { desc = "Help pages" })
+map("n", "<leader>fq", function()
+  Snacks.picker.qflist()
+end, { desc = "Quickfix list" })
+map("n", "<leader>gs", function()
+  Snacks.picker.git_status()
+end, { desc = "Git status" })
+map("n", "<leader>gb", function()
+  Snacks.picker.git_branches()
+end, { desc = "Git branches" })
+map("n", "<leader>gl", function()
+  Snacks.picker.git_log()
+end, { desc = "Git log" })
+map("n", "<leader>ws", function()
+  Snacks.picker.projects()
+end, { desc = "Projects" })
 
+-- Endpoint (uses snacks picker)
 map("n", "<leader>ep", "<cmd>Endpoint<cr>", { desc = "Endpoint Search" })
 
-map("n", "<leader>fw", function()
-  local conf = require("telescope.config").values
-  require("telescope.builtin").live_grep {
-    preview_title = " Preview",
-    prompt_title = " Live Grep",
-    debounce = "500",
-    vimgrep_arguments = table.insert(conf.vimgrep_arguments, "--fixed-strings"),
-    file_ignore_patterns = {
-      "node_modules",
-      "%.png",
-      "%.svg",
-      "%.mp4",
-      "%.jpg",
-      "%.jpeg",
-      "custom/assets",
-      "assets/ascii",
-      "static/js",
-      "%.bundle.js",
-      "%.mjs",
-      "%.cjs",
-      ".git",
-      ".DS_Store",
-    },
-  }
-end, { desc = "Live grep" })
-
+-- Branch
 map("n", "<leader>br", function()
   vim.cmd "Branch"
-end, { desc = "Help page" })
+end, { desc = "Git branch" })
 
-map("n", "<leader>fh", function()
-  require("telescope.builtin").help_tags {
-    preview_title = " Preview",
-    prompt_title = "󰛵 Search Help",
-  }
-end, { desc = "Help page" })
-
-map("n", "<leader>fz", function()
-  require("telescope.builtin").current_buffer_fuzzy_find {
-    preview_title = " Preview",
-    prompt_title = " Search Fzf",
-  }
-end, { desc = "Find in current buffer" })
-
-map("n", "<leader>ws", "<CMD>Telescope workspaces<CR>", { desc = "open projects" })
-
-map("n", "<leader>gs", function()
-  require("telescope.builtin").git_status {
-    preview_title = " Preview",
-    prompt_title = " Git Status",
-    git_icons = {
-      added = "",
-      changed = "",
-      copied = ">",
-      deleted = "",
-      renamed = "",
-      unmerged = "",
-      untracked = "",
-    },
-    previewer = require("telescope.previewers").new_termopen_previewer {
-      get_command = function(entry)
-        if entry.status == "??" or "A " then
-          return { "git", "diff", entry.value }
-        end
-
-        return { "git", "diff", entry.value .. "^!" }
-      end,
-    },
-  }
-end, { desc = "open git status" })
-
--- quickfix
-map("n", "<leader>fq", function()
-  require("telescope.builtin").quickfix()
-end, { desc = "open quickfix" })
-
+-- Quickfix item remove
 map("n", "<leader>fr", function()
   local idx = vim.fn.line "."
   local qf = vim.fn.getqflist()
@@ -220,43 +131,80 @@ map(
 )
 
 -- fold text
-map("n", "<leader>fd", "za", { desc = "foldtext", nowait = true })
+map("n", "<leader>fd", "za", { desc = "fold toggle", nowait = true })
+
+-- Terminal (snacks.terminal)
+map({ "n", "t" }, "<A-i>", function()
+  Snacks.terminal.toggle(nil, { win = { position = "float" } })
+end, { desc = "Toggle float terminal" })
+map({ "n", "t" }, "<A-h>", function()
+  Snacks.terminal.toggle(nil, { win = { position = "bottom", height = 0.3 } })
+end, { desc = "Toggle horizontal terminal" })
+map({ "n", "t" }, "<A-v>", function()
+  Snacks.terminal.toggle(nil, { win = { position = "right", width = 0.2 } })
+end, { desc = "Toggle vertical terminal" })
+map("t", "<C-x>", "<C-\\><C-N>", { desc = "Exit terminal mode" })
+
+-- Bufline
+map("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
+map("n", "<tab>", function()
+  require("ui.bufline").next()
+end, { desc = "buffer goto next" })
+map("n", "<S-tab>", function()
+  require("ui.bufline").prev()
+end, { desc = "buffer goto prev" })
+map("n", "<leader>x", function()
+  require("ui.bufline").close_buffer()
+end, { desc = "buffer close" })
+
+-- Explorer (snacks.explorer)
+map("n", "<C-n>", function()
+  Snacks.explorer()
+end, { desc = "Toggle explorer" })
+map("n", "<leader>e", function()
+  Snacks.explorer()
+end, { desc = "Focus explorer" })
 
 -- Disabled mappings
 map("n", "q:", "", { desc = "disable q:" })
 map("n", "'", "", { desc = "disable '" })
 map("n", '"', "", { desc = 'disable "' })
 
--- Lspsaga
-map("n", "<leader>ca", "<ESC><CMD>Lspsaga code_action<CR>", { desc = "LSP code action", nowait = true, noremap = true })
-map("n", "<leader>gn", "<ESC><CMD>Lspsaga diagnostic_jump_next<CR>", { desc = "LSP code action", nowait = true })
-map("n", "<leader>rr", "<CMD>Lspsaga rename<CR>", { desc = "LSP rename", nowait = true })
-map("n", "F", "<ESC><CMD>Lspsaga finder<CR>", { desc = "LSP code Finder", nowait = true })
-map("n", "K", "<ESC><CMD>Lspsaga hover_doc<CR>", { desc = "hover doc", nowait = true })
-map("n", "<leader>lo", "<ESC><CMD>Lspsaga outline<CR>", { desc = "LSP outline", nowait = true })
--- map("n", "<leader>gd", "<ESC><CMD>Lspsaga goto_definition<CR>", { desc = "LSP goto definition", nowait = true, noremap = true })
-map("n", "<leader>gd", function()
-  vim.lsp.buf.definition {
-    on_list = function(options)
-      local items = options.items or {}
-
-      if #items == 0 then
-        vim.notify("No definitions found", vim.log.levels.WARN)
-        return
-      else
-        vim.notify("1 definitions found", vim.log.levels.WARN)
-        -- jump directly to the single location
-        local location = items[1]
-        if location.filename then
-          vim.cmd("edit " .. location.filename)
-          vim.fn.cursor(location.lnum)
-        else
-          vim.lsp.util.show_document(location)
-        end
-      end
-    end,
+-- LSP
+map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP code action", nowait = true, noremap = true })
+map("n", "<leader>gn", vim.diagnostic.goto_next, { desc = "LSP diagnostic next", nowait = true })
+map("n", "<leader>gp", vim.diagnostic.goto_prev, { desc = "LSP diagnostic prev", nowait = true })
+map("n", "<leader>rr", vim.lsp.buf.rename, { desc = "LSP rename", nowait = true })
+map("n", "F", function()
+  Snacks.picker.lsp_references()
+end, { desc = "LSP references", nowait = true })
+map("n", "K", function()
+  vim.lsp.buf.hover {
+    border = "rounded",
+    max_width = 80,
+    max_height = 20,
+    title = " Hover ",
+    title_pos = "center",
   }
-end, { desc = "LSP goto definition (smart)", nowait = true, noremap = true })
+  vim.defer_fn(function()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      if vim.bo[buf].filetype == "markdown" and vim.api.nvim_win_get_config(win).relative ~= "" then
+        vim.api.nvim_set_option_value(
+          "winhighlight",
+          "Normal:HoverNormal,FloatBorder:HoverBorder,FloatTitle:HoverTitle",
+          { win = win }
+        )
+      end
+    end
+  end, 50)
+end, { desc = "hover doc", nowait = true })
+map("n", "<leader>lo", function()
+  Snacks.picker.lsp_symbols()
+end, { desc = "LSP symbols", nowait = true })
+map("n", "<leader>gd", function()
+  Snacks.picker.lsp_definitions()
+end, { desc = "LSP goto definition", nowait = true, noremap = true })
 
 -- kulala
 map({ "n", "v" }, "<leader>rs", function()
@@ -273,7 +221,9 @@ map("n", "<leader>fm", function()
 end, { desc = "LSP formatting" })
 -- map("v", "<leader>fm", "<CMD>Format<CR>", { desc = "LSP formatting" })
 map("n", "<leader>tc", "<CMD>tabclose<CR>", { desc = "tab close" })
-map("n", "<leader>tabnew", "<CMD>tabnew<CR>", { desc = "tab new" })
+map("n", "<leader>tt", "<CMD>tabnew<CR>", { desc = "tab new" })
+map("n", "<leader>tp", "<CMD>tabp<CR>", { desc = "tab new", noremap = true })
+map("n", "<leader>tn", "<CMD>tabn<CR>", { desc = "tab new", noremap = true })
 map("n", "W", "w", { desc = "save", noremap = true })
 map("n", "<leader>th", function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
@@ -287,20 +237,60 @@ map({ "n" }, "<leader>ar", "<cmd>ClaudeCode --resume<cr>", { desc = "Resume Clau
 map({ "n" }, "<leader>aC", "<cmd>ClaudeCode --continue<cr>", { desc = "Continue Claude" })
 map({ "n" }, "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", { desc = "Select Claude model" })
 map({ "n" }, "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", { desc = "Add current buffer" })
-map({ "v" }, "<leader>as", "<cmd>ClaudeCodeSend<cr>", { desc = "Send to Claude" })
-map({ "n" }, "<leader>as", "<cmd>ClaudeCodeTreeAdd<cr>", { desc = "Add file" })
+local function ensure_claude_running()
+  local ok, cc = pcall(require, "claudecode")
+  if not ok then
+    return false
+  end
+  if not cc.is_claude_connected() then
+    vim.cmd "ClaudeCodeOpen"
+  end
+  return true
+end
 
--- Diff management
-map({ "n" }, "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", { desc = "Accept diff" })
-map({ "n" }, "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", { desc = "Deny diff" })
+local function claude_add_from_explorer(range)
+  local pickers = Snacks.picker.get { source = "explorer" }
+  if #pickers == 0 then
+    return false
+  end
+  local picker = pickers[1]
+  local files = {}
+  if range then
+    for idx = range[1], range[2] do
+      local item = picker.list:get(idx)
+      if item and item.file and item.file ~= "" and not item.dir then
+        files[#files + 1] = item.file
+      end
+    end
+  else
+    local item = picker:current()
+    if item and item.file and item.file ~= "" then
+      files[#files + 1] = item.file
+    end
+  end
+  if #files == 0 then
+    return false
+  end
+  ensure_claude_running()
+  for _, f in ipairs(files) do
+    vim.cmd("ClaudeCodeAdd " .. vim.fn.fnameescape(f))
+  end
+  return true
+end
 
-map("n", "<leader>gh", function()
-  require("gh_dash").toggle()
-end, {
-  desc = "Toggle gh-dash popup",
-})
+map({ "n" }, "<leader>as", function()
+  if not claude_add_from_explorer() then
+    vim.cmd "ClaudeCodeTreeAdd"
+  end
+end, { desc = "Add file" })
 
-map({ "n" }, "<leader>dc", "<cmd>DevConToggle<cr>", { desc = "Toggle DevCon Console" })
-map({ "n" }, "<leader>ds", "<cmd>DevConStart<cr>", { desc = "Start DevCon Session" })
-map({ "n" }, "<leader>dx", "<cmd>DevConStop<cr>", { desc = "Stop DevCon Session" })
-map({ "n" }, "<leader>dS", "<cmd>DevConStatus<cr>", { desc = "DevCon Status" })
+map({ "v" }, "<leader>as", function()
+  local s = vim.fn.line "v"
+  local e = vim.fn.line "."
+  if s > e then
+    s, e = e, s
+  end
+  if not claude_add_from_explorer { s, e } then
+    vim.cmd "ClaudeCodeSend"
+  end
+end, { desc = "Send to Claude" })

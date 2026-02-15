@@ -1,7 +1,7 @@
 return {
-  neovim = require "assets.ascii.neovim",
-  art = require "assets.ascii.art",
-  logo = require "assets.ascii.logo",
-  animal = require "assets.ascii.animal",
-  gray_nvim = require "assets.ascii.gray-nvim",
+  neovim = require "ui.assets.ascii.neovim",
+  art = require "ui.assets.ascii.art",
+  logo = require "ui.assets.ascii.logo",
+  animal = require "ui.assets.ascii.animal",
+  gray_nvim = require "ui.assets.ascii.gray-nvim",
 }

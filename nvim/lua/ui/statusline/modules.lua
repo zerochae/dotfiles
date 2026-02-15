@@ -1,29 +1,11 @@
 local M = {}
-local strep = string.rep
 local utils = require "ui.statusline.utils"
-local nvimtree_utils = require "ui.nvim-tree.utils"
-local opts = nil
-
-local function set_opts()
-  if opts then
-    return opts
-  end
-
-  vim.defer_fn(function()
-    opts = require("nvconfig").ui.statusline
-  end, 0)
-end
-
-set_opts()
-
-M.tree_off_set = function()
-  local w = nvimtree_utils.get_nvimtree_width()
-  return w == 0 and "" or "%#NvimTreeNormal#" .. strep(" ", w) .. "%#NvimTreeWinSeparator#" .. "│"
-end
+local config = require "grayrc"
+local is_block = config.style == "block"
 
 M.mode = function()
   local buf = vim.api.nvim_get_current_buf()
-  local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
+  local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf })
   local m = vim.api.nvim_get_mode().mode
 
   if not utils.is_activewin() then
@@ -33,36 +15,38 @@ M.mode = function()
   local specialMode = utils.get_special_mode(filetype)
 
   if specialMode then
-    return utils.set_mode_info(specialMode[1], specialMode[2])
+    return utils.set_mode_info(specialMode[1], specialMode[2], specialMode[3])
   end
 
   local mode = utils.get_mode(m)
 
   if mode then
-    return utils.set_mode_info(mode[1], mode[2])
+    return utils.set_mode_info(mode[1], mode[2], mode[3])
   end
 
   return ""
 end
 
 M.filetype = function()
-  local empty = "%#St_file#" .. "" .. "%#St_file_sep#"
+  local empty = ""
   local buf = vim.api.nvim_get_current_buf()
-  local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
+  local filetype = vim.api.nvim_get_option_value("filetype", { buf = buf })
 
   local set_file_info = function(color, ft_icon, ft)
     local icon = " 󰈚 "
-    vim.cmd("hi St_file_icon guifg=" .. color .. "")
-    icon = "%#St_file_icon#" .. " " .. ft_icon
+    local existing = vim.api.nvim_get_hl(0, { name = "GnFileIcon" })
+    vim.api.nvim_set_hl(0, "GnFileIcon", vim.tbl_extend("force", existing, { fg = color }))
+    icon = "%#GnFileIcon#" .. " " .. ft_icon
 
     -- if ft == "rust" then
-    --   ft = "%#St_file_info#" .. "  " .. ft
+    --   ft = "%#GnFileInfo#" .. "  " .. ft
     -- else
-    ft = "%#St_file#" .. " " .. ft
+    ft = "%#GnFile#" .. " " .. ft
     -- end
 
     if icon ~= "" then
-      return icon .. ft .. " " .. "%#St_file_sep#"
+      local sep = is_block and "%#NonText#█" or ""
+      return sep .. icon .. ft .. " %*"
     end
   end
 
@@ -98,8 +82,8 @@ M.git_branch = function()
   end
 
   local git_status = vim.b[utils.stbufnr()].gitsigns_status_dict
-  local icon_hl = "%#St_git_icons#"
-  local text_hl = "%#St_git_text#"
+  local icon_hl = "%#GnGitIcon#"
+  local text_hl = "%#GnGitText#"
   local branch_icon = ""
   local branch_name = git_status.head
 
@@ -107,7 +91,7 @@ M.git_branch = function()
     return "%="
   end
 
-  return "  " .. icon_hl .. branch_icon .. " " .. text_hl .. branch_name .. " "
+  return " " .. icon_hl .. branch_icon .. " " .. text_hl .. branch_name .. " %*"
 end
 
 M.git_diff = function()
@@ -137,7 +121,7 @@ M.git_diff = function()
     return ""
   end
 
-  return "%*[" .. table.concat(parts, " ") .. "%*]"
+  return "%*[" .. table.concat(parts, " ") .. "%*] %*"
 end
 
 M.diagnostics = function()
@@ -150,12 +134,12 @@ M.diagnostics = function()
   local hints = #vim.diagnostic.get(utils.stbufnr(), { severity = vim.diagnostic.severity.HINT })
   local info = #vim.diagnostic.get(utils.stbufnr(), { severity = vim.diagnostic.severity.INFO })
 
-  local error_text = (errors and errors > 0) and ("%#St_lspError#" .. " " .. errors .. " ") or ""
-  local warning_text = (warnings and warnings > 0) and ("%#St_lspWarning#" .. " " .. warnings .. " ") or ""
-  local hint_text = (hints and hints > 0) and ("%#St_lspHints#" .. "󰛩 " .. hints .. " ") or ""
-  local info_text = (info and info > 0) and ("%#St_lspInfo#" .. "󰋼 " .. info .. " ") or ""
+  local error_text = (errors and errors > 0) and ("%#GnLspError#" .. " " .. errors .. " ") or ""
+  local warning_text = (warnings and warnings > 0) and ("%#GnLspWarning#" .. " " .. warnings .. " ") or ""
+  local hint_text = (hints and hints > 0) and ("%#GnLspHints#" .. "󰛩 " .. hints .. " ") or ""
+  local info_text = (info and info > 0) and ("%#GnLspInfo#" .. "󰋼 " .. info .. " ") or ""
 
-  return error_text .. warning_text .. hint_text .. info_text .. " "
+  return error_text .. warning_text .. hint_text .. info_text .. " %*"
 end
 
 M.cursor = function()
@@ -165,11 +149,11 @@ M.cursor = function()
   local line_text = "" .. current_line
   local colmn_text = "" .. current_colmn
 
-  -- local separator = "%#St_LineAndColumn_Sep#" .. "█"
-  local icon = "%#St_LineAndColumn_Icon#" .. "  "
-  local text = "%#St_LineAndColumn_Text#" .. " " .. line_text .. ":" .. colmn_text
+  -- local separator = "%#GnCursorIcon#" .. "█"
+  local icon = "%#GnCursorIcon#" .. "  "
+  local text = "%#GnCursorText#" .. (is_block and " " or "") .. line_text .. ":" .. colmn_text
   -- return (icon .. replace_number_to_ic(text) .. " ") or " "
-  return (icon .. text .. " ") or " "
+  return icon .. text .. " %*"
 end
 
 M.lsp = function()
@@ -182,225 +166,68 @@ M.lsp = function()
   for _, client in ipairs(clients) do
     local current_buf = vim.api.nvim_get_current_buf()
 
-    if client.attached_buffers[current_buf] and client.name ~= "eslint" and client.name ~= "tailwindcss" then
-      -- local separator = "%#St_LspStatus_Sep#" .. "█"
-      local lsp_icon = "%#St_LspStatus_Icon#" .. " 󰚗 "
-      local lsp_text = "%#St_LspStatus_Text#" .. " " .. client.name
+    if
+      client.attached_buffers[current_buf]
+      and client.name ~= "eslint"
+      and client.name ~= "tailwindcss"
+      and client.name ~= "biome"
+    then
+      -- local separator = "%#GnLspIcon#" .. "█"
+      local lsp_icon = "%#GnLspIcon#" .. " 󰚗 "
+      local lsp_text = "%#GnLspText#" .. " " .. client.name
 
       -- return (separator .. lsp_icon .. lsp_text .. " ") or " "
-      return (lsp_icon .. lsp_text .. " ") or " "
+      return lsp_icon .. lsp_text .. " %*"
     end
   end
 end
 
-M.lsp_loader = function()
-  if not rawget(vim, "lsp") or vim.lsp.status or not utils.is_activewin() then
+M.cwd = function()
+  local name = vim.uv.cwd()
+  if not name then
+    return ""
+  end
+  name = name:match "([^/\\]+)[/\\]*$" or name
+  if vim.o.columns <= 85 then
+    return ""
+  end
+  return "%#GnCwdIcon# 󰉋 %#GnCwdText#" .. (is_block and " " or "") .. name .. " %*"
+end
+
+M.lsp_progress = function()
+  local stl = require "ui.statusline"
+  if not stl.state.active or vim.o.columns < 120 then
     return ""
   end
 
-  local Lsp = vim.lsp.util.get_progress_messages()[1]
-
-  if vim.o.columns < 120 or not Lsp then
-    return ""
-  end
-
-  if Lsp.name == "jdtls" then
-    return ""
-  end
-
-  local msg = Lsp.message
-  local title = Lsp.title
-  local spinners = { "", "󰪞", "󰪟", "󰪠", "󰪢", "󰪣", "󰪤", "󰪥" }
+  -- https://github.com/xieyonn/spinner.nvim/blob/main/lua/spinner/pattern.lua
+  local spinners = {
+    "✶",
+    "✸",
+    "✹",
+    "✺",
+    "✹",
+    "✷",
+  }
   -- local spinners = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
-  local ms = vim.loop.hrtime() / 1000000
+  local ms = vim.uv.hrtime() / 1000000
   local frame = math.floor(ms / 120) % #spinners
-  local content = string.format(" %%<%s %s %s ", spinners[frame + 1], title, msg)
+  local icon = spinners[frame + 1]
 
-  return "%=" .. (("%#St_LspProgress#" .. content) or " ")
-end
-
-M.directory = function()
-  local current_path = vim.fn.expand "%:.:h"
-
-  if string.len(current_path) == 0 then
-    return ""
+  local parts = {}
+  if stl.state.percentage then
+    table.insert(parts, stl.state.percentage .. "%%")
+  end
+  if stl.state.title ~= "" then
+    table.insert(parts, stl.state.title)
+  end
+  local msg = stl.state.message:match "^(%d+/%d+)" or ""
+  if msg ~= "" then
+    table.insert(parts, msg)
   end
 
-  local segments = {}
-  for segment in string.gmatch(current_path, "[^/]+") do
-    table.insert(segments, segment)
-  end
-
-  if #segments > 4 then
-    current_path = "../"
-    for i, segment in ipairs(segments) do
-      if i == #segments then
-        current_path = current_path .. segment
-      elseif i > #segments - 3 then
-        current_path = current_path .. segment .. "/"
-      end
-    end
-  end
-
-  local separator = "%#St_Folder_Sep#" .. "█"
-  local folder_icon = "%#St_Folder_Icon#" .. " "
-  local folder_text = "%#St_Folder_Text#" .. " " .. current_path
-
-  return (separator .. folder_icon .. folder_text .. " ") or " "
-end
-
-M.get_location_v2 = function()
-  local function get_file_icon(ft_hi, ft_icon)
-    return "%#" .. ft_hi .. "# " .. ft_icon
-  end
-
-  local current_file = vim.fn.expand "%:t"
-
-  if not current_file then
-    return " "
-  end
-
-  local devicons_present, devicons = pcall(require, "nvim-web-devicons")
-
-  if not devicons_present then
-    return " "
-  end
-
-  local ft_icon, ft_hi = devicons.get_icon(current_file)
-
-  if not ft_icon or not ft_hi then
-    return " "
-  end
-
-  local file_icon = get_file_icon(ft_hi, ft_icon)
-
-  local navic_present, navic = pcall(require, "nvim-navic")
-
-  if not navic_present then
-    return " "
-  end
-
-  local location = navic.get_location()
-
-  if not location then
-    return " "
-  end
-
-  local nvimtree_width = nvimtree_utils.get_nvimtree_width()
-
-  location = utils.remove_module_segment_in_vue(location)
-  location = utils.remove_class_name(location)
-  location = utils.reduce_by_window_width(location)
-  location = utils.remove_quoted_strings(location)
-  location = utils.remove_callback_string(location)
-
-  if nvimtree_width ~= 0 then
-    return file_icon .. " %#NavicText#" .. current_file .. "%#NavicText#"
-  end
-
-  if #location ~= 0 then
-    return file_icon .. " %#NavicText#" .. current_file .. "%#NavicSeparator# > " .. location .. "%#NavicText#"
-  end
-
-  return file_icon .. " %#NavicText#" .. current_file .. "%#NavicText#"
-end
-
-M.get_location = function()
-  local root = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
-  local current_path = vim.fn.expand "%:.:h"
-  local current_file = vim.fn.expand "%:t"
-  local folder_icon = "󰉋 "
-
-  if not current_file then
-    return " "
-  end
-
-  local devicons_present, devicons = pcall(require, "nvim-web-devicons")
-  local icon
-
-  if not devicons_present then
-    return " "
-  end
-
-  local ft_icon, ft_hi = devicons.get_icon(current_file)
-
-  if not ft_icon or not ft_hi then
-    return " "
-  end
-
-  icon = "%#" .. ft_hi .. "# " .. ft_icon
-
-  local navic_present, navic = pcall(require, "nvim-navic")
-
-  if not navic_present then
-    return " "
-  end
-
-  local location = navic.get_location()
-
-  if not location then
-    return " "
-  end
-
-  if current_path == "." then
-    current_path = root
-  end
-
-  local path_segments = vim.fn.split(current_path, "/")
-
-  if string.len(current_path) > 0 then
-    if #path_segments > 3 then
-      current_path = "../" .. table.concat(path_segments, "/", #path_segments - 2, #path_segments)
-    end
-  end
-
-  -- local cols = vim.opt.columns:get()
-
-  -- local folder_format = "%#NavicFolderBlock# " .. folder_icon .. current_path .. " "
-  -- if cols < 153 then
-  -- folder_format = "%#NavicFolderBlock# " .. folder_icon .. path_segments[#path_segments] .. " "
-  -- end
-
-  local hi_separator = "%#St_LineAndColumn_Sep#" .. "█"
-  local hi_icon = "%#St_LineAndColumn_Icon#" .. folder_icon
-  local hi_text = "%#St_LineAndColumn_Text#" .. " " .. current_path
-  local folder_format = hi_separator .. hi_icon .. hi_text .. " "
-
-  location = utils.remove_module_segment_in_vue(location)
-  location = utils.remove_class_name(location)
-  location = utils.reduce_by_window_width(location)
-  location = utils.remove_quoted_strings(location)
-  location = utils.remove_callback_string(location)
-
-  if string.len(location) ~= 0 then
-    -- return folder_format
-    --   .. icon
-    --   .. " %#NavicText#"
-    --   .. current_file
-    --   .. "%#NavicSeparator# > "
-    --   .. location
-    --   .. "%#NavicText#"
-    return icon .. " %#NavicText#" .. current_file .. "%#NavicSeparator# > " .. location .. "%#NavicText#"
-  else
-    return icon .. " %#NavicText#" .. current_file .. "%#NavicText#"
-    -- return folder_format .. icon .. " %#NavicText#" .. current_file .. "%#NavicText#"
-  end
-end
-
-M.qf = function()
-  local query = vim.g.qf_query
-
-  if not query then
-    return ""
-  end
-
-  -- 아이콘 설정 (Nerd Font 사용)
-  local icon = "󰓇" -- 원하는 Nerd Font 아이콘 코드로 변경
-  local icon_hl = "%#St_qf_icons#" -- 아이콘 하이라이트
-  local text_hl = "%#St_qf_text#" -- 텍스트 하이라이트
-
-  -- 아이콘과 텍스트 조합
-  return icon_hl .. icon .. " " .. text_hl .. query
+  local content = icon .. " " .. table.concat(parts, " ")
+  return "%#GnLspProgress# " .. content .. " %*"
 end
 
 return M
