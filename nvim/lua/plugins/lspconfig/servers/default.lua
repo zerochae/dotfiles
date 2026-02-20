@@ -1,8 +1,7 @@
 -- Server configuration utilities
-local lspconfig = require "lspconfig"
 local navic = require "nvim-navic"
 
-local function setup_server(server_name, server_config, use_legacy)
+local function setup_server(server_name, server_config)
   local config = server_config or {}
   local ok, blink = pcall(require, "blink.cmp")
   config.capabilities = ok and blink.get_lsp_capabilities() or vim.lsp.protocol.make_client_capabilities()
@@ -13,10 +12,11 @@ local function setup_server(server_name, server_config, use_legacy)
       original_on_attach(client, bufnr)
     end
 
-    -- Only attach navic if the server supports document symbols
     if client.server_capabilities.documentSymbolProvider then
-      navic.attach(client, bufnr)
-      vim.wo.winbar = "   %{%v:lua.require'nvim-navic'.get_location()%}"
+      if not (client.name == "ts_ls" and vim.bo[bufnr].filetype == "vue") then
+        navic.attach(client, bufnr)
+        vim.wo.winbar = "  %{%v:lua.require'nvim-navic'.get_location()%}"
+      end
     end
 
     client.server_capabilities.semanticTokensProvider = nil
@@ -25,13 +25,8 @@ local function setup_server(server_name, server_config, use_legacy)
     end
   end
 
-  -- Use legacy setup for servers that don't support vim.lsp.config
-  if use_legacy then
-    lspconfig[server_name].setup(config)
-  else
-    vim.lsp.config(server_name, config)
-    vim.lsp.enable(server_name)
-  end
+  vim.lsp.config(server_name, config)
+  vim.lsp.enable(server_name)
 end
 
 local function setup_diagnostic()

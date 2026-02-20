@@ -41,6 +41,7 @@ local sources = {
     title = " Grep",
     hidden = false,
     ignored = false,
+    regex = false,
     exclude = exclude_patterns,
   },
   recent = { title = "󰋚 Recent" },
@@ -180,6 +181,11 @@ local config = {
     replace_netrw = true,
   },
   picker = {
+    previewers = {
+      diff = {
+        style = "terminal",
+      },
+    },
     win = {
       preview = {
         wo = { fillchars = "eob: ", wrap = false, winbar = " " },

@@ -178,7 +178,7 @@ M.lsp = function()
     then
       -- local separator = "%#GnLspIcon#" .. "█"
       local lsp_icon = "%#GnLspIcon#" .. " 󰚗 "
-      local lsp_text = "%#GnLspText#" .. " " .. client.name
+      local lsp_text = "%#GnLspText#" .. (is_block and " " or "") .. client.name
 
       -- return (separator .. lsp_icon .. lsp_text .. " ") or " "
       return lsp_icon .. lsp_text .. " %*"

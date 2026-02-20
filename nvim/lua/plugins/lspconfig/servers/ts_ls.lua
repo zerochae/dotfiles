@@ -1,6 +1,4 @@
 local default = require "plugins.lspconfig.servers.default"
-local mason_bin_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/bin/")
-
 local TS_IGNORE = {
   [1005] = true, -- ',' expected
   [1109] = true, -- expression expected
@@ -38,17 +36,13 @@ local config = {
     plugins = {
       {
         name = "@vue/typescript-plugin",
-        location = vim.fn.expand "$CONFIG/yarn/global/node_modules/@vue/typescript-plugin",
+        location = vim.fn.stdpath("data") .. "/mason/packages/vue-language-server/node_modules/@vue/typescript-plugin",
         languages = { "javascript", "typescript", "vue" },
       },
     },
   },
   filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-  completions = {
-    completeFunctionCalls = false,
-  },
   settings = {
-    cmd = { vim.fn.expand(mason_bin_path) .. "typescript-language-server", "--stdio" },
     javascript = {
       inlayHints = {
         includeInlayEnumMemberValueHints = true,

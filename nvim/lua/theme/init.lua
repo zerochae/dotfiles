@@ -299,6 +299,10 @@ local stl_compact = {
   GnLspHints = { fg = colors.fuchsia },
   GnLspInfo = { fg = colors.green },
   GnLspProgress = { fg = colors.charcoal },
+
+  SnacksPickerTitle = { fg = colors.red, bold = true },
+  SnacksPickerInputTitle = { fg = colors.red, bold = true },
+  SnacksPickerPreviewTitle = { fg = colors.green, bold = true },
 }
 
 local stl_block = {
@@ -341,6 +345,10 @@ local stl_block = {
   GnLspHints = { fg = colors.fuchsia },
   GnLspInfo = { fg = colors.green },
   GnLspProgress = { fg = colors.charcoal },
+
+  SnacksPickerTitle = { bg = colors.red, fg = colors.black, bold = true },
+  SnacksPickerInputTitle = { bg = colors.red, fg = colors.black, bold = true },
+  SnacksPickerPreviewTitle = { bg = colors.green, fg = colors.black, bold = true },
 }
 
 M.statusline = stl_style == "block" and stl_block or stl_compact
@@ -743,9 +751,6 @@ M.plugins = {
   SnacksPickerPreviewBorder = { fg = colors.obsidian, bg = bg },
   SnacksPickerBoxBorder = { fg = colors.obsidian, bg = bg },
   SnacksPickerMatch = { fg = colors.plum },
-  SnacksPickerTitle = { bg = colors.red, fg = colors.black, bold = true },
-  SnacksPickerInputTitle = { bg = colors.red, fg = colors.black, bold = true },
-  SnacksPickerPreviewTitle = { bg = colors.green, fg = colors.black, bold = true },
   SnacksPickerDir = { fg = colors.comment },
   SnacksPickerFile = { fg = colors.white },
   SnacksPickerPathHidden = { fg = colors.comment },
@@ -755,11 +760,14 @@ M.plugins = {
   SnacksPickerGitStatusUntracked = { fg = colors.orange },
   SnacksPickerPrompt = { fg = colors.blue },
 
-  HoverNormal = { bg = bg },
-  HoverBorder = { fg = colors.float_border, bg = bg },
-  HoverTitle = { bg = colors.blue, fg = colors.black, bold = true },
+  LemonNormal = { bg = bg },
+  LemonBorder = { fg = colors.float_border, bg = bg },
+  LemonTitle = stl_style == "block" and { bg = colors.blue, fg = colors.black, bold = true }
+    or { fg = colors.blue, bg = bg, bold = true },
 
   KulalaText = { bg = colors.green, fg = colors.black },
+
+  LemonBeacon = { bg = colors.blue },
 }
 
 M.markview = {

@@ -37,7 +37,6 @@ local file = {
   ["yarn.lock"] = { icon = "", name = "Yarnlock", color = "#2c8ebb" },
   [".dockerignore"] = { icon = "", name = "Dockerignore", color = "#2496ed" },
   Dockerfile = { icon = "", name = "DockerfileScript", color = "#2496ed" },
-  ["Dockerfile.*.*"] = { icon = "", name = "DockerfileDotScript", color = "#2496ed" },
   [".eslintcache"] = { icon = "󰱺", name = "Eslintcache", color = "#4050b5" },
   [".eslintrc.json"] = { icon = "󰱺", name = "Eslintcache", color = "#4050b5" },
   [".prettierrc"] = { icon = "", name = "Prettierrc", color = "#56b3b4" },
@@ -49,7 +48,8 @@ local file = {
   [".luarc.json"] = { icon = "", name = "Luarc", color = "#4e4eeb" },
   ["lazy-lock.json"] = { icon = "󰒲", name = "Lazylock", color = "#82aaff" },
   license = { icon = "󰿃", name = "License", color = "#ff5722" },
-  ["readme.md"] = { icon = "", name = "Readme", color = "#42a5f5" },
+  ["readme.md"] = { icon = "", name = "ReadmeLower", color = "#42a5f5" },
+  ["README.md"] = { icon = "", name = "ReadmeUpper", color = "#42a5f5" },
   ["nuxt.config.js"] = { icon = "󱄆", name = "NuxtConfig", color = "#41b883" },
   ["next.config.js"] = { icon = "▲", name = "NextConfig", color = "#FFFFFF" },
   ["tailwind.config.ts"] = { icon = "󱏿", name = "TailwindConfig", color = "#6AB4AC" },
@@ -115,9 +115,28 @@ for key, value in pairs(file) do
   override[key] = value
 end
 
+local docker_icon = file.Dockerfile
+
 return {
   "nvim-tree/nvim-web-devicons",
   config = function()
-    require("nvim-web-devicons").setup { override = override }
+    local devicons = require("nvim-web-devicons")
+    devicons.setup({ override = override })
+
+    local orig = devicons.get_icon
+    devicons.get_icon = function(name, ext, opts)
+      if name and name:find("^Dockerfile") then
+        return orig("Dockerfile", nil, opts)
+      end
+      return orig(name, ext, opts)
+    end
+
+    local orig_color = devicons.get_icon_color
+    devicons.get_icon_color = function(name, ext, opts)
+      if name and name:find("^Dockerfile") then
+        return docker_icon.icon, docker_icon.color
+      end
+      return orig_color(name, ext, opts)
+    end
   end,
 }

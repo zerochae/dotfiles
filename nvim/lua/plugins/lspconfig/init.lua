@@ -18,7 +18,7 @@ return {
       "sourcekit",
       "tailwindcss",
       "vimls",
-      "vuels",
+      "vue_ls",
       "yamlls",
       "sqlls",
     }

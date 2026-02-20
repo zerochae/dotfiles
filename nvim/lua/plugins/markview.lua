@@ -33,35 +33,40 @@ return {
           heading_1 = {
             style = "icon",
             sign = "󰌕 ",
+            icon = "󰼏 ",
             sign_hl = "MarkviewHeading1Sign",
             icon_hl = "MarkviewHeading1Sign",
             hl = "MarkviewHeading1",
           },
-
           heading_2 = {
             style = "icon",
             sign = "󰌖 ",
+            icon = " 󰼐 ",
             sign_hl = "MarkviewHeading2Sign",
             icon_hl = "MarkviewHeading2Sign",
             hl = "MarkviewHeading2",
           },
           heading_3 = {
             style = "icon",
+            icon = "  󰼑 ",
             icon_hl = "MarkviewHeading3Sign",
             hl = "MarkviewHeading3",
           },
           heading_4 = {
             style = "icon",
+            icon = "   󰼒 ",
             icon_hl = "MarkviewHeading4Sign",
             hl = "MarkviewHeading4",
           },
           heading_5 = {
             style = "icon",
+            icon = "    󰼓 ",
             icon_hl = "MarkviewHeading5Sign",
             hl = "MarkviewHeading5",
           },
           heading_6 = {
             style = "icon",
+            icon = "     󰼔 ",
             icon_hl = "MarkviewHeading6Sign",
             hl = "MarkviewHeading6",
           },
