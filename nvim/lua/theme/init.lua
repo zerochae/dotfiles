@@ -760,14 +760,12 @@ M.plugins = {
   SnacksPickerGitStatusUntracked = { fg = colors.orange },
   SnacksPickerPrompt = { fg = colors.blue },
 
-  LemonNormal = { bg = bg },
-  LemonBorder = { fg = colors.float_border, bg = bg },
-  LemonTitle = stl_style == "block" and { bg = colors.blue, fg = colors.black, bold = true }
+  HoverNormal = { bg = bg },
+  HoverBorder = { fg = colors.float_border, bg = bg },
+  HoverTitle = stl_style == "block" and { bg = colors.blue, fg = colors.black, bold = true }
     or { fg = colors.blue, bg = bg, bold = true },
 
   KulalaText = { bg = colors.green, fg = colors.black },
-
-  LemonBeacon = { bg = colors.blue },
 }
 
 M.markview = {

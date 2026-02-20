@@ -172,24 +172,26 @@ map("n", '"', "", { desc = 'disable "' })
 
 -- LSP
 map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP code action", nowait = true, noremap = true })
-map("n", "<leader>gn", function()
-  require("lemon").diagnostic_next()
-end, { desc = "LSP diagnostic next", nowait = true })
-map("n", "<leader>gp", function()
-  require("lemon").diagnostic_prev()
-end, { desc = "LSP diagnostic prev", nowait = true })
+map("n", "<leader>gn", vim.diagnostic.goto_next, { desc = "LSP diagnostic next", nowait = true })
+map("n", "<leader>gp", vim.diagnostic.goto_prev, { desc = "LSP diagnostic prev", nowait = true })
 map("n", "<leader>rr", vim.lsp.buf.rename, { desc = "LSP rename", nowait = true })
 map("n", "F", function()
   Snacks.picker.lsp_references()
 end, { desc = "LSP references", nowait = true })
 map("n", "K", function()
-  require("lemon").hover()
+  vim.lsp.buf.hover {
+    border = "rounded",
+    max_width = 80,
+    max_height = 20,
+    title = " Hover ",
+    title_pos = "center",
+  }
 end, { desc = "hover doc", nowait = true })
 map("n", "<leader>lo", function()
   Snacks.picker.lsp_symbols()
 end, { desc = "LSP symbols", nowait = true })
 map("n", "gd", function()
-  require("lemon").definition()
+  Snacks.picker.lsp_definitions()
 end, { desc = "LSP goto definition", nowait = true, noremap = true })
 
 -- kulala
